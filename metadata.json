@@ -1,0 +1,6 @@
+{
+  "name": "Upper West Lead Intelligence & CRM",
+  "description": "Sistem penilaian otomatis kualitas leads dan manajemen prospek penjualan Upper West BSD City dengan klasifikasi 5-Tier (Visited, Prospect, Warm, Cold, Junk).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
