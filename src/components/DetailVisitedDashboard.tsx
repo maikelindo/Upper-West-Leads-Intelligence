@@ -5,6 +5,7 @@ import {
   STATUS_COLORS,
   VisitedLeadRecord 
 } from '../data/visitedLeadsData';
+import { VisitedAnalyticsSummary } from './VisitedAnalyticsSummary';
 import { 
   MapPin, 
   Search, 
@@ -23,6 +24,7 @@ import {
   Layers,
   ArrowUpDown,
   ChevronRight,
+  ChevronDown,
   ExternalLink
 } from 'lucide-react';
 
@@ -42,6 +44,26 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
   const [sortField, setSortField] = useState<keyof VisitedLeadRecord>('no');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [previewRecord, setPreviewRecord] = useState<VisitedLeadRecord | null>(null);
+  const [isMonthDropdownOpen, setIsMonthDropdownOpen] = useState<boolean>(false);
+
+  // Month stats for selector dropdown
+  const monthStats = useMemo(() => {
+    return VISITED_MONTHS.map((m) => {
+      const leadsInMonth = m.key === 'ALL' 
+        ? ALL_VISITED_LEADS 
+        : ALL_VISITED_LEADS.filter((l) => l.month === m.key);
+      const closings = leadsInMonth.filter((l) => l.status === 'closing').length;
+      return {
+        ...m,
+        count: leadsInMonth.length,
+        closings
+      };
+    });
+  }, []);
+
+  const selectedMonthObj = useMemo(() => {
+    return monthStats.find((m) => m.key === selectedMonth) || monthStats[0];
+  }, [monthStats, selectedMonth]);
 
   // List of unique sales agents in visited data
   const salesList = useMemo(() => {
@@ -327,48 +349,242 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
 
       </div>
 
-      {/* 4. Month Tabs Filter (Seperti di PDF/Excel) */}
+      {/* 4. Rangkuman & Analisa Pola Kunjungan (User Request: Hari Visit paling ramai, Hari Leads Masuk perbandingan, Analisa Minat Produk) */}
+      <VisitedAnalyticsSummary 
+        leads={filteredLeads}
+        allLeads={ALL_VISITED_LEADS}
+        selectedMonthLabel={selectedMonthObj.label}
+      />
+
+      {/* 5. Filter & Kontrol Tabel */}
       <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs space-y-3">
         
-        {/* Month Pills Row */}
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+        {/* Modern Compact Month Selector Bar (No horizontal stretch) */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-purple-600" />
-              Filter Tab Bulan (PDF / Excel Sheet View):
+              Periode Bulan:
             </span>
-            <span className="text-xs font-bold text-slate-500">
-              Menampilkan: <strong className="text-slate-900">{filteredLeads.length}</strong> dari {ALL_VISITED_LEADS.length} Leads
-            </span>
+
+            {/* Custom Month Dropdown Popover */}
+            <div className="relative">
+              <button
+                id="btn-toggle-month-dropdown"
+                onClick={() => setIsMonthDropdownOpen(prev => !prev)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100/90 border border-purple-200 text-purple-950 text-xs font-extrabold transition-all cursor-pointer shadow-2xs"
+              >
+                <span>{selectedMonthObj.label}</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-purple-700 text-white text-[10px] font-extrabold">
+                  {selectedMonthObj.count} Leads
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-purple-600 transition-transform duration-200 ${isMonthDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Dropdown Menu Popover */}
+              {isMonthDropdownOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-20" 
+                    onClick={() => setIsMonthDropdownOpen(false)} 
+                  />
+                  <div className="absolute left-0 top-full mt-1.5 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 p-2.5 z-30 space-y-2 animate-in fade-in zoom-in-95 duration-150">
+                    <div className="px-2 py-1 flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                      <span>Pilih Periode Kunjungan</span>
+                      <span>Total Log</span>
+                    </div>
+
+                    {/* All Months Option */}
+                    <button
+                      onClick={() => {
+                        setSelectedMonth('ALL');
+                        setIsMonthDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                        selectedMonth === 'ALL'
+                          ? 'bg-purple-600 text-white shadow-xs'
+                          : 'hover:bg-slate-100 text-slate-800'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>Semua Bulan (Jan - Sep 2026)</span>
+                      </div>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                        selectedMonth === 'ALL' ? 'bg-purple-800 text-white' : 'bg-slate-100 text-slate-700'
+                      }`}>
+                        {ALL_VISITED_LEADS.length}
+                      </span>
+                    </button>
+
+                    {/* Grouped by Quarters */}
+                    <div className="space-y-1.5 pt-1">
+                      {/* Q3 2026 */}
+                      <div className="text-[10px] font-extrabold text-slate-400 uppercase px-2">Q3 2026</div>
+                      {monthStats.filter(m => ['Sept', 'Aug', 'Juli'].includes(m.key)).map(m => (
+                        <button
+                          key={m.key}
+                          onClick={() => {
+                            setSelectedMonth(m.key);
+                            setIsMonthDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                            selectedMonth === m.key
+                              ? 'bg-purple-600 text-white font-bold'
+                              : 'hover:bg-slate-100 text-slate-700'
+                          }`}
+                        >
+                          <span className="flex items-center gap-1.5">
+                            {m.label}
+                            {m.closings > 0 && (
+                              <span className={`text-[9px] px-1 rounded font-bold ${
+                                selectedMonth === m.key ? 'bg-emerald-500 text-white' : 'bg-emerald-100 text-emerald-800'
+                              }`}>
+                                {m.closings} deal
+                              </span>
+                            )}
+                          </span>
+                          <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                            selectedMonth === m.key ? 'bg-purple-800 text-white' : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            {m.count}
+                          </span>
+                        </button>
+                      ))}
+
+                      {/* Q2 2026 */}
+                      <div className="text-[10px] font-extrabold text-slate-400 uppercase px-2 pt-1">Q2 2026</div>
+                      {monthStats.filter(m => ['Juni', 'Mei', 'April'].includes(m.key)).map(m => (
+                        <button
+                          key={m.key}
+                          onClick={() => {
+                            setSelectedMonth(m.key);
+                            setIsMonthDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                            selectedMonth === m.key
+                              ? 'bg-purple-600 text-white font-bold'
+                              : 'hover:bg-slate-100 text-slate-700'
+                          }`}
+                        >
+                          <span className="flex items-center gap-1.5">
+                            {m.label}
+                            {m.closings > 0 && (
+                              <span className={`text-[9px] px-1 rounded font-bold ${
+                                selectedMonth === m.key ? 'bg-emerald-500 text-white' : 'bg-emerald-100 text-emerald-800'
+                              }`}>
+                                {m.closings} deal
+                              </span>
+                            )}
+                          </span>
+                          <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                            selectedMonth === m.key ? 'bg-purple-800 text-white' : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            {m.count}
+                          </span>
+                        </button>
+                      ))}
+
+                      {/* Q1 2026 */}
+                      <div className="text-[10px] font-extrabold text-slate-400 uppercase px-2 pt-1">Q1 2026</div>
+                      {monthStats.filter(m => ['Maret', 'Februari', 'Januari'].includes(m.key)).map(m => (
+                        <button
+                          key={m.key}
+                          onClick={() => {
+                            setSelectedMonth(m.key);
+                            setIsMonthDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                            selectedMonth === m.key
+                              ? 'bg-purple-600 text-white font-bold'
+                              : 'hover:bg-slate-100 text-slate-700'
+                          }`}
+                        >
+                          <span className="flex items-center gap-1.5">
+                            {m.label}
+                            {m.closings > 0 && (
+                              <span className={`text-[9px] px-1 rounded font-bold ${
+                                selectedMonth === m.key ? 'bg-emerald-500 text-white' : 'bg-emerald-100 text-emerald-800'
+                              }`}>
+                                {m.closings} deal
+                              </span>
+                            )}
+                          </span>
+                          <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                            selectedMonth === m.key ? 'bg-purple-800 text-white' : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            {m.count}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Quick Toggle Shortcut Chips for Desktop/Tablet */}
+            <div className="hidden sm:flex items-center gap-1">
+              <button
+                onClick={() => setSelectedMonth('ALL')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  selectedMonth === 'ALL'
+                    ? 'bg-slate-900 text-white shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                }`}
+              >
+                Semua ({ALL_VISITED_LEADS.length})
+              </button>
+              <button
+                onClick={() => setSelectedMonth('Sept')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  selectedMonth === 'Sept'
+                    ? 'bg-purple-600 text-white shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                }`}
+              >
+                Sept (9)
+              </button>
+              <button
+                onClick={() => setSelectedMonth('Aug')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  selectedMonth === 'Aug'
+                    ? 'bg-purple-600 text-white shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                }`}
+              >
+                Agu (11)
+              </button>
+              <button
+                onClick={() => setSelectedMonth('Juli')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  selectedMonth === 'Juli'
+                    ? 'bg-purple-600 text-white shadow-xs'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                }`}
+              >
+                Juli (18)
+              </button>
+            </div>
+
+            {/* Native Select Option for Mobile Devices */}
+            <div className="sm:hidden">
+              <select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-700"
+              >
+                {monthStats.map(m => (
+                  <option key={m.key} value={m.key}>
+                    {m.label} ({m.count})
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
-            {VISITED_MONTHS.map((m) => {
-              const isActive = selectedMonth === m.key;
-              const countInMonth = m.key === 'ALL' 
-                ? ALL_VISITED_LEADS.length 
-                : ALL_VISITED_LEADS.filter(l => l.month === m.key).length;
-
-              return (
-                <button
-                  key={m.key}
-                  id={`tab-month-${m.key}`}
-                  onClick={() => setSelectedMonth(m.key)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
-                    isActive 
-                      ? 'bg-purple-600 text-white shadow-sm ring-2 ring-purple-600/20' 
-                      : 'bg-slate-100/90 hover:bg-slate-200/80 text-slate-700'
-                  }`}
-                >
-                  <span>{m.label}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
-                    isActive ? 'bg-purple-800 text-white' : 'bg-white text-slate-700'
-                  }`}>
-                    {countInMonth}
-                  </span>
-                </button>
-              );
-            })}
+          <div className="text-xs font-bold text-slate-500 self-end sm:self-auto">
+            Menampilkan: <strong className="text-slate-900">{filteredLeads.length}</strong> dari {ALL_VISITED_LEADS.length} Leads
           </div>
         </div>
 
