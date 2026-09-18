@@ -143,7 +143,7 @@ export function parseResponseTimeToMinutes(timeStr: string): number {
   return 0;
 }
 
-// All leads from Excel / PDF dataset (September 245 leads + August 335 leads + July 310 leads = 890 leads)
+// All leads from Excel / PDF dataset (September 273 leads + August 335 leads + July 310 leads = 918 leads)
 export const EXCEL_LEADS_DATA: ExcelRowInput[] = [
   ...EXCEL_LEADS_SEPTEMBER,
   ...EXCEL_LEADS_AUGUST,

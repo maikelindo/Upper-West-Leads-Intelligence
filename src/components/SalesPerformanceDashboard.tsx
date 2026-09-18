@@ -54,7 +54,9 @@ import {
   Sparkles,
   BarChart3,
   PieChart as PieIcon,
-  X
+  X,
+  Timer,
+  Hourglass
 } from 'lucide-react';
 import { 
   ResponsiveContainer, 
@@ -115,6 +117,11 @@ export interface AgentPerformanceMetric {
   // Average Response Time
   avgResponseTimeMinutes: number;
   avgResponseTimeFormatted: string;
+  maxResponseTimeMinutes: number;
+  maxResponseTimeFormatted: string;
+  slowLeadsCount: number;         // Response > 2 minutes (SLA Breached)
+  slowLeadsAbove5mCount: number;  // Response > 5 minutes (Very delayed)
+  replySpeedCategory: 'FAST' | 'MODERATE' | 'SLOW' | 'VERY_SLOW'; // FAST <=2m, MODERATE 2-5m, SLOW 5-20m, VERY_SLOW >20m
   
   // Financial & Cost Allocation
   shareOfLeads: number;    // (totalLeads / overallTotalLeads)
@@ -168,11 +175,12 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
   const [categoryFilter, setCategoryFilter] = useState<LeadCategory | 'QUALIFIED_ONLY' | 'ALL'>('ALL');
   const [slaFilter, setSlaFilter] = useState<'ALL' | 'MET' | 'BREACHED'>('ALL');
   const [sopFilter, setSopFilter] = useState<'ALL' | 'MET' | 'BREACHED'>('ALL');
+  const [replySpeedFilter, setReplySpeedFilter] = useState<'ALL' | 'FAST' | 'MODERATE' | 'SLOW' | 'ABOVE_AVERAGE'>('ALL');
   const [selectedAgentFilter, setSelectedAgentFilter] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Summary Tab State: 'OVERVIEW' | 'SLA' | 'SOP' | 'LEADS_AUDIT'
-  const [summaryTab, setSummaryTab] = useState<'OVERVIEW' | 'SLA' | 'SOP' | 'LEADS_AUDIT'>('OVERVIEW');
+  // Summary Tab State: 'OVERVIEW' | 'SLA' | 'SOP' | 'REPLY_TIME'
+  const [summaryTab, setSummaryTab] = useState<'OVERVIEW' | 'SLA' | 'SOP' | 'REPLY_TIME'>('OVERVIEW');
 
   // Month label helper
   const getMonthLabel = (mKey: string) => {
@@ -370,7 +378,37 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
 
       const mins = Math.floor(avgResponseTimeMinutes);
       const secs = Math.round((avgResponseTimeMinutes - mins) * 60);
-      const avgResponseTimeFormatted = totalLeads > 0 ? `${mins}m ${secs.toString().padStart(2, '0')}s` : '-';
+      const avgResponseTimeFormatted = totalLeads > 0 && validRespLeads.length > 0 ? `${mins}m ${secs.toString().padStart(2, '0')}s` : '-';
+
+      // Max Response Time for this agent
+      const maxResponseTimeMinutes = validRespLeads.length > 0
+        ? Math.max(...validRespLeads.map((l) => l.firstResponseTimeMinutes || 0))
+        : 0;
+      const maxMins = Math.floor(maxResponseTimeMinutes);
+      const maxSecs = Math.round((maxResponseTimeMinutes - maxMins) * 60);
+      const maxResponseTimeFormatted = maxResponseTimeMinutes > 0
+        ? (maxResponseTimeMinutes >= 60
+            ? `${Math.floor(maxResponseTimeMinutes / 60)}j ${Math.floor(maxResponseTimeMinutes % 60)}m`
+            : `${maxMins}m ${maxSecs.toString().padStart(2, '0')}s`)
+        : '-';
+
+      // Leads with delayed responses
+      const slowLeadsCount = agentQualifiedLeads.filter(
+        (l) => l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes > 2
+      ).length;
+      const slowLeadsAbove5mCount = agentQualifiedLeads.filter(
+        (l) => l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes > 5
+      ).length;
+
+      // Speed Category: FAST (<=2m), MODERATE (2-5m), SLOW (5-20m), VERY_SLOW (>20m)
+      let replySpeedCategory: 'FAST' | 'MODERATE' | 'SLOW' | 'VERY_SLOW' = 'FAST';
+      if (avgResponseTimeMinutes > 20) {
+        replySpeedCategory = 'VERY_SLOW';
+      } else if (avgResponseTimeMinutes > 5) {
+        replySpeedCategory = 'SLOW';
+      } else if (avgResponseTimeMinutes > 2) {
+        replySpeedCategory = 'MODERATE';
+      }
 
       // Cost Allocation
       const shareOfLeads = overallTotalLeadsInPeriod > 0 ? totalLeads / overallTotalLeadsInPeriod : 0;
@@ -407,6 +445,11 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
         sopComplianceRate,
         avgResponseTimeMinutes,
         avgResponseTimeFormatted,
+        maxResponseTimeMinutes,
+        maxResponseTimeFormatted,
+        slowLeadsCount,
+        slowLeadsAbove5mCount,
+        replySpeedCategory,
         shareOfLeads,
         allocatedCost,
         cpl,
@@ -416,6 +459,18 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
       };
     });
   }, [allAgentsList, timeFilteredLeads, overallTotalLeadsInPeriod, currentPeriodOverallCost]);
+
+  // Team-wide Average First Response Time on Qualified / Valid Leads
+  const validTeamRespLeads = timeFilteredLeads.filter(
+    (l) => l.category !== 'JUNK' && l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes > 0
+  );
+  const teamAvgResponseMinutes = validTeamRespLeads.length > 0
+    ? validTeamRespLeads.reduce((sum, l) => sum + (l.firstResponseTimeMinutes || 0), 0) / validTeamRespLeads.length
+    : 0;
+  const teamAvgMins = Math.floor(teamAvgResponseMinutes);
+  const teamAvgSecs = Math.round((teamAvgResponseMinutes - teamAvgMins) * 60);
+  const teamAvgResponseFormatted = validTeamRespLeads.length > 0 ? `${teamAvgMins}m ${teamAvgSecs.toString().padStart(2, '0')}s` : '-';
+  const isAvgResponseWithinSla = teamAvgResponseMinutes > 0 && teamAvgResponseMinutes <= 2.0;
 
   // 4. Filtered & Sorted Agent Metrics
   const processedAgentMetrics = useMemo(() => {
@@ -465,6 +520,18 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
       result = result.filter((a) => a.sopComplianceRate < 80);
     }
 
+    // Reply Speed Filter (Kategori Average Reply Time)
+    if (replySpeedFilter === 'FAST') {
+      result = result.filter((a) => a.avgResponseTimeMinutes > 0 && a.avgResponseTimeMinutes <= 2);
+    } else if (replySpeedFilter === 'MODERATE') {
+      result = result.filter((a) => a.avgResponseTimeMinutes > 2 && a.avgResponseTimeMinutes <= 5);
+    } else if (replySpeedFilter === 'SLOW') {
+      // Menampilkan sales yang rata-rata reply customer lambat (> 5m)
+      result = result.filter((a) => a.avgResponseTimeMinutes > 5);
+    } else if (replySpeedFilter === 'ABOVE_AVERAGE') {
+      result = result.filter((a) => a.avgResponseTimeMinutes > teamAvgResponseMinutes);
+    }
+
     // Sorting
     result.sort((a, b) => {
       const valA = a[sortField] as number;
@@ -475,7 +542,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
     });
 
     return result;
-  }, [agentMetrics, selectedAgentFilter, searchQuery, categoryFilter, slaFilter, sopFilter, sortField, sortAsc]);
+  }, [agentMetrics, selectedAgentFilter, searchQuery, categoryFilter, slaFilter, sopFilter, replySpeedFilter, teamAvgResponseMinutes, sortField, sortAsc]);
 
   // 4.5 Filtered Individual Leads for SOP Audit & Verification
   const filteredLeadsForAudit = useMemo(() => {
@@ -511,6 +578,17 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
         if (lead.category === 'JUNK' || isSopMet) return false;
       }
 
+      // Reply Speed Filter (Waktu Respon)
+      if (replySpeedFilter === 'FAST') {
+        if (lead.category === 'JUNK' || lead.firstResponseTimeMinutes === undefined || lead.firstResponseTimeMinutes > 2) return false;
+      } else if (replySpeedFilter === 'MODERATE') {
+        if (lead.category === 'JUNK' || lead.firstResponseTimeMinutes === undefined || lead.firstResponseTimeMinutes <= 2 || lead.firstResponseTimeMinutes > 5) return false;
+      } else if (replySpeedFilter === 'SLOW') {
+        if (lead.category === 'JUNK' || lead.firstResponseTimeMinutes === undefined || lead.firstResponseTimeMinutes <= 5) return false;
+      } else if (replySpeedFilter === 'ABOVE_AVERAGE') {
+        if (lead.category === 'JUNK' || lead.firstResponseTimeMinutes === undefined || lead.firstResponseTimeMinutes <= teamAvgResponseMinutes) return false;
+      }
+
       // Search query
       if (searchQuery.trim() !== '') {
         const q = searchQuery.toLowerCase().trim();
@@ -523,7 +601,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
 
       return true;
     });
-  }, [timeFilteredLeads, selectedAgentFilter, categoryFilter, slaFilter, sopFilter, searchQuery]);
+  }, [timeFilteredLeads, selectedAgentFilter, categoryFilter, slaFilter, sopFilter, replySpeedFilter, teamAvgResponseMinutes, searchQuery]);
 
   // Overall Team Aggregates for Selected Period
   const teamTotalLeads = agentMetrics.reduce((sum, a) => sum + a.totalLeads, 0);
@@ -547,18 +625,6 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
   const teamSopRate = teamQualifiedLeads > 0 ? Math.round((teamSopMet / teamQualifiedLeads) * 100) : 0;
   const teamSopMetPct = teamQualifiedLeads > 0 ? ((teamSopMet / teamQualifiedLeads) * 100).toFixed(1) : '0';
   const teamSopBreachedPct = teamQualifiedLeads > 0 ? ((teamSopBreached / teamQualifiedLeads) * 100).toFixed(1) : '0';
-
-  // Team-wide Average First Response Time on Qualified / Valid Leads
-  const validTeamRespLeads = timeFilteredLeads.filter(
-    (l) => l.category !== 'JUNK' && l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes > 0
-  );
-  const teamAvgResponseMinutes = validTeamRespLeads.length > 0
-    ? validTeamRespLeads.reduce((sum, l) => sum + (l.firstResponseTimeMinutes || 0), 0) / validTeamRespLeads.length
-    : 0;
-  const teamAvgMins = Math.floor(teamAvgResponseMinutes);
-  const teamAvgSecs = Math.round((teamAvgResponseMinutes - teamAvgMins) * 60);
-  const teamAvgResponseFormatted = validTeamRespLeads.length > 0 ? `${teamAvgMins}m ${teamAvgSecs.toString().padStart(2, '0')}s` : '-';
-  const isAvgResponseWithinSla = teamAvgResponseMinutes > 0 && teamAvgResponseMinutes <= 2.0;
   
   const activeAgentsCount = agentMetrics.filter((a) => a.totalLeads > 0).length || 1;
   const avgLeadsPerAgent = Math.round(teamTotalLeads / activeAgentsCount);
@@ -570,7 +636,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
   const teamCpql = teamQualifiedLeads > 0 && currentPeriodOverallCost > 0 ? Math.round(currentPeriodOverallCost / teamQualifiedLeads) : 0;
   const teamCostPerVisited = teamVisitedLeads > 0 && currentPeriodOverallCost > 0 ? Math.round(currentPeriodOverallCost / teamVisitedLeads) : 0;
 
-  // Best Performers Highlights (4 Kategori: Top Incoming Leads, Top SLA Tercepat, Top SOP, Top Visited)
+  // Best Performers & Slowest Responder Highlights
   const topIncomingAgent = useMemo(() => {
     return [...agentMetrics].sort((a, b) => b.totalLeads - a.totalLeads)[0] || agentMetrics[0];
   }, [agentMetrics]);
@@ -581,6 +647,13 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
       .sort((a, b) => a.avgResponseTimeMinutes - b.avgResponseTimeMinutes)[0] || agentMetrics[0];
   }, [agentMetrics]);
 
+  // Sales PIC dengan Rata-rata Waktu Balas Paling Lama (Perlu Evaluasi)
+  const topSlowestReplyAgent = useMemo(() => {
+    return [...agentMetrics]
+      .filter((a) => a.totalLeads > 0 && a.avgResponseTimeMinutes > 0)
+      .sort((a, b) => b.avgResponseTimeMinutes - a.avgResponseTimeMinutes)[0] || null;
+  }, [agentMetrics]);
+
   const topSopAgent = useMemo(() => {
     return [...agentMetrics]
       .filter((a) => a.totalLeads >= 5)
@@ -589,6 +662,13 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
 
   const topVisitedAgent = useMemo(() => {
     return [...agentMetrics].sort((a, b) => b.visitedLeads - a.visitedLeads || b.prospectLeads - a.prospectLeads)[0] || agentMetrics[0];
+  }, [agentMetrics]);
+
+  // Peringkat Seluruh Sales dari Waktu Balas Terlama ke Tercepat (Slowest to Fastest)
+  const slowReplyRankedAgents = useMemo(() => {
+    return [...agentMetrics]
+      .filter((a) => a.totalLeads > 0 && a.avgResponseTimeMinutes > 0)
+      .sort((a, b) => b.avgResponseTimeMinutes - a.avgResponseTimeMinutes);
   }, [agentMetrics]);
 
   // Chart Data for Bar Chart
@@ -869,6 +949,18 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Tab 2: Checklist SOP (✅ / ❌)</span>
             </button>
+
+            <button
+              onClick={() => setSummaryTab('REPLY_TIME')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                summaryTab === 'REPLY_TIME'
+                  ? 'bg-rose-700 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-rose-800'
+              }`}
+            >
+              <Hourglass className="w-3.5 h-3.5" />
+              <span>Tab 3: Average Reply Time (Respon Lambat)</span>
+            </button>
           </div>
         </div>
 
@@ -1109,10 +1201,282 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
           </div>
         )}
 
+        {/* TAB 3: AVERAGE REPLY TIME & EVALUASI SALES RESPON LAMBAT */}
+        {summaryTab === 'REPLY_TIME' && (
+          <div className="mt-4 space-y-4">
+            {/* Header info banner */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-rose-50/70 rounded-xl p-3.5 border border-rose-200 gap-3">
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-rose-600 text-white shrink-0 mt-0.5">
+                  <Hourglass className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded-sm bg-rose-900 text-rose-200 text-[10px] font-black uppercase tracking-wider">
+                      KATEGORI KHUSUS PERFORMA
+                    </span>
+                    <h4 className="text-sm font-black text-rose-950">
+                      Evaluasi Average Reply Time &amp; Identifikasi Sales Respon Lambat
+                    </h4>
+                  </div>
+                  <p className="text-xs text-rose-800 mt-1 leading-relaxed">
+                    Kategori ini memonitor rata-rata waktu tanggap (First Reply Time) sales kepada customer. Terlihat jelas siapa saja sales yang membalas customer lama (&gt; 5 menit atau &gt; rata-rata tim) sehingga dapat segera dievaluasi dan dibina.
+                  </p>
+                </div>
+              </div>
+              <div className="flex sm:flex-col items-center sm:items-end justify-between shrink-0 gap-1 bg-white/80 p-2.5 rounded-lg border border-rose-200">
+                <span className="text-[10px] uppercase font-bold text-slate-500">Benchmark Rata-rata Tim</span>
+                <span className="font-mono text-base font-black text-rose-900">{teamAvgResponseFormatted}</span>
+                <span className="text-[10px] font-semibold text-rose-600">Target SOP: &lt; 2 menit</span>
+              </div>
+            </div>
+
+            {/* 3 Metric Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* Card 1: Sales Paling Lambat */}
+              <div className="bg-white rounded-xl p-3.5 border-2 border-rose-300 shadow-2xs flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider bg-rose-100 text-rose-800 px-2 py-0.5 rounded-sm flex items-center gap-1">
+                      <Hourglass className="w-3 h-3 text-rose-600" /> Waktu Balas Paling Lambat
+                    </span>
+                    <span className="text-[10px] font-bold text-rose-600 font-mono">Perlu Evaluasi</span>
+                  </div>
+                  {topSlowestReplyAgent ? (
+                    <div className="flex items-center gap-2.5 mt-2">
+                      <img 
+                        src={topSlowestReplyAgent.agentAvatar} 
+                        alt={topSlowestReplyAgent.agentName} 
+                        className="w-10 h-10 rounded-full border-2 border-rose-400 object-cover shrink-0" 
+                      />
+                      <div className="truncate">
+                        <h5 className="font-black text-xs text-slate-900 truncate">{topSlowestReplyAgent.agentName}</h5>
+                        <p className="text-[10px] text-slate-500">{topSlowestReplyAgent.agentRole}</p>
+                        <p className="text-xs font-black text-rose-700 font-mono mt-0.5">
+                          Avg: {topSlowestReplyAgent.avgResponseTimeFormatted}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-400 mt-2">Tidak ada data</p>
+                  )}
+                </div>
+                <div className="mt-3 pt-2 border-t border-rose-100 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-500">Respon Terlama:</span>
+                  <span className="font-black text-rose-700 font-mono">{topSlowestReplyAgent?.maxResponseTimeFormatted || '-'}</span>
+                </div>
+              </div>
+
+              {/* Card 2: Sales Paling Cepat (Benchmark Teladan) */}
+              <div className="bg-white rounded-xl p-3.5 border border-emerald-200 shadow-2xs flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-sm flex items-center gap-1">
+                      <Zap className="w-3 h-3 text-emerald-600" /> Waktu Balas Tercepat
+                    </span>
+                    <span className="text-[10px] font-bold text-emerald-700 font-mono">Sesuai SOP</span>
+                  </div>
+                  {topSlaFastestAgent ? (
+                    <div className="flex items-center gap-2.5 mt-2">
+                      <img 
+                        src={topSlaFastestAgent.agentAvatar} 
+                        alt={topSlaFastestAgent.agentName} 
+                        className="w-10 h-10 rounded-full border-2 border-emerald-400 object-cover shrink-0" 
+                      />
+                      <div className="truncate">
+                        <h5 className="font-black text-xs text-slate-900 truncate">{topSlaFastestAgent.agentName}</h5>
+                        <p className="text-[10px] text-slate-500">{topSlaFastestAgent.agentRole}</p>
+                        <p className="text-xs font-black text-emerald-700 font-mono mt-0.5">
+                          Avg: {topSlaFastestAgent.avgResponseTimeFormatted}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-400 mt-2">Tidak ada data</p>
+                  )}
+                </div>
+                <div className="mt-3 pt-2 border-t border-emerald-100 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-500">Kepatuhan SLA (&le;2m):</span>
+                  <span className="font-black text-emerald-700">{topSlaFastestAgent?.slaComplianceRate.toFixed(0)}% Leads</span>
+                </div>
+              </div>
+
+              {/* Card 3: Rekap Kategori Kecepatan Seluruh Sales */}
+              <div className="bg-slate-900 text-white rounded-xl p-3.5 border border-slate-800 flex flex-col justify-between shadow-xs">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-400 flex items-center gap-1">
+                      <Timer className="w-3 h-3" /> Distribusi Kecepatan Tim
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-mono">{agentMetrics.length} Sales PIC</span>
+                  </div>
+                  <div className="space-y-1.5 mt-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500" /> Cepat (&le; 2m):
+                      </span>
+                      <span className="font-mono font-bold text-white">
+                        {agentMetrics.filter(a => a.totalLeads > 0 && a.avgResponseTimeMinutes > 0 && a.avgResponseTimeMinutes <= 2).length} Sales
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-amber-300 font-semibold">
+                        <span className="w-2 h-2 rounded-full bg-amber-400" /> Sedang (2-5m):
+                      </span>
+                      <span className="font-mono font-bold text-white">
+                        {agentMetrics.filter(a => a.totalLeads > 0 && a.avgResponseTimeMinutes > 2 && a.avgResponseTimeMinutes <= 5).length} Sales
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-rose-400 font-semibold">
+                        <span className="w-2 h-2 rounded-full bg-rose-500" /> Lambat (&gt; 5m):
+                      </span>
+                      <span className="font-mono font-black text-rose-300">
+                        {agentMetrics.filter(a => a.totalLeads > 0 && a.avgResponseTimeMinutes > 5).length} Sales
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+                  <span>Tombol Cepat:</span>
+                  <button
+                    onClick={() => {
+                      setReplySpeedFilter('SLOW');
+                      const tableEl = document.getElementById('sales-metrics-table');
+                      tableEl?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="text-amber-400 hover:text-amber-300 font-bold underline cursor-pointer"
+                  >
+                    Filter Tabel Khusus Respon Lambat &darr;
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed Ranking Table for Average Reply Time */}
+            <div className="bg-white rounded-xl border border-rose-200 overflow-hidden shadow-2xs">
+              <div className="p-3 bg-rose-50/60 border-b border-rose-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-rose-600" />
+                  <h5 className="text-xs font-black text-rose-950 uppercase tracking-wider">
+                    Peringkat Waktu Balas Sales (Dari Paling Lama ke Paling Cepat)
+                  </h5>
+                </div>
+                <div className="text-[11px] text-rose-700 font-medium">
+                  Urutan 1 = Sales yang respon chat customer paling lama
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 text-[10px] font-black uppercase text-slate-600 border-b border-slate-200">
+                      <th className="py-2.5 px-3 text-center">RANK LAMA</th>
+                      <th className="py-2.5 px-3">SALES PIC</th>
+                      <th className="py-2.5 px-3 text-center">RATA-RATA WAKTU REPLY</th>
+                      <th className="py-2.5 px-3 text-center">STATUS KECEPATAN</th>
+                      <th className="py-2.5 px-3 text-center">REPLY TERLAMA</th>
+                      <th className="py-2.5 px-3 text-center">LEAD &gt; 2 MENIT</th>
+                      <th className="py-2.5 px-3 text-center">LEAD &gt; 5 MENIT</th>
+                      <th className="py-2.5 px-3 text-center">TOTAL LEADS VALID</th>
+                      <th className="py-2.5 px-3 text-center">AKSI AUDIT</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {slowReplyRankedAgents.map((agent, rIdx) => {
+                      const isVerySlow = agent.avgResponseTimeMinutes > 20;
+                      const isSlow = agent.avgResponseTimeMinutes > 5;
+                      const isModerate = agent.avgResponseTimeMinutes > 2 && agent.avgResponseTimeMinutes <= 5;
+                      return (
+                        <tr 
+                          key={agent.agentId} 
+                          className={`hover:bg-rose-50/40 transition-colors ${rIdx === 0 ? 'bg-rose-50/20' : ''}`}
+                        >
+                          <td className="py-2.5 px-3 text-center font-bold text-xs">
+                            {rIdx + 1 === 1 ? (
+                              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-600 text-white font-black text-[10px]">
+                                1
+                              </span>
+                            ) : (
+                              <span className="text-slate-400">#{rIdx + 1}</span>
+                            )}
+                          </td>
+                          <td className="py-2.5 px-3">
+                            <div className="flex items-center gap-2">
+                              <img src={agent.agentAvatar} alt={agent.agentName} className="w-6 h-6 rounded-full object-cover border border-slate-200" />
+                              <div>
+                                <div className="font-bold text-slate-900 text-xs">{agent.agentName}</div>
+                                <div className="text-[10px] text-slate-400">{agent.agentRole}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            <span className={`font-mono font-black text-xs px-2 py-0.5 rounded ${
+                              isSlow ? 'bg-rose-100 text-rose-800 border border-rose-200' : isModerate ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                            }`}>
+                              {agent.avgResponseTimeFormatted}
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            {isVerySlow ? (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-black bg-rose-600 text-white">
+                                🚨 Sangat Lambat (&gt;20m)
+                              </span>
+                            ) : isSlow ? (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-black bg-rose-100 text-rose-800">
+                                ⚠️ Lambat (&gt;5m)
+                              </span>
+                            ) : isModerate ? (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">
+                                ⏱️ Sedang (2-5m)
+                              </span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                ⚡ Cepat (&le;2m)
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-2.5 px-3 text-center font-mono text-xs font-bold text-slate-700">
+                            {agent.maxResponseTimeFormatted}
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            <span className={`font-bold ${agent.slowLeadsCount > 0 ? 'text-rose-600' : 'text-slate-400'}`}>
+                              {agent.slowLeadsCount} Leads
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            <span className={`font-bold ${agent.slowLeadsAbove5mCount > 0 ? 'text-rose-700 font-black' : 'text-slate-400'}`}>
+                              {agent.slowLeadsAbove5mCount} Leads
+                            </span>
+                          </td>
+                          <td className="py-2.5 px-3 text-center text-slate-600 font-bold">
+                            {agent.qualifiedLeads} Leads
+                          </td>
+                          <td className="py-2.5 px-3 text-center">
+                            <button
+                              onClick={() => {
+                                setSelectedAgentFilter(agent.agentName);
+                                setReplySpeedFilter('ALL');
+                                setInspectingAgent(agent);
+                              }}
+                              className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-bold transition-colors cursor-pointer"
+                            >
+                              Buka Leads
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
 
-      {/* 3. Leaderboard & Highlights (4 Kategori TOP Sales) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {/* 3. Leaderboard & Highlights (5 Kategori Highlight Sales Termasuk Respon Lambat) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         
         {/* 1. Top Incoming Leads */}
         {topIncomingAgent && (
@@ -1168,7 +1532,34 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
           </div>
         )}
 
-        {/* 3. Top SOP */}
+        {/* 3. Highlight Waktu Balas Paling Lama (Perlu Evaluasi) */}
+        {topSlowestReplyAgent && (
+          <div className="bg-rose-50/60 rounded-xl p-3.5 border-2 border-rose-300 shadow-2xs flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-rose-600 text-white px-2 py-0.5 rounded-sm flex items-center gap-1">
+                  <Hourglass className="w-3 h-3" /> Reply Terlama
+                </span>
+                <span className="text-[10px] font-bold text-rose-700 font-mono">
+                  Perlu Evaluasi
+                </span>
+              </div>
+              <div className="flex items-center gap-2.5 mt-1">
+                <img src={topSlowestReplyAgent.agentAvatar} alt={topSlowestReplyAgent.agentName} className="w-9 h-9 rounded-full border-2 border-rose-400 object-cover" />
+                <div className="truncate">
+                  <h4 className="font-bold text-xs text-slate-900 truncate">{topSlowestReplyAgent.agentName}</h4>
+                  <p className="text-[10px] text-rose-600 font-semibold font-mono">Avg Reply: {topSlowestReplyAgent.avgResponseTimeFormatted}</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 pt-2 border-t border-rose-200 flex items-center justify-between text-xs">
+              <span className="text-slate-600">Respon Maksimal:</span>
+              <span className="font-black text-rose-700 font-mono">{topSlowestReplyAgent.maxResponseTimeFormatted}</span>
+            </div>
+          </div>
+        )}
+
+        {/* 4. Top SOP */}
         {topSopAgent && (
           <div className="bg-white rounded-xl p-3.5 border border-teal-200 shadow-2xs flex flex-col justify-between">
             <div>
@@ -1195,7 +1586,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
           </div>
         )}
 
-        {/* 4. Top Visited */}
+        {/* 5. Top Visited */}
         {topVisitedAgent && (
           <div className="bg-white rounded-xl p-3.5 border border-purple-200 shadow-2xs flex flex-col justify-between">
             <div>
@@ -1316,12 +1707,25 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             <option value="MET">SOP: &ge; 80% (✅)</option>
             <option value="BREACHED">SOP: &lt; 80% (❌)</option>
           </select>
+
+          {/* Reply Speed Filter Toggle */}
+          <select
+            value={replySpeedFilter}
+            onChange={(e) => setReplySpeedFilter(e.target.value as any)}
+            className="text-xs font-bold bg-rose-50 text-rose-900 px-2.5 py-1 rounded-lg border border-rose-300 focus:outline-hidden cursor-pointer"
+          >
+            <option value="ALL">Waktu Balas: Semua</option>
+            <option value="SLOW">⏳ Rata-rata Lambat (&gt;5m)</option>
+            <option value="ABOVE_AVERAGE">⚠️ &gt; Rata-rata Tim ({teamAvgResponseFormatted})</option>
+            <option value="MODERATE">⏱️ Sedang (2 - 5m)</option>
+            <option value="FAST">⚡ Cepat (&le;2m)</option>
+          </select>
         </div>
 
       </div>
 
       {/* 5. Tabel Matriks & Rincian Performa Sales Lengkap */}
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-2xs">
+      <div id="sales-metrics-table" className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-2xs scroll-mt-20">
         <div className="p-4 bg-slate-50/90 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h3 className="text-xs font-black text-slate-900 flex items-center gap-2">
@@ -1727,6 +2131,19 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
               <option value="BREACHED">❌ Hanya Tidak Sesuai SOP</option>
             </select>
 
+            {/* Reply Speed Filter Select */}
+            <select
+              value={replySpeedFilter}
+              onChange={(e) => setReplySpeedFilter(e.target.value as any)}
+              className="text-xs font-bold bg-rose-50 text-rose-900 px-3 py-1.5 rounded-lg border border-rose-300 focus:outline-hidden cursor-pointer"
+            >
+              <option value="ALL">Waktu Balas: Semua</option>
+              <option value="SLOW">⏳ Respon Lambat (&gt; 5m)</option>
+              <option value="ABOVE_AVERAGE">⚠️ &gt; Rata-rata Tim ({teamAvgResponseFormatted})</option>
+              <option value="MODERATE">⏱️ Sedang (2 - 5m)</option>
+              <option value="FAST">⚡ Cepat (&le; 2m)</option>
+            </select>
+
             <span className="text-xs text-slate-500 font-medium ml-1">
               Menampilkan <span className="font-bold text-slate-900">{filteredLeadsForAudit.length}</span> data
             </span>
@@ -1735,7 +2152,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
 
         {/* Mini Audit Summary Bar */}
         <div className="bg-slate-100/70 border-b border-slate-200 px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-4 text-slate-600">
+          <div className="flex items-center gap-4 text-slate-600 flex-wrap">
             <span>
               Total Prospek: <strong className="text-slate-900">{filteredLeadsForAudit.length}</strong>
             </span>
@@ -1751,6 +2168,12 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             <span>
               Junk / Non-Evaluasi: <strong className="text-slate-500">{filteredLeadsForAudit.filter(l => l.category === 'JUNK').length}</strong>
             </span>
+            {replySpeedFilter !== 'ALL' && (
+              <span className="text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200 font-bold flex items-center gap-1">
+                Filter: {replySpeedFilter === 'SLOW' ? '⏳ Lambat (>5m)' : replySpeedFilter === 'ABOVE_AVERAGE' ? `⚠️ > Tim (${teamAvgResponseFormatted})` : replySpeedFilter === 'MODERATE' ? '⏱️ Sedang (2-5m)' : '⚡ Cepat (≤2m)'}
+                <button onClick={() => setReplySpeedFilter('ALL')} className="text-rose-400 hover:text-rose-700 font-black ml-1 cursor-pointer">×</button>
+              </span>
+            )}
           </div>
 
           {selectedAgentFilter !== 'ALL' && (
@@ -1908,22 +2331,32 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             </div>
 
             {/* Modal Sub-Metrics Bar */}
-            <div className="bg-slate-50 border-b border-slate-200 p-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div className="bg-slate-50 border-b border-slate-200 p-3 grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
               <div className="bg-white p-2 rounded-lg border border-slate-200">
                 <span className="text-[10px] text-slate-500 uppercase font-bold block">Alokasi Biaya Iklan</span>
                 <span className="font-mono font-black text-amber-900 text-xs">{formatRupiah(inspectingAgent.allocatedCost)}</span>
               </div>
               <div className="bg-white p-2 rounded-lg border border-slate-200">
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">CPL (Gross)</span>
-                <span className="font-mono font-black text-slate-900 text-xs">{inspectingAgent.cpl > 0 ? formatRupiah(inspectingAgent.cpl) : '-'}</span>
+                <span className="text-[10px] text-slate-500 uppercase font-bold block">CPL / CPQL</span>
+                <span className="font-mono font-black text-slate-900 text-xs">
+                  {inspectingAgent.cpl > 0 ? formatRupiah(inspectingAgent.cpl) : '-'} / <span className="text-emerald-700">{inspectingAgent.cpql > 0 ? formatRupiah(inspectingAgent.cpql) : '-'}</span>
+                </span>
               </div>
               <div className="bg-white p-2 rounded-lg border border-slate-200">
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">CPQL (Qualified)</span>
-                <span className="font-mono font-black text-emerald-700 text-xs">{inspectingAgent.cpql > 0 ? formatRupiah(inspectingAgent.cpql) : '-'}</span>
+                <span className="text-[10px] text-slate-500 uppercase font-bold block">Avg Reply Time</span>
+                <span className={`font-mono font-black text-xs ${inspectingAgent.avgResponseTimeMinutes > 5 ? 'text-rose-700' : inspectingAgent.avgResponseTimeMinutes > 2 ? 'text-amber-700' : 'text-emerald-700'}`}>
+                  {inspectingAgent.avgResponseTimeFormatted}
+                </span>
               </div>
               <div className="bg-white p-2 rounded-lg border border-slate-200">
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">Rata-rata Respon</span>
-                <span className="font-mono font-black text-purple-700 text-xs">{inspectingAgent.avgResponseTimeFormatted}</span>
+                <span className="text-[10px] text-slate-500 uppercase font-bold block">Respon Terlama</span>
+                <span className="font-mono font-black text-rose-700 text-xs">{inspectingAgent.maxResponseTimeFormatted}</span>
+              </div>
+              <div className="bg-white p-2 rounded-lg border border-slate-200">
+                <span className="text-[10px] text-slate-500 uppercase font-bold block">Lead Respon Lambat</span>
+                <span className="font-mono font-black text-xs text-slate-800">
+                  &gt;2m: <b className="text-amber-700">{inspectingAgent.slowLeadsCount}</b> | &gt;5m: <b className="text-rose-700">{inspectingAgent.slowLeadsAbove5mCount}</b>
+                </span>
               </div>
             </div>
 

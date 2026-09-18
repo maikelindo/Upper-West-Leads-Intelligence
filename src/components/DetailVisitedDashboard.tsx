@@ -535,36 +535,24 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
               >
                 Semua ({ALL_VISITED_LEADS.length})
               </button>
-              <button
-                onClick={() => setSelectedMonth('Sept')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  selectedMonth === 'Sept'
-                    ? 'bg-purple-600 text-white shadow-xs'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
-                }`}
-              >
-                Sept (9)
-              </button>
-              <button
-                onClick={() => setSelectedMonth('Aug')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  selectedMonth === 'Aug'
-                    ? 'bg-purple-600 text-white shadow-xs'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
-                }`}
-              >
-                Agu (11)
-              </button>
-              <button
-                onClick={() => setSelectedMonth('Juli')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  selectedMonth === 'Juli'
-                    ? 'bg-purple-600 text-white shadow-xs'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
-                }`}
-              >
-                Juli (18)
-              </button>
+              {['Sept', 'Aug', 'Juli'].map(mKey => {
+                const stat = monthStats.find(m => m.key === mKey);
+                const label = mKey === 'Sept' ? 'Sept' : mKey === 'Aug' ? 'Agu' : 'Juli';
+                const count = stat ? stat.count : 0;
+                return (
+                  <button
+                    key={mKey}
+                    onClick={() => setSelectedMonth(mKey)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      selectedMonth === mKey
+                        ? 'bg-purple-600 text-white shadow-xs'
+                        : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                    }`}
+                  >
+                    {label} ({count})
+                  </button>
+                );
+              })}
             </div>
 
             {/* Native Select Option for Mobile Devices */}

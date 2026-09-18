@@ -21,6 +21,25 @@ export interface VisitedLeadRecord {
 export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
   {
     no: 1,
+    leadName: "🍉🍉🍑 / Sri",
+    incomingLeads: "07-Sep-26, 0:14",
+    year: 2026,
+    month: "Sept",
+    source: "Instagram",
+    adSource: "SOHO Signature",
+    remarks: "Minat SOHO buat bisinis admin untuk kantor seafood dia",
+    teamUnder: "Evita Bella",
+    assignedTo: "Ditto Zulfikar Junaedi",
+    firstResponseTime: "0:06:58",
+    dateVisit: "17 Sept",
+    slaVisit: "10 Hari",
+    slaClosing: "",
+    status: "in_progress",
+    lastFu: "",
+    nextFu: "",
+  },
+  {
+    no: 2,
     leadName: "Novia - 23",
     incomingLeads: "13-Sep-26, 21:26",
     year: 2026,
@@ -39,7 +58,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 2,
+    no: 3,
     leadName: "Ricko",
     incomingLeads: "05-Sep-26, 18:52",
     year: 2026,
@@ -58,7 +77,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 3,
+    no: 4,
     leadName: "Succesfull / Ernest",
     incomingLeads: "02-Sep-26, 14:38",
     year: 2026,
@@ -77,7 +96,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 4,
+    no: 5,
     leadName: "Welly",
     incomingLeads: "06-Sep-26, 20:41",
     year: 2026,
@@ -96,7 +115,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 5,
+    no: 6,
     leadName: "Adrian Johan Turangan",
     incomingLeads: "04-Sep-26, 9:13",
     year: 2026,
@@ -115,7 +134,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 6,
+    no: 7,
     leadName: "Vendi",
     incomingLeads: "05-Sep-26, 16:28",
     year: 2026,
@@ -134,7 +153,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 7,
+    no: 8,
     leadName: "Aldo witana",
     incomingLeads: "29-Aug-26, 14:38",
     year: 2026,
@@ -153,7 +172,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 8,
+    no: 9,
     leadName: "Hery",
     incomingLeads: "21-Mar-26, 10:00",
     year: 2026,
@@ -172,7 +191,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 9,
+    no: 10,
     leadName: "Eka Budi",
     incomingLeads: "05-Aug-26, 15:43",
     year: 2026,
@@ -191,7 +210,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 10,
+    no: 11,
     leadName: "Lukas Indonesia",
     incomingLeads: "24-Aug-26, 22:31",
     year: 2026,
@@ -210,7 +229,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 11,
+    no: 12,
     leadName: "Antonio",
     incomingLeads: "25-Jul-26, 21:27",
     year: 2026,
@@ -229,7 +248,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 12,
+    no: 13,
     leadName: "Varis Sastra",
     incomingLeads: "11-Aug-26, 11:59",
     year: 2026,
@@ -248,7 +267,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 13,
+    no: 14,
     leadName: "Soni Laberta",
     incomingLeads: "22 -Jul-26, 10.45",
     year: 2026,
@@ -267,7 +286,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 14,
+    no: 15,
     leadName: "David Tjahja",
     incomingLeads: "11-Aug-26, 17:11",
     year: 2026,
@@ -286,7 +305,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 15,
+    no: 16,
     leadName: "ferina faradilla",
     incomingLeads: "17-Aug-26, 17:24",
     year: 2026,
@@ -305,7 +324,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 16,
+    no: 17,
     leadName: "Kaori Winie",
     incomingLeads: "17-Aug-26, 01:55",
     year: 2026,
@@ -324,7 +343,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 17,
+    no: 18,
     leadName: "Teguh P Sidik",
     incomingLeads: "17-Jul-26, 16:46",
     year: 2026,
@@ -343,7 +362,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 18,
+    no: 19,
     leadName: "David",
     incomingLeads: "11-May-26, 21:03",
     year: 2026,
@@ -362,7 +381,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 19,
+    no: 20,
     leadName: "Mas Ayu (BC 26 Juni)/ 06 Aug",
     incomingLeads: "22-Feb-26, 18:08",
     year: 2026,
@@ -381,7 +400,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 20,
+    no: 21,
     leadName: "ferrensean",
     incomingLeads: "02-Aug-26, 11:19",
     year: 2026,
@@ -400,7 +419,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 21,
+    no: 22,
     leadName: "Akhmad",
     incomingLeads: "15 July 2026 13:56",
     year: 2026,
@@ -419,7 +438,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 22,
+    no: 23,
     leadName: "Stephanus Suharli",
     incomingLeads: "29-Jul-26, 19:02",
     year: 2026,
@@ -438,7 +457,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 23,
+    no: 24,
     leadName: "R1 (Ronny)",
     incomingLeads: "31-Jul-26, 10:14",
     year: 2026,
@@ -457,7 +476,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 24,
+    no: 25,
     leadName: "Ari / Alfian (BC 26 Juni) / 31 July",
     incomingLeads: "10-Apr-25, 0:16",
     year: 2026,
@@ -476,7 +495,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 25,
+    no: 26,
     leadName: "Nathanael Yudhistira",
     incomingLeads: "18-Jul-26, 9:04",
     year: 2026,
@@ -495,7 +514,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 26,
+    no: 27,
     leadName: "AFP",
     incomingLeads: "20-Jul-26, 17:57",
     year: 2026,
@@ -514,7 +533,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 27,
+    no: 28,
     leadName: "Dra (BC 26 Juni) / 25 Juli",
     incomingLeads: "19-Jan-26, 13:43",
     year: 2026,
@@ -533,7 +552,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 28,
+    no: 29,
     leadName: "Maz Wied",
     incomingLeads: "22-Jul-26, 20:04",
     year: 2026,
@@ -552,7 +571,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 29,
+    no: 30,
     leadName: "Lina Tj",
     incomingLeads: "19-Jul-26, 19:33",
     year: 2026,
@@ -571,7 +590,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 30,
+    no: 31,
     leadName: "Norhadi Alias",
     incomingLeads: "27-Jun-26, 12:55",
     year: 2026,
@@ -590,7 +609,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 31,
+    no: 32,
     leadName: "Gry",
     incomingLeads: "15-Jul-26, 9:14",
     year: 2026,
@@ -609,7 +628,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 32,
+    no: 33,
     leadName: "Linda F Wewengkang",
     incomingLeads: "07-Jul-26, 13:25",
     year: 2026,
@@ -628,7 +647,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 33,
+    no: 34,
     leadName: "Jerzy Sagala",
     incomingLeads: "08-Jul-26, 12:02",
     year: 2026,
@@ -647,7 +666,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 34,
+    no: 35,
     leadName: "Gratio Ray",
     incomingLeads: "08-May-26, 13:56",
     year: 2026,
@@ -666,7 +685,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 35,
+    no: 36,
     leadName: "Sulanto",
     incomingLeads: "06-Jul-26, 7:51",
     year: 2026,
@@ -685,7 +704,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 36,
+    no: 37,
     leadName: "Ronny Christian",
     incomingLeads: "01-Jul-26, 0:32",
     year: 2026,
@@ -704,7 +723,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 37,
+    no: 38,
     leadName: "Dara (Gritte Agatha)",
     incomingLeads: "01-Jul-26, 16:53",
     year: 2026,
@@ -723,7 +742,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 38,
+    no: 39,
     leadName: "ANDY (BC 26 Mei)",
     incomingLeads: "13 February, 2024, 16:03",
     year: 2026,
@@ -742,7 +761,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 39,
+    no: 40,
     leadName: "Namaku Sinnay",
     incomingLeads: "28-Jun-26, 14:00",
     year: 2026,
@@ -761,7 +780,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 40,
+    no: 41,
     leadName: "Seiko Manito",
     incomingLeads: "25-Jun-26, 18:50",
     year: 2026,
@@ -780,7 +799,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 41,
+    no: 42,
     leadName: "Manna Center / Harry",
     incomingLeads: "22-Jun-26, 18:03",
     year: 2026,
@@ -799,7 +818,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 42,
+    no: 43,
     leadName: "Jonathan Grantomo (BC 26 Mei)",
     incomingLeads: "21-Jun-25, 19:56",
     year: 2026,
@@ -818,7 +837,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 43,
+    no: 44,
     leadName: "PT Cahaya Energi Bersatu",
     incomingLeads: "28-May-26, 18:42",
     year: 2026,
@@ -837,7 +856,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 44,
+    no: 45,
     leadName: "\ud83c\udd70\ufe0fNugraha",
     incomingLeads: "15-Jun-26, 7:05",
     year: 2026,
@@ -856,7 +875,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 45,
+    no: 46,
     leadName: "Weda",
     incomingLeads: "15-Jun-26, 15:23",
     year: 2026,
@@ -875,7 +894,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 46,
+    no: 47,
     leadName: "erwinlight31",
     incomingLeads: "10-Jun-26, 7:30",
     year: 2026,
@@ -894,7 +913,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 47,
+    no: 48,
     leadName: "Ery Wijaya",
     incomingLeads: "08-Jun-26, 9:01",
     year: 2026,
@@ -913,7 +932,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 48,
+    no: 49,
     leadName: "feb ho (Febri)",
     incomingLeads: "31-May-26, 08:17",
     year: 2026,
@@ -932,7 +951,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 49,
+    no: 50,
     leadName: "Radi",
     incomingLeads: "24-Apr-26, 11:03",
     year: 2026,
@@ -951,7 +970,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 50,
+    no: 51,
     leadName: "IMC / Ming. (BC 11 April)",
     incomingLeads: "12-Apr-25, 3:24",
     year: 2026,
@@ -970,7 +989,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 51,
+    no: 52,
     leadName: "Eli / 81216707876",
     incomingLeads: "13-Apr-26, 18:38",
     year: 2026,
@@ -989,7 +1008,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 52,
+    no: 53,
     leadName: "$NoerhalimKunFayakun\u624e\u897f\u5fb7\u52d2",
     incomingLeads: "23-May-26, 18:14",
     year: 2026,
@@ -1008,7 +1027,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 53,
+    no: 54,
     leadName: "Hendri santoso",
     incomingLeads: "23-May-26, 13:55",
     year: 2026,
@@ -1027,7 +1046,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 54,
+    no: 55,
     leadName: "Willem Julienne",
     incomingLeads: "19-May-26, 07:40",
     year: 2026,
@@ -1046,7 +1065,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 55,
+    no: 56,
     leadName: "Andrew HaCe (BC 11 April) / 08 Mei",
     incomingLeads: "03-Nov-25, 14:35",
     year: 2026,
@@ -1065,7 +1084,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 56,
+    no: 57,
     leadName: "EL",
     incomingLeads: "17-May-26, 13:20",
     year: 2026,
@@ -1084,7 +1103,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 57,
+    no: 58,
     leadName: "posko Ibu Negara (Desi)",
     incomingLeads: "16-May-26, 14:44",
     year: 2026,
@@ -1103,7 +1122,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 58,
+    no: 59,
     leadName: "Shelly Pieloor PS",
     incomingLeads: "19-Mar-26, 11:01",
     year: 2026,
@@ -1122,7 +1141,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 59,
+    no: 60,
     leadName: "Ray Lee \uc774\uc6b0\ucc44",
     incomingLeads: "11-May-26, 11:29",
     year: 2026,
@@ -1141,7 +1160,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 60,
+    no: 61,
     leadName: "Astrid Suhaimi",
     incomingLeads: "04-May-26, 18:36",
     year: 2026,
@@ -1160,7 +1179,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 61,
+    no: 62,
     leadName: "Indra Lesmana",
     incomingLeads: "04-May-26, 18:26",
     year: 2026,
@@ -1179,7 +1198,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 62,
+    no: 63,
     leadName: "ADINDA",
     incomingLeads: "04-May-26, 10:28",
     year: 2026,
@@ -1198,7 +1217,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 63,
+    no: 64,
     leadName: "Bro / Bambang",
     incomingLeads: "30-Apr-26, 13:20",
     year: 2026,
@@ -1217,7 +1236,7 @@ export const VISITED_LEADS_PART1: VisitedLeadRecord[] = [
     nextFu: "",
   },
   {
-    no: 64,
+    no: 65,
     leadName: "Sukma Wahyu Wijayanti",
     incomingLeads: "30-Apr-26, 8:54",
     year: 2026,

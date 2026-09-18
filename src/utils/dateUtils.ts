@@ -153,7 +153,7 @@ export const SEPTEMBER_2026_WEEKS: WeekRange[] = [
     startDate: '2026-09-07',
     endDate: '2026-09-13',
     displayRange: '07 Sep - 13 Sep 2026 (Senin - Minggu)',
-    isCurrentOrLatest: true,
+    isCurrentOrLatest: false,
   },
   {
     id: 'WEEK_3',
@@ -162,7 +162,7 @@ export const SEPTEMBER_2026_WEEKS: WeekRange[] = [
     startDate: '2026-09-14',
     endDate: '2026-09-20',
     displayRange: '14 Sep - 20 Sep 2026 (Senin - Minggu)',
-    isCurrentOrLatest: false,
+    isCurrentOrLatest: true,
   },
   {
     id: 'WEEK_4',

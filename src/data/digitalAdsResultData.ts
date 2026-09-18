@@ -201,21 +201,21 @@ export const DEFAULT_DIGITAL_ADS_RESULT_2026: DigitalAdsResultRow[] = [
     meta: 11775000,
     google: 5423274,
     tiktok: 0,
-    rawLeads: 213,
-    validLeads: 172,
-    qualifiedLeadsPct: 80.75,
+    rawLeads: 273,
+    validLeads: 219,
+    qualifiedLeadsPct: 80.22,
     sourceFb: 0,
     sourceIg: 1,
     sourceGoogle: 0,
     sourceTiktok: 0,
     sourceYoutube: 0,
-    visited: 9,
+    visited: 10,
     totalSold: 1,
     priceExcPpn: 2850000000,
-    cpl: 80743,
+    cpl: 62997,
     percentRate: 0.84,
-    leadsToVisit: 5.23,
-    notes: '213 Leads September (9 Visited, 1 Unit Sold SOHO Type A)'
+    leadsToVisit: 4.57,
+    notes: '273 Leads September (10 Visited, 1 Unit Sold SOHO Type A)'
   },
   {
     no: 10,
@@ -299,9 +299,14 @@ export function loadSavedDigitalAdsResult(): DigitalAdsResultRow[] {
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length === 12) {
-        // If September row (index 8) was old or empty in localStorage, update it with latest default
-        if (parsed[8] && parsed[8].monthKey === '2026-09' && (parsed[8].rawLeads === 0 || parsed[8].rawLeads < 213 || parsed[8].visited < 9)) {
-          parsed[8] = DEFAULT_DIGITAL_ADS_RESULT_2026[8];
+        let updated = false;
+        // Ensure September row (index 8) is synced with latest verified dataset (273 raw leads, 219 valid leads, 10 visited)
+        if (parsed[8] && (parsed[8].visited < 10 || parsed[8].rawLeads < 273)) {
+          parsed[8] = { ...DEFAULT_DIGITAL_ADS_RESULT_2026[8] };
+          updated = true;
+        }
+        if (updated) {
+          saveDigitalAdsResult(parsed);
         }
         return parsed;
       }
