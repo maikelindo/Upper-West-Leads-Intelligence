@@ -37,6 +37,8 @@ import { SalesPerformanceDashboard } from './components/SalesPerformanceDashboar
 import { AdsSourceReportDashboard } from './components/AdsSourceReportDashboard';
 import { DetailVisitedDashboard } from './components/DetailVisitedDashboard';
 import { DigitalAdsResultDashboard } from './components/DigitalAdsResultDashboard';
+import { UnifiedDigitalResultDashboard } from './components/UnifiedDigitalResultDashboard';
+import { ReportLeadsDashboard } from './components/ReportLeadsDashboard';
 import { 
   Bell, 
   Flame, 
@@ -519,25 +521,18 @@ export default function App() {
             </div>
           )}
 
-          {/* View: Result Digital (Digital Ads Result 2026 Table & Manual Input) */}
-          {navigationMenu === 'digital_ads_result' && (
-            <DigitalAdsResultDashboard
+          {/* View: Result Digital (Consolidated Table & Campaign Source Report) */}
+          {(navigationMenu === 'result_digital' || navigationMenu === 'digital_ads_result' || navigationMenu === 'ads_source_report') && (
+            <UnifiedDigitalResultDashboard
               leads={leads}
-            />
-          )}
-
-          {/* View 2: Source Leads Iklan & Campaign Performance */}
-          {navigationMenu === 'ads_source_report' && (
-            <AdsSourceReportDashboard
-              leads={visibleLeads}
               salesAgents={salesAgents}
               onSelectLead={setSelectedLead}
             />
           )}
 
-          {/* View: Weekly Report Dashboard (Senin - Minggu) */}
-          {navigationMenu === 'weekly_report' && (
-            <WeeklyReportDashboard
+          {/* View: Report leads (Consolidated Weekly & Monthly Reports) */}
+          {(navigationMenu === 'report_leads' || navigationMenu === 'weekly_report' || navigationMenu === 'monthly_report') && (
+            <ReportLeadsDashboard
               leads={visibleLeads}
               salesAgents={salesAgents}
               onSelectLead={setSelectedLead}
@@ -545,15 +540,6 @@ export default function App() {
                 setSelectedLeadForScoring(lead || null);
                 setIsConversationScorerOpen(true);
               }}
-            />
-          )}
-
-          {/* View: Monthly Report Dashboard (Report Monthly / Overall) */}
-          {navigationMenu === 'monthly_report' && (
-            <MonthlyReportDashboard
-              leads={visibleLeads}
-              salesAgents={salesAgents}
-              onSelectLead={setSelectedLead}
             />
           )}
 
@@ -574,47 +560,6 @@ export default function App() {
                 if (matchedLead) setSelectedLead(matchedLead);
               }}
             />
-          )}
-
-          {/* View: All Leads Grid Table */}
-          {navigationMenu === 'table' && (
-            <div className="space-y-4">
-              <CategorySummaryDashboard
-                leads={visibleLeads}
-                onOpenExcelImport={() => setIsExcelImportOpen(true)}
-                activeCategoryFilter={activeCategoryFilter}
-                onFilterByCategory={setActiveCategoryFilter}
-                onSelectLead={setSelectedLead}
-                selectedMonth={dashboardMonth}
-                onMonthChange={setDashboardMonth}
-                selectedWeekId={dashboardWeekId}
-                onWeekChange={setDashboardWeekId}
-                customStartDate={dashboardCustomStart}
-                customEndDate={dashboardCustomEnd}
-                onCustomDateChange={(s, e) => {
-                  setDashboardCustomStart(s);
-                  setDashboardCustomEnd(e);
-                }}
-              />
-
-              <LeadTable
-                leads={dashboardTimeFilteredLeads}
-                salesAgents={salesAgents}
-                onSelectLead={setSelectedLead}
-                onQuickWhatsApp={handleQuickWhatsApp}
-                onMoveStage={handleMoveStage}
-                onUpdateResolveStatus={handleUpdateResolveStatus}
-                onUpdateLeadPerformance={handleUpdateLeadPerformance}
-                onOpenExcelImport={() => setIsExcelImportOpen(true)}
-                onOpenAddLead={() => setIsAddLeadOpen(true)}
-                onOpenScoringModal={(lead) => {
-                  setSelectedLeadForScoring(lead || null);
-                  setIsConversationScorerOpen(true);
-                }}
-                activeCategoryFilter={activeCategoryFilter}
-                onFilterByCategory={setActiveCategoryFilter}
-              />
-            </div>
           )}
 
           {/* View 5, 6, 7: Omnichannel Hub */}

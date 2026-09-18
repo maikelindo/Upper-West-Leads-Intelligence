@@ -15,12 +15,14 @@ import { LeadCategory } from '../types';
 
 export type NavigationMenu = 
   | 'dashboard' 
+  | 'result_digital'
+  | 'report_leads'
+  | 'sales_performance'
+  | 'detail_visited'
   | 'digital_ads_result'
   | 'ads_source_report'
   | 'weekly_report'
   | 'monthly_report'
-  | 'sales_performance'
-  | 'detail_visited'
   | 'table';
 
 interface SidebarProps {
@@ -78,67 +80,35 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
 
             <button
-              id="sidebar-nav-digital-ads-result"
+              id="sidebar-nav-result-digital"
               onClick={() => {
-                setActiveMenu('digital_ads_result');
+                setActiveMenu('result_digital');
                 onFilterByCategory?.('ALL');
               }}
               className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeMenu === 'digital_ads_result'
+                activeMenu === 'result_digital' || activeMenu === 'digital_ads_result' || activeMenu === 'ads_source_report'
                   ? 'bg-blue-50 text-blue-900 border border-blue-200/90 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
-              <TableProperties className={`w-4 h-4 shrink-0 ${activeMenu === 'digital_ads_result' ? 'text-blue-600' : 'text-slate-400'}`} />
+              <TableProperties className={`w-4 h-4 shrink-0 ${activeMenu === 'result_digital' || activeMenu === 'digital_ads_result' || activeMenu === 'ads_source_report' ? 'text-blue-600' : 'text-slate-400'}`} />
               <span className="whitespace-nowrap text-xs font-bold">Result Digital</span>
             </button>
 
             <button
-              id="sidebar-nav-ads-source"
+              id="sidebar-nav-report-leads"
               onClick={() => {
-                setActiveMenu('ads_source_report');
+                setActiveMenu('report_leads');
                 onFilterByCategory?.('ALL');
               }}
               className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeMenu === 'ads_source_report'
+                activeMenu === 'report_leads' || activeMenu === 'weekly_report' || activeMenu === 'monthly_report'
                   ? 'bg-amber-50 text-amber-900 border border-amber-200/80 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
-              <Megaphone className={`w-4 h-4 shrink-0 ${activeMenu === 'ads_source_report' ? 'text-amber-600' : 'text-slate-400'}`} />
-              <span className="whitespace-nowrap text-xs">Source Leads Iklan</span>
-            </button>
-
-            <button
-              id="sidebar-nav-weekly"
-              onClick={() => {
-                setActiveMenu('weekly_report');
-                onFilterByCategory?.('ALL');
-              }}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeMenu === 'weekly_report'
-                  ? 'bg-amber-50 text-amber-900 border border-amber-200/80 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <Calendar className={`w-4 h-4 ${activeMenu === 'weekly_report' ? 'text-amber-600' : 'text-slate-400'}`} />
-              <span>Report Weekly</span>
-            </button>
-
-            <button
-              id="sidebar-nav-monthly"
-              onClick={() => {
-                setActiveMenu('monthly_report');
-                onFilterByCategory?.('ALL');
-              }}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeMenu === 'monthly_report'
-                  ? 'bg-amber-50 text-amber-900 border border-amber-200/80 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <Layers className={`w-4 h-4 ${activeMenu === 'monthly_report' ? 'text-amber-600' : 'text-slate-400'}`} />
-              <span>Report Monthly</span>
+              <Calendar className={`w-4 h-4 ${activeMenu === 'report_leads' || activeMenu === 'weekly_report' || activeMenu === 'monthly_report' ? 'text-amber-600' : 'text-slate-400'}`} />
+              <span className="whitespace-nowrap text-xs font-bold">Report leads</span>
             </button>
 
             <button
@@ -171,19 +141,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <MapPin className={`w-4 h-4 ${activeMenu === 'detail_visited' ? 'text-purple-600' : 'text-slate-400'}`} />
               <span>Detail Visited</span>
-            </button>
-
-            <button
-              id="sidebar-nav-table"
-              onClick={() => setActiveMenu('table')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeMenu === 'table'
-                  ? 'bg-amber-50 text-amber-900 border border-amber-200/80 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <Table2 className={`w-4 h-4 ${activeMenu === 'table' ? 'text-amber-600' : 'text-slate-400'}`} />
-              <span>Semua Data</span>
             </button>
           </nav>
         </div>

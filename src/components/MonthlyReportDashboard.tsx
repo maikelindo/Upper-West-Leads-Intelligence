@@ -29,23 +29,8 @@ import {
   ArrowRight,
   TrendingDown,
   Info,
-  Building2,
-  PieChart as PieIcon,
-  BarChart3
+  Building2
 } from 'lucide-react';
-import { 
-  ResponsiveContainer, 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  Tooltip, 
-  Legend, 
-  CartesianGrid, 
-  PieChart, 
-  Pie, 
-  Cell 
-} from 'recharts';
 import { 
   formatRupiah,
   formatNumberWithDots,
@@ -279,24 +264,6 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
   const overallMonthCpl = totalMonthLeads > 0 && totalMonthCost > 0 ? Math.round(totalMonthCost / totalMonthLeads) : 0;
   const overallMonthCpql = totalMonthQualified > 0 && totalMonthCost > 0 ? Math.round(totalMonthCost / totalMonthQualified) : 0;
   const overallMonthCostVisited = totalMonthVisited > 0 && totalMonthCost > 0 ? Math.round(totalMonthCost / totalMonthVisited) : 0;
-
-  // Chart data for weekly comparison
-  const weeklyChartData = weeklyBreakdownRows.map((r) => ({
-    name: r.shortLabel,
-    'Total Leads': r.totalLeads,
-    'Qualified': r.qualifiedCount,
-    'Junk': r.junkCount,
-    'Biaya (Ribu Rp)': Math.round(r.cost / 1000),
-  }));
-
-  // Pie chart data for quality
-  const pieQualityData = [
-    { name: 'Cold', value: coldCount, color: '#64748B' },
-    { name: 'Warm', value: warmCount, color: '#F59E0B' },
-    { name: 'Prospect', value: prospectCount, color: '#10B981' },
-    { name: 'Visited', value: visitedCount, color: '#8B5CF6' },
-    { name: 'Junk', value: junkCount, color: '#EF4444' },
-  ];
 
   return (
     <div className="space-y-5 pb-12">
@@ -654,85 +621,6 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
           <div className="mt-2 flex items-center justify-between text-[11px] pt-1.5 border-t border-amber-200/80 text-amber-900 font-semibold">
             <span>CPQL (Valid):</span>
             <span className="font-bold text-emerald-800">{overallMonthCpql > 0 ? formatRupiah(overallMonthCpql) : (totalMonthCost === 0 ? 'Rp 0' : '-')}</span>
-          </div>
-        </div>
-
-      </div>
-
-      {/* Visual Charts: Weekly Breakdown and Quality Distribution */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        
-        {/* Weekly Trend Bar Chart */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-4 sm:p-5 shadow-2xs">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <div>
-              <h3 className="text-xs font-black text-slate-900 flex items-center gap-1.5">
-                <BarChart3 className="w-4 h-4 text-amber-600" />
-                <span>Tren Volume Inbound Leads per Siklus Minggu</span>
-              </h3>
-              <p className="text-[11px] text-slate-500">
-                Perbandingan Qualified Leads vs Junk per siklus minggu pada bulan {getMonthLabel(selectedMonth)}.
-              </p>
-            </div>
-          </div>
-          <div className="h-64 mt-4">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={weeklyChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#64748B' }} />
-                <YAxis tick={{ fontSize: 11, fill: '#64748B' }} />
-                <Tooltip 
-                  formatter={(value: any, name: any) => [value, name]}
-                  contentStyle={{ backgroundColor: '#0F172A', color: '#FFF', borderRadius: '8px', border: 'none', fontSize: '11px' }}
-                />
-                <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                <Bar dataKey="Qualified" fill="#10B981" name="Qualified (Valid)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Junk" fill="#EF4444" name="Junk (Non-Prospek)" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Quality Distribution Pie */}
-        <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 shadow-2xs flex flex-col justify-between">
-          <div>
-            <h3 className="text-xs font-black text-slate-900 flex items-center gap-1.5 pb-3 border-b border-slate-100">
-              <PieIcon className="w-4 h-4 text-amber-600" />
-              <span>Distribusi Kualitas Prospek</span>
-            </h3>
-            <div className="h-44 mt-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieQualityData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={45}
-                    outerRadius={70}
-                    paddingAngle={3}
-                    dataKey="value"
-                  >
-                    {pieQualityData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    formatter={(val: any, name: any) => [`${val} Leads`, name]}
-                    contentStyle={{ backgroundColor: '#0F172A', color: '#FFF', borderRadius: '8px', border: 'none', fontSize: '11px' }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-100 text-[10px]">
-            {pieQualityData.map((item) => (
-              <div key={item.name} className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
-                <span className="text-slate-600">{item.name}:</span>
-                <span className="font-bold text-slate-900">{item.value}</span>
-              </div>
-            ))}
           </div>
         </div>
 
