@@ -40,8 +40,6 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
   // Visitor Form State
   const [visitorEmail, setVisitorEmail] = useState('');
   const [visitorName, setVisitorName] = useState('');
-  const [visitorPassword, setVisitorPassword] = useState('');
-  const [showVisitorPassword, setShowVisitorPassword] = useState(false);
 
   // Owner Form State (Kept completely confidential, empty by default)
   const [ownerEmail, setOwnerEmail] = useState('');
@@ -71,14 +69,13 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
     setTimeout(() => setToastMessage(null), 4000);
   };
 
-  // 1. Visitor Login (Email, Nama Visitor, Password must be 0123456, then requires Owner ACC)
+  // 1. Visitor Request Access (1. Email, 2. Nama Visitor; no password required, direct to Owner Control for ACC)
   const handleVisitorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
 
     const email = visitorEmail.trim().toLowerCase();
     const name = visitorName.trim();
-    const pass = visitorPassword.trim();
 
     if (!email || !email.includes('@')) {
       setErrorMessage('Masukkan alamat email yang valid.');
@@ -90,17 +87,11 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
       return;
     }
 
-    if (!pass) {
-      setErrorMessage('Masukkan password akses visitor.');
-      return;
-    }
-
     setIsSubmitting(true);
     try {
       const res = await visitorLogin({
         email,
-        name,
-        password: pass
+        name
       });
 
       if (res.success) {
@@ -110,17 +101,17 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
             spread: 70,
             origin: { y: 0.6 }
           });
-          showToast(`Akses disetujui! Selamat datang, ${name}. Membuka dashboard...`);
+          showToast(`Akses Anda telah disetujui (ACC)! Selamat datang, ${name}. Membuka dashboard...`);
           onSuccessApproved?.();
         } else {
           // Status is PENDING - Waiting for Owner ACC
-          showToast(`Password terverifikasi. Permintaan akses sedang menunggu persetujuan (ACC) Owner.`);
+          showToast(`Permintaan akses Anda telah berhasil masuk ke Owner Control! Menunggu ACC Owner.`);
         }
       } else {
-        setErrorMessage(res.error || 'Password akses salah. Silakan periksa kembali password yang Anda masukkan.');
+        setErrorMessage(res.error || 'Gagal mengajukan akses. Silakan periksa kembali data Anda.');
       }
     } catch (err: any) {
-      setErrorMessage(err?.message || 'Terjadi kesalahan sistem saat memproses login.');
+      setErrorMessage(err?.message || 'Terjadi kesalahan sistem saat mengajukan akses.');
     } finally {
       setIsSubmitting(false);
     }
@@ -266,7 +257,7 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
                   Permintaan Akses Terkirim
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-400 max-w-sm mx-auto leading-relaxed">
-                  Password akses berhasil diverifikasi. Akun Anda sedang menunggu persetujuan resmi (ACC) dari Owner sebelum dapat masuk ke dashboard.
+                  Permintaan akses Anda telah dikirim langsung ke antrean Owner Control. Silakan tunggu Owner menyetujui (ACC) akses Anda untuk dapat masuk ke dashboard.
                 </p>
               </div>
 
@@ -283,9 +274,9 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
                 </div>
 
                 <div className="text-xs text-slate-300 flex items-center justify-between pt-1">
-                  <span className="text-slate-400">Status Password:</span>
-                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Terverifikasi
+                  <span className="text-slate-400">Status Pengajuan:</span>
+                  <span className="text-amber-400 font-semibold flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Masuk ke Owner Control
                   </span>
                 </div>
               </div>
@@ -420,34 +411,34 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
                 </div>
               )}
 
-              {/* TAB 1: VISITOR ACCESS FORM (TABLE FORMAT: 1. Email, 2. Nama, 3. Password tanpa menampilkan angka) */}
+              {/* TAB 1: VISITOR ACCESS FORM (TABLE FORMAT: 1. Alamat Email, 2. Nama Visitor) */}
               {activeTab === 'VISITOR' && (
                 <form onSubmit={handleVisitorSubmit} className="space-y-4">
                   
-                  {/* Styled Summary Table / Specification Card (Password hidden from display) */}
+                  {/* Styled Summary Table / Specification Card */}
                   <div className="bg-slate-950/80 border border-amber-400/30 rounded-2xl p-3.5 space-y-2.5 shadow-inner">
                     <div className="flex items-center justify-between border-b border-white/10 pb-2">
                       <div className="flex items-center gap-2 text-amber-400 text-xs font-black">
                         <TableProperties className="w-4 h-4" />
-                        <span>Kredensial Akses Pengunjung:</span>
+                        <span>Form Pengajuan Akses Pengunjung:</span>
                       </div>
                       <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 font-bold">
                         Perlu ACC Owner
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-2 text-[11px]">
-                      <div className="bg-slate-900/90 p-2 rounded-xl border border-white/5">
+                    <div className="grid grid-cols-2 gap-2 text-[11px]">
+                      <div className="bg-slate-900/90 p-2.5 rounded-xl border border-white/5">
                         <span className="text-slate-400 block font-medium">1. Alamat Email</span>
-                        <span className="text-white font-semibold truncate block">Email Anda</span>
+                        <span className="text-white font-semibold truncate block">
+                          {visitorEmail || 'Email Visitor'}
+                        </span>
                       </div>
-                      <div className="bg-slate-900/90 p-2 rounded-xl border border-white/5">
+                      <div className="bg-slate-900/90 p-2.5 rounded-xl border border-white/5">
                         <span className="text-slate-400 block font-medium">2. Nama Visitor</span>
-                        <span className="text-white font-semibold truncate block">Nama Lengkap</span>
-                      </div>
-                      <div className="bg-slate-900/90 p-2 rounded-xl border border-white/5">
-                        <span className="text-slate-400 block font-medium">3. Pasword</span>
-                        <span className="text-white font-semibold truncate block">Wajib Diisi</span>
+                        <span className="text-white font-semibold truncate block">
+                          {visitorName || 'Nama Lengkap'}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -493,49 +484,22 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
                         />
                       </div>
                     </div>
-
-                    {/* 3. Password Akses (Hidden placeholder and label, internal requirement is 0123456) */}
-                    <div>
-                      <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center justify-between">
-                        <span>3. Pasword Akses</span>
-                        <span className="text-[10px] text-slate-400 font-normal">Wajib diisi</span>
-                      </label>
-                      <div className="relative">
-                        <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                        <input
-                          type={showVisitorPassword ? 'text' : 'password'}
-                          required
-                          id="visitor-password"
-                          placeholder="Masukkan password akses"
-                          value={visitorPassword}
-                          onChange={(e) => setVisitorPassword(e.target.value)}
-                          className="w-full pl-10 pr-10 py-2.5 text-sm bg-slate-950/70 border border-white/15 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 transition-all"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowVisitorPassword(!showVisitorPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
-                        >
-                          {showVisitorPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                        </button>
-                      </div>
-                    </div>
                   </div>
 
                   <div className="bg-slate-950/40 border border-white/5 rounded-xl p-2.5 text-[11px] text-slate-400 leading-relaxed flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <span>Setelah verifikasi password, akses ke dashboard memerlukan persetujuan (ACC) Owner.</span>
+                    <span>Setelah diajukan, data langsung masuk ke Owner Control. Setelah di-ACC oleh Owner, Anda dapat langsung masuk.</span>
                   </div>
 
                   {/* Submit Button */}
                   <button
                     type="submit"
                     id="btn-submit-visitor-access"
-                    disabled={isSubmitting || !visitorEmail.trim() || !visitorName.trim() || !visitorPassword.trim()}
+                    disabled={isSubmitting || !visitorEmail.trim() || !visitorName.trim()}
                     className="w-full py-3 px-4 rounded-xl text-sm font-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Send className="w-4 h-4" />
-                    <span>{isSubmitting ? 'Memproses Verifikasi...' : 'Masuk / Ajukan Akses'}</span>
+                    <span>{isSubmitting ? 'Mengirim ke Owner Control...' : 'Ajukan Akses Masuk ke Owner'}</span>
                   </button>
                 </form>
               )}

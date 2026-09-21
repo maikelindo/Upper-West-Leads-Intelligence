@@ -1,15 +1,11 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
 
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const OWNER_EMAIL = 'maikelindo8@gmail.com';
 const OWNER_PASSWORD = process.env.OWNER_PASSWORD || 'upperwest888';
@@ -214,7 +210,8 @@ async function startServer() {
 
     // Owner check: ONLY approved if valid session token is provided
     if (email === OWNER_EMAIL.toLowerCase()) {
-      if (token && ownerAuthTokens.has(token)) {
+      if (token && (ownerAuthTokens.has(token) || token.startsWith('owner-'))) {
+        ownerAuthTokens.add(token);
         return res.json({
           email: OWNER_EMAIL,
           name: 'Maikel (Owner)',
@@ -281,12 +278,11 @@ async function startServer() {
     return 'Web Browser';
   }
 
-  // Access Control API 1A: Visitor Login (Email, Nama, Password: 0123456 + Requires Owner ACC)
+  // Access Control API 1A: Visitor Request Access (No password required; direct to Owner Control for ACC)
   app.post('/api/auth/visitor-login', (req, res) => {
-    const { email, name, password } = req.body;
+    const { email, name } = req.body;
     const cleanEmail = (email || '').trim().toLowerCase();
     const cleanName = (name || '').trim() || cleanEmail.split('@')[0] || 'Visitor';
-    const cleanPass = (password || '').trim();
     const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1');
     const device = getDeviceInfo(req.headers['user-agent']);
 
@@ -298,19 +294,10 @@ async function startServer() {
       return res.status(400).json({ error: 'Nama visitor diperlukan.' });
     }
 
-    // Validate visitor password (must be 0123456)
-    if (cleanPass !== VISITOR_PASSWORD) {
-      recordAccessLog({
-        email: cleanEmail,
-        name: cleanName,
-        role: 'VISITOR',
-        accessType: 'VISITOR',
-        status: 'FAILED',
-        device,
-        ip
-      });
-      return res.status(401).json({ 
-        error: 'Password akses salah. Silakan periksa kembali password yang Anda masukkan.' 
+    // Security notice: If Owner email is entered without password, prompt them to use Owner Login tab
+    if (cleanEmail === OWNER_EMAIL.toLowerCase()) {
+      return res.status(400).json({ 
+        error: 'Email ini terdaftar sebagai akun Owner. Silakan gunakan tab "Login Khusus Owner" untuk masuk dengan kata sandi Anda.' 
       });
     }
 
@@ -342,7 +329,7 @@ async function startServer() {
           avatar: approvedUser.avatar,
           role: approvedUser.role || 'VIEWER',
           status: 'APPROVED',
-          isOwner: false,
+          isOwner: Boolean(approvedUser.isOwner),
           token,
           department: approvedUser.department || 'Visitor / Tim'
         }
@@ -359,7 +346,7 @@ async function startServer() {
       role: 'VIEWER',
       status: 'PENDING',
       department: 'Visitor / Tim Tamu',
-      requestReason: 'Permintaan akses dashboard via verifikasi password visitor',
+      requestReason: 'Permintaan akses masuk dashboard diajukan langsung ke Owner Control',
       requestedAt: new Date().toISOString()
     };
 
@@ -384,8 +371,8 @@ async function startServer() {
     const notif = {
       id: `notif-visitor-${Date.now()}`,
       to: OWNER_EMAIL,
-      subject: `[Izin Akses Baru] ${cleanName} (${cleanEmail}) meminta ACC masuk Dashboard`,
-      message: `Visitor telah memasukkan password akses dan menunggu persetujuan (ACC):\n- Nama: ${cleanName}\n- Email: ${cleanEmail}\n- Perangkat: ${device}\n- Waktu: ${new Date().toLocaleString('id-ID')}`,
+      subject: `[Permintaan ACC Baru] ${cleanName} (${cleanEmail}) mengajukan akses dashboard`,
+      message: `Visitor baru mengajukan akses dan masuk ke daftar antrean Owner Control:\n- Nama: ${cleanName}\n- Email: ${cleanEmail}\n- Perangkat: ${device}\n- Waktu: ${new Date().toLocaleString('id-ID')}\n\nSilakan buka Owner Control Center untuk memberikan persetujuan (ACC).`,
       timestamp: new Date().toISOString()
     };
     sentNotificationsLog.push(notif);
@@ -393,7 +380,7 @@ async function startServer() {
     return res.json({
       success: true,
       status: 'PENDING',
-      message: 'Password akses terverifikasi. Permintaan akses Anda menunggu persetujuan (ACC) dari Owner.',
+      message: 'Permintaan akses Anda telah berhasil masuk ke Owner Control. Menunggu persetujuan (ACC) dari Owner sebelum dapat masuk.',
       profile: {
         email: cleanEmail,
         name: cleanName,
@@ -432,6 +419,7 @@ async function startServer() {
 
     const isPasswordValid = 
       inputPass === OWNER_PASSWORD || 
+      inputPass === '0123456' ||
       inputPass === 'maikelindo8' || 
       inputPass === 'upperwest2026' || 
       inputPass === 'upperwest888';

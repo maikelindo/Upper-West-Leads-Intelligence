@@ -8,7 +8,7 @@ interface AuthContextType {
   isApproved: boolean;
   pendingRequestsCount: number;
   login: (email: string, name?: string) => Promise<UserAccessProfile>;
-  visitorLogin: (params: { email: string; name: string; password: string }) => Promise<{ success: boolean; status?: 'APPROVED' | 'PENDING'; error?: string }>;
+  visitorLogin: (params: { email: string; name: string; password?: string }) => Promise<{ success: boolean; status?: 'APPROVED' | 'PENDING'; error?: string }>;
   ownerLogin: (password: string, email?: string) => Promise<{ success: boolean; error?: string }>;
   requestOwnerCode: (email?: string) => Promise<{ success: boolean; message: string; simulatedCode?: string }>;
   logout: () => void;
@@ -181,11 +181,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [currentUser, refreshManageData, fetchUserStatus]);
 
-  // Visitor / Tim Login (Email, Nama, Password: 0123456)
+  // Visitor / Tim Request Access (Email, Nama; no password required, direct to Owner ACC)
   const visitorLogin = async (params: {
     email: string;
     name: string;
-    password: string;
+    password?: string;
   }): Promise<{ success: boolean; status?: 'APPROVED' | 'PENDING'; error?: string }> => {
     setIsLoading(true);
     try {
@@ -195,7 +195,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         body: JSON.stringify({
           email: params.email.trim(),
           name: params.name.trim(),
-          password: params.password.trim()
+          password: params.password?.trim()
         })
       });
 
@@ -212,7 +212,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       return {
         success: false,
-        error: data.error || 'Password akses salah. Silakan periksa kembali password yang Anda masukkan.'
+        error: data.error || 'Gagal mengajukan akses. Silakan periksa kembali data Anda.'
       };
     } catch (err: any) {
       return { success: false, error: err?.message || 'Terjadi kesalahan jaringan' };
