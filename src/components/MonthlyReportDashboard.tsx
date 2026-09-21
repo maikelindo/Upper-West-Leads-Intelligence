@@ -220,6 +220,25 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
   const prospectPctQualified = qualifiedLeadsCount > 0 ? ((prospectCount / qualifiedLeadsCount) * 100).toFixed(1) : '0';
   const visitedPctQualified = qualifiedLeadsCount > 0 ? ((visitedCount / qualifiedLeadsCount) * 100).toFixed(1) : '0';
 
+  // Ended by Sales Tracking (Total & Percentage from Qualified Leads)
+  const isLeadEnded = (l: Lead) =>
+    Boolean(
+      l.isEnded ||
+      l.notes?.some((n) => {
+        const lower = n.toLowerCase();
+        return lower.includes('ended by sales') || lower.includes('ditutup sales');
+      })
+    );
+  const endedLeads = filteredLeads.filter(isLeadEnded);
+  const endedTotalCount = endedLeads.length;
+  const endedQualifiedLeads = endedLeads.filter((l) => l.category !== 'JUNK');
+  const endedQualifiedCount = endedQualifiedLeads.length;
+  const endedJunkCount = endedLeads.filter((l) => l.category === 'JUNK').length;
+
+  const endedTotalPct = totalLeads > 0 ? ((endedTotalCount / totalLeads) * 100).toFixed(1) : '0';
+  const endedQualifiedPct = qualifiedLeadsCount > 0 ? ((endedQualifiedCount / qualifiedLeadsCount) * 100).toFixed(1) : '0';
+  const endedJunkPct = junkCount > 0 ? ((endedJunkCount / junkCount) * 100).toFixed(1) : '0';
+
   // SLA & Pipeline
   const slaMetCount = filteredLeads.filter((l) => l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes <= 2).length;
   const slaCompliancePct = totalLeads > 0 ? Math.round((slaMetCount / totalLeads) * 100) : 0;
@@ -236,6 +255,10 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
       const wVisited = wLeads.filter((l) => l.category === 'VISITED').length;
       const wCost = weeklyAdCosts[week.id] || 0;
 
+      const wEnded = wLeads.filter(isLeadEnded).length;
+      const wEndedQual = wLeads.filter((l) => isLeadEnded(l) && l.category !== 'JUNK').length;
+      const wEndedQualPct = wQualified > 0 ? ((wEndedQual / wQualified) * 100).toFixed(1) : '0';
+
       const wCpl = wTotal > 0 && wCost > 0 ? Math.round(wCost / wTotal) : (wCost === 0 ? 0 : 0);
       const wCpql = wQualified > 0 && wCost > 0 ? Math.round(wCost / wQualified) : 0;
       const wCostVisited = wVisited > 0 && wCost > 0 ? Math.round(wCost / wVisited) : 0;
@@ -247,6 +270,9 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
         junkCount: wJunk,
         qualifiedCount: wQualified,
         visitedCount: wVisited,
+        endedTotal: wEnded,
+        endedQualified: wEndedQual,
+        endedQualifiedPct: wEndedQualPct,
         cpl: wCpl,
         cpql: wCpql,
         costVisited: wCostVisited,
@@ -260,6 +286,11 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
   const totalMonthJunk = weeklyBreakdownRows.reduce((sum, r) => sum + r.junkCount, 0);
   const totalMonthQualified = weeklyBreakdownRows.reduce((sum, r) => sum + r.qualifiedCount, 0);
   const totalMonthVisited = weeklyBreakdownRows.reduce((sum, r) => sum + r.visitedCount, 0);
+  const totalMonthEnded = weeklyBreakdownRows.reduce((sum, r) => sum + r.endedTotal, 0);
+  const totalMonthEndedQualified = weeklyBreakdownRows.reduce((sum, r) => sum + r.endedQualified, 0);
+  const totalMonthEndedQualifiedPct = totalMonthQualified > 0 
+    ? ((totalMonthEndedQualified / totalMonthQualified) * 100).toFixed(1) 
+    : '0';
 
   const overallMonthCpl = totalMonthLeads > 0 && totalMonthCost > 0 ? Math.round(totalMonthCost / totalMonthLeads) : 0;
   const overallMonthCpql = totalMonthQualified > 0 && totalMonthCost > 0 ? Math.round(totalMonthCost / totalMonthQualified) : 0;
@@ -437,6 +468,54 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
             <span className="text-[9px] text-purple-800/80 block mt-0.5">dari {qualifiedLeadsCount} Qualified Leads</span>
           </div>
         </div>
+
+        {/* Status Data Leads Ended by Sales */}
+        <div className="mt-3.5 pt-3.5 border-t border-slate-100">
+          <div className="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3.5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span className="text-[11px] font-bold text-indigo-900 uppercase flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>4. Status Leads Di-Ended oleh Sales Advisor</span>
+                </span>
+                <p className="text-[11px] text-indigo-700/80 mt-0.5">
+                  Total data leads yang telah diselesaikan (ended) oleh sales advisor serta persentasenya dari qualified leads.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-black text-xs">
+                  {endedTotalCount} Total Ended ({endedTotalPct}%)
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-2.5">
+              <div className="bg-white/90 rounded-lg p-2.5 border border-indigo-200">
+                <span className="text-[10px] uppercase font-bold text-slate-500 block">Total Data Ended</span>
+                <div className="text-lg font-black text-slate-900 mt-0.5">
+                  {endedTotalCount} <span className="text-xs text-slate-500 font-normal">Leads ({endedTotalPct}% dari Total Inbound)</span>
+                </div>
+                <span className="text-[9px] text-slate-400 block mt-0.5">Akumulasi seluruh leads yang di-ended</span>
+              </div>
+
+              <div className="bg-white/90 rounded-lg p-2.5 border border-indigo-200 ring-1 ring-indigo-300">
+                <span className="text-[10px] uppercase font-bold text-indigo-900 block font-black">Ended dari Qualified Leads</span>
+                <div className="text-lg font-black text-indigo-700 mt-0.5">
+                  {endedQualifiedCount} <span className="text-xs text-indigo-900 font-bold">Leads ({endedQualifiedPct}%)</span>
+                </div>
+                <span className="text-[9px] text-indigo-600 font-medium block mt-0.5">Dihitung dari {qualifiedLeadsCount} Qualified Leads</span>
+              </div>
+
+              <div className="bg-white/90 rounded-lg p-2.5 border border-indigo-200">
+                <span className="text-[10px] uppercase font-bold text-rose-700 block">Ended dari Junk Leads</span>
+                <div className="text-lg font-black text-rose-600 mt-0.5">
+                  {endedJunkCount} <span className="text-xs text-rose-700 font-normal">Leads ({endedJunkPct}%)</span>
+                </div>
+                <span className="text-[9px] text-slate-400 block mt-0.5">Dihitung dari {junkCount} Junk Leads</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* TABEL RINCIAN BIAYA IKLAN & CPL MINGGUAN & OVERALL (LAMPIRAN 1 DESIGN) */}
@@ -458,7 +537,7 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
           </div>
         </div>
 
-        <div className="w-full">
+        <div className="w-full overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
               <tr className="bg-slate-100/90 text-[10px] font-black uppercase tracking-wider text-slate-600 border-b border-slate-200">
@@ -467,6 +546,8 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
                 <th className="py-2.5 px-2 text-center">TOTAL LEADS</th>
                 <th className="py-2.5 px-2 text-center">JUNK</th>
                 <th className="py-2.5 px-2 text-center">QUALIFIED</th>
+                <th className="py-2.5 px-2 text-center bg-indigo-50/70 text-indigo-950">TOTAL ENDED</th>
+                <th className="py-2.5 px-2 text-center bg-indigo-100/70 text-indigo-950">ENDED QUALIFIED (%)</th>
                 <th className="py-2.5 px-2 text-center">CPL (GROSS)</th>
                 <th className="py-2.5 px-2 text-center">CPQL (QUALIFIED)</th>
                 <th className="py-2.5 px-2 text-center">COST / VISITED</th>
@@ -505,6 +586,17 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
                   <td className="py-2.5 px-2 text-center font-black text-emerald-600 text-sm">
                     {row.qualifiedCount}
                   </td>
+                  <td className="py-2.5 px-2 text-center font-bold text-slate-800 bg-indigo-50/30">
+                    {row.endedTotal}
+                  </td>
+                  <td className="py-2.5 px-2 text-center bg-indigo-50/50">
+                    <span className="font-mono font-black text-indigo-800 text-xs">
+                      {row.endedQualified}
+                    </span>
+                    <span className="block text-[9px] text-indigo-600 font-bold">
+                      ({row.endedQualifiedPct}%)
+                    </span>
+                  </td>
                   <td className="py-2.5 px-2 text-center font-black text-amber-800 text-xs sm:text-sm font-mono">
                     {row.totalLeads > 0 && row.cost > 0 ? formatRupiah(row.cpl) : (row.cost === 0 ? 'Rp 0' : '-')}
                   </td>
@@ -534,6 +626,12 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
                 <td className="py-3 px-2 text-center font-black text-sm text-emerald-700">
                   {totalMonthQualified}
                 </td>
+                <td className="py-3 px-2 text-center font-black text-sm text-slate-900 bg-indigo-50/50">
+                  {totalMonthEnded}
+                </td>
+                <td className="py-3 px-2 text-center font-black text-xs sm:text-sm text-indigo-900 bg-indigo-100/70">
+                  {totalMonthEndedQualified} <span className="text-[10px] text-indigo-700 font-bold font-mono">({totalMonthEndedQualifiedPct}%)</span>
+                </td>
                 <td className="py-3 px-2 text-center font-black text-xs sm:text-sm text-amber-800 font-mono">
                   {overallMonthCpl > 0 ? formatRupiah(overallMonthCpl) : (totalMonthCost === 0 ? 'Rp 0' : '-')}
                 </td>
@@ -549,8 +647,8 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
         </div>
       </div>
 
-      {/* Top 4 KPI Summary Cards for Monthly */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {/* Top 5 KPI Summary Cards for Monthly */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         
         <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs">
           <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
@@ -604,6 +702,23 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
           <div className="mt-2 flex items-center justify-between text-[11px] pt-1.5 border-t border-slate-100 text-slate-600 font-semibold">
             <span className="text-purple-700">Visited: {visitedCount}</span>
             <span className="text-emerald-700">Prospect: {prospectCount}</span>
+          </div>
+        </div>
+
+        <div className="bg-indigo-50/70 rounded-xl border border-indigo-200 p-4 shadow-2xs">
+          <div className="flex items-center justify-between text-xs text-indigo-950 mb-1">
+            <span className="font-semibold text-[11px] uppercase tracking-wider">Leads Di-Ended Sales</span>
+            <CheckCircle2 className="w-4 h-4 text-indigo-600" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <p className="text-2xl font-black text-indigo-700 leading-tight">
+              {endedQualifiedCount}
+            </p>
+            <span className="text-xs text-indigo-950">({endedQualifiedPct}% dari {qualifiedLeadsCount} Valid)</span>
+          </div>
+          <div className="mt-2 flex items-center justify-between text-[11px] pt-1.5 border-t border-indigo-200/80 text-indigo-900 font-semibold">
+            <span>Total Di-Ended:</span>
+            <span className="font-bold text-slate-900">{endedTotalCount} Leads ({endedTotalPct}%)</span>
           </div>
         </div>
 

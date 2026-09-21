@@ -230,6 +230,11 @@ export interface Lead {
   sopStatus: SopComplianceStatus;
   sopNotes?: string;
 
+  // Ended by Sales Tracking
+  isEnded?: boolean;
+  endedAt?: string;
+  endedNotes?: string;
+
   // Additional Profile & Scoring Details
   name: string;
   email: string;
@@ -380,6 +385,9 @@ export interface CampaignSourceStat {
   cpql: number;               // Cost per Qualified Lead
   costPerVisited: number;     // Cost per Visited Lead
   avgResponseTime: number;
+  endedTotal?: number;
+  endedQualified?: number;
+  endedFromQualifiedRate?: number;
   leads: Lead[];
 }
 
@@ -406,5 +414,36 @@ export interface DigitalAdsResultRow {
   percentRate: number;     // Sales % Rate (e.g. 1.29%)
   leadsToVisit: number;    // Leads to Visit % (e.g. 7.87%)
   notes?: string;
+}
+
+// User Authentication & Access Control Types
+export type UserAccessStatus = 'APPROVED' | 'PENDING' | 'REJECTED' | 'NONE';
+export type UserRole = 'OWNER' | 'ADMIN' | 'SALES' | 'MARKETING' | 'VIEWER';
+
+export interface UserAccessProfile {
+  email: string;
+  name: string;
+  avatar?: string;
+  role: UserRole;
+  status: UserAccessStatus;
+  requestedAt?: string;
+  approvedAt?: string;
+  department?: string;
+  requestReason?: string;
+  isOwner?: boolean;
+}
+
+export interface AccessRequestItem {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  role: UserRole;
+  status: UserAccessStatus;
+  department: string;
+  requestReason: string;
+  requestedAt: string;
+  reviewedAt?: string;
+  reviewedBy?: string;
 }
 

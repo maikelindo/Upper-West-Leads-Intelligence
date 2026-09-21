@@ -9,9 +9,13 @@ import {
   UserCheck, 
   Megaphone, 
   MapPin, 
-  TableProperties
+  TableProperties,
+  Crown,
+  ShieldCheck
 } from 'lucide-react';
 import { LeadCategory } from '../types';
+import { useAuth } from '../context/AuthContext';
+import { ALL_VISITED_LEADS } from '../data/visitedLeadsData';
 
 export type NavigationMenu = 
   | 'dashboard' 
@@ -31,6 +35,7 @@ interface SidebarProps {
   onOpenAddLead: () => void;
   onOpenExcelImport: () => void;
   onOpenScoringRules: () => void;
+  onOpenAccessManagement?: () => void;
   hotLeadsCount?: number;
   totalLeadsCount?: number;
   visitedCount?: number;
@@ -48,15 +53,40 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenAddLead,
   onOpenExcelImport,
   onOpenScoringRules,
+  onOpenAccessManagement,
   onFilterByCategory,
 }) => {
+  const { isOwner, pendingRequestsCount } = useAuth();
   return (
     <aside 
       id="app-sidebar-nav" 
       className="w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 h-full overflow-y-auto select-none"
     >
-      <div className="p-4 space-y-6">
+      <div className="p-4 space-y-5">
         
+        {/* Upper West Official Branding Card */}
+        <div className="flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-amber-500/10 border border-amber-400/40 shadow-xs">
+          <img
+            src="/logo.png"
+            alt="Upper West Logo"
+            className="w-10 h-10 rounded-full object-cover shadow-sm ring-1 ring-amber-400/60 shrink-0 bg-amber-400"
+            referrerPolicy="no-referrer"
+          />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-black text-slate-900 uppercase tracking-tight">
+                Upper West
+              </span>
+              <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-amber-400 text-slate-950">
+                BSD
+              </span>
+            </div>
+            <p className="text-[10px] text-amber-900 font-semibold tracking-tight truncate">
+              Live &bull; Play &bull; Earn Money!
+            </p>
+          </div>
+        </div>
+
         {/* Navigation Group 1: Menu Utama */}
         <div>
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 px-3 block mb-2">
@@ -144,6 +174,33 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           </nav>
         </div>
+
+        {/* Owner Admin Group (if owner) */}
+        {isOwner && onOpenAccessManagement && (
+          <div className="pt-2 border-t border-slate-100">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-600 px-3 block mb-2 flex items-center gap-1.5">
+              <Crown className="w-3.5 h-3.5" />
+              <span>Owner Control</span>
+            </span>
+            <button
+              id="sidebar-nav-access-control"
+              onClick={onOpenAccessManagement}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 transition-all cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-amber-600" />
+                <span>Izin Akses (ACC)</span>
+              </div>
+              {pendingRequestsCount > 0 ? (
+                <span className="px-1.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500 text-white animate-pulse">
+                  {pendingRequestsCount} Baru
+                </span>
+              ) : (
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              )}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Sidebar Footer Box: Quick Actions */}

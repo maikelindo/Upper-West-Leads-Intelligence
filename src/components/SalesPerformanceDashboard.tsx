@@ -131,6 +131,13 @@ export interface AgentPerformanceMetric {
   cpql: number;            // allocatedCost / qualifiedLeads
   costPerVisited: number;  // allocatedCost / visitedLeads
 
+  // Ended by Sales Tracking
+  endedTotalLeads: number;
+  endedQualifiedLeads: number;
+  endedJunkLeads: number;
+  endedFromQualifiedRate: number; // percentage of qualified leads
+  endedTotalRate: number;
+
   // Lead List
   assignedLeadsList: Lead[];
 }
@@ -167,6 +174,16 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
 
     return Array.from(monthSet).sort().reverse();
   }, [leads]);
+
+  // Helper to identify ended leads
+  const isLeadEnded = (l: Lead) =>
+    Boolean(
+      l.isEnded ||
+      l.notes?.some((n) => {
+        const lower = n.toLowerCase();
+        return lower.includes('ended by sales') || lower.includes('ditutup sales');
+      })
+    );
 
   // Period & Filter States
   const [selectedMonth, setSelectedMonth] = useState<string>('2026-09');
@@ -418,6 +435,14 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
       const cpql = qualifiedLeads > 0 && allocatedCost > 0 ? Math.round(allocatedCost / qualifiedLeads) : 0;
       const costPerVisited = visitedLeads > 0 && allocatedCost > 0 ? Math.round(allocatedCost / visitedLeads) : 0;
 
+      // Ended leads by this agent
+      const endedLeadsList = agentLeads.filter(isLeadEnded);
+      const endedTotalLeads = endedLeadsList.length;
+      const endedQualifiedLeads = endedLeadsList.filter((l) => l.category !== 'JUNK').length;
+      const endedJunkLeads = endedLeadsList.filter((l) => l.category === 'JUNK').length;
+      const endedFromQualifiedRate = qualifiedLeads > 0 ? (endedQualifiedLeads / qualifiedLeads) * 100 : 0;
+      const endedTotalRate = totalLeads > 0 ? (endedTotalLeads / totalLeads) * 100 : 0;
+
       return {
         agentId: agent.id,
         agentName: agent.name,
@@ -456,6 +481,11 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
         cpl,
         cpql,
         costPerVisited,
+        endedTotalLeads,
+        endedQualifiedLeads,
+        endedJunkLeads,
+        endedFromQualifiedRate,
+        endedTotalRate,
         assignedLeadsList: agentLeads,
       };
     });
@@ -612,6 +642,17 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
   const teamWarmLeads = agentMetrics.reduce((sum, a) => sum + a.warmLeads, 0);
   const teamVisitedLeads = agentMetrics.reduce((sum, a) => sum + a.visitedLeads, 0);
   const teamProspectLeads = agentMetrics.reduce((sum, a) => sum + a.prospectLeads, 0);
+
+  // Ended by Sales Team Aggregates
+  const teamEndedTotalLeads = agentMetrics.reduce((sum, a) => sum + a.endedTotalLeads, 0);
+  const teamEndedQualifiedLeads = agentMetrics.reduce((sum, a) => sum + a.endedQualifiedLeads, 0);
+  const teamEndedJunkLeads = agentMetrics.reduce((sum, a) => sum + a.endedJunkLeads, 0);
+  const teamEndedFromQualifiedRate = teamQualifiedLeads > 0 
+    ? ((teamEndedQualifiedLeads / teamQualifiedLeads) * 100).toFixed(1) 
+    : '0';
+  const teamEndedTotalRate = teamTotalLeads > 0 
+    ? ((teamEndedTotalLeads / teamTotalLeads) * 100).toFixed(1) 
+    : '0';
 
   // SLA Aggregates (< 2 Menit from First Response Time on Qualified / Valid Leads)
   const teamSlaMet = agentMetrics.reduce((sum, a) => sum + a.slaMetCount, 0);
@@ -814,7 +855,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
       </div>
 
       {/* 2. Top Executive KPI Bar (Rata-rata & Akumulasi Keseluruhan Performa) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         
         {/* Total Inbound Leads & Avg per Agent */}
         <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs">
@@ -871,6 +912,24 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
           <div className="mt-2 flex items-center justify-between text-[11px] pt-1.5 border-t border-slate-100 text-slate-600">
             <span className="text-teal-700 font-bold">✅ {teamSopMet} Sesuai</span>
             <span className="text-rose-600 font-bold">❌ {teamSopBreached} Tidak</span>
+          </div>
+        </div>
+
+        {/* Leads Di-Ended oleh Sales */}
+        <div className="bg-indigo-50/70 rounded-xl border border-indigo-200 p-4 shadow-2xs">
+          <div className="flex items-center justify-between text-xs text-indigo-950 mb-1">
+            <span className="font-semibold text-[11px] uppercase tracking-wider">Leads Di-Ended Sales</span>
+            <CheckCircle2 className="w-4 h-4 text-indigo-600" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <p className="text-2xl font-black text-indigo-700 leading-tight">
+              {teamEndedQualifiedLeads}
+            </p>
+            <span className="text-xs text-indigo-950 font-bold">({teamEndedFromQualifiedRate}% dari Valid)</span>
+          </div>
+          <div className="mt-2 flex items-center justify-between text-[11px] pt-1.5 border-t border-indigo-200/80 text-indigo-900 font-semibold">
+            <span>Total Ended:</span>
+            <span className="font-bold text-slate-900">{teamEndedTotalLeads} Leads ({teamEndedTotalRate}%)</span>
           </div>
         </div>
 
@@ -1186,10 +1245,22 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                     {getSortIcon('qualifiedLeads')}
                   </div>
                 </th>
+                <th className="py-3 px-2.5 text-center cursor-pointer hover:bg-slate-200/70" onClick={() => handleSort('endedQualifiedLeads')}>
+                  <div className="flex items-center justify-center gap-1">
+                    <span>ENDED QUALIFIED</span>
+                    {getSortIcon('endedQualifiedLeads')}
+                  </div>
+                </th>
                 <th className="py-3 px-2.5 text-center cursor-pointer hover:bg-slate-200/70" onClick={() => handleSort('junkLeads')}>
                   <div className="flex items-center justify-center gap-1">
                     <span>JUNK</span>
                     {getSortIcon('junkLeads')}
+                  </div>
+                </th>
+                <th className="py-3 px-2.5 text-center cursor-pointer hover:bg-slate-200/70" onClick={() => handleSort('endedTotalLeads')}>
+                  <div className="flex items-center justify-center gap-1">
+                    <span>TOTAL ENDED</span>
+                    {getSortIcon('endedTotalLeads')}
                   </div>
                 </th>
                 <th className="py-3 px-2.5 text-center">
@@ -1279,6 +1350,16 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                     </span>
                   </td>
 
+                  {/* Ended Qualified Leads */}
+                  <td className="py-3 px-2.5 text-center">
+                    <span className="font-black text-indigo-700 text-sm">
+                      {agent.endedQualifiedLeads}
+                    </span>
+                    <span className="block text-[9px] text-indigo-600 font-semibold">
+                      {agent.endedFromQualifiedRate.toFixed(1)}%
+                    </span>
+                  </td>
+
                   {/* Junk Leads */}
                   <td className="py-3 px-2.5 text-center">
                     <span className="font-black text-rose-600 text-sm">
@@ -1286,6 +1367,16 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                     </span>
                     <span className="block text-[9px] text-rose-400 font-semibold">
                       {agent.junkRate.toFixed(1)}%
+                    </span>
+                  </td>
+
+                  {/* Total Leads Ended by Sales */}
+                  <td className="py-3 px-2.5 text-center">
+                    <span className="font-black text-indigo-900 text-sm">
+                      {agent.endedTotalLeads}
+                    </span>
+                    <span className="block text-[9px] text-indigo-600 font-semibold">
+                      {agent.endedTotalRate.toFixed(1)}%
                     </span>
                   </td>
 
@@ -1393,8 +1484,20 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                 <td className="py-3.5 px-2.5 text-center font-black text-sm text-emerald-400">
                   {teamQualifiedLeads}
                 </td>
+                <td className="py-3.5 px-2.5 text-center font-black text-sm text-indigo-300">
+                  {teamEndedQualifiedLeads}
+                  <span className="block text-[9px] text-indigo-400 font-mono">
+                    {teamEndedFromQualifiedRate}%
+                  </span>
+                </td>
                 <td className="py-3.5 px-2.5 text-center font-black text-sm text-rose-400">
                   {teamJunkLeads}
+                </td>
+                <td className="py-3.5 px-2.5 text-center font-black text-sm text-indigo-300">
+                  {teamEndedTotalLeads}
+                  <span className="block text-[9px] text-indigo-400 font-mono">
+                    {teamTotalLeads > 0 ? ((teamEndedTotalLeads / teamTotalLeads) * 100).toFixed(1) : 0}%
+                  </span>
                 </td>
                 <td className="py-3.5 px-2.5 text-center font-mono text-[9px] text-slate-300">
                   {agentMetrics.reduce((s, a) => s + a.coldLeads, 0)}C / {agentMetrics.reduce((s, a) => s + a.warmLeads, 0)}W / {teamProspectLeads}P / {teamVisitedLeads}V
@@ -1667,7 +1770,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                     </span>
                   </div>
                   <p className="text-xs text-slate-300 mt-0.5">
-                    Total: {inspectingAgent.totalLeads} Leads ({inspectingAgent.qualifiedLeads} Qualified, {inspectingAgent.junkLeads} Junk) | SOP Met: {inspectingAgent.sopComplianceRate.toFixed(0)}%
+                    Total: {inspectingAgent.totalLeads} Leads ({inspectingAgent.qualifiedLeads} Qualified, {inspectingAgent.junkLeads} Junk) | Ended: {inspectingAgent.endedQualifiedLeads} Qualified ({inspectingAgent.endedFromQualifiedRate.toFixed(1)}%) | SOP Met: {inspectingAgent.sopComplianceRate.toFixed(0)}%
                   </p>
                 </div>
               </div>
@@ -1680,7 +1783,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             </div>
 
             {/* Modal Sub-Metrics Bar */}
-            <div className="bg-slate-50 border-b border-slate-200 p-3 grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
+            <div className="bg-slate-50 border-b border-slate-200 p-3 grid grid-cols-2 sm:grid-cols-6 gap-2 text-center text-xs">
               <div className="bg-white p-2 rounded-lg border border-slate-200">
                 <span className="text-[10px] text-slate-500 uppercase font-bold block">Alokasi Biaya Iklan</span>
                 <span className="font-mono font-black text-amber-900 text-xs">{formatRupiah(inspectingAgent.allocatedCost)}</span>
@@ -1690,6 +1793,13 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                 <span className="font-mono font-black text-slate-900 text-xs">
                   {inspectingAgent.cpl > 0 ? formatRupiah(inspectingAgent.cpl) : '-'} / <span className="text-emerald-700">{inspectingAgent.cpql > 0 ? formatRupiah(inspectingAgent.cpql) : '-'}</span>
                 </span>
+              </div>
+              <div className="bg-white p-2 rounded-lg border border-slate-200">
+                <span className="text-[10px] text-slate-500 uppercase font-bold block">Ended Sales</span>
+                <span className="font-mono font-black text-indigo-700 text-xs">
+                  {inspectingAgent.endedQualifiedLeads} <span className="text-[10px] text-indigo-600 font-semibold">({inspectingAgent.endedFromQualifiedRate.toFixed(1)}%)</span>
+                </span>
+                <span className="text-[9px] text-slate-400 block">Total Ended: {inspectingAgent.endedTotalLeads}</span>
               </div>
               <div className="bg-white p-2 rounded-lg border border-slate-200">
                 <span className="text-[10px] text-slate-500 uppercase font-bold block">Avg Reply Time</span>
@@ -1764,7 +1874,12 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                             </span>
                           </td>
                           <td className="py-2.5 px-3 text-center text-[11px] font-semibold text-slate-700">
-                            {l.resolveStatus}
+                            <div>{l.resolveStatus}</div>
+                            {isLeadEnded(l) && (
+                              <span className="inline-block mt-0.5 px-1.5 py-0.2 text-[8px] font-black uppercase rounded bg-indigo-100 text-indigo-800 border border-indigo-200">
+                                ENDED
+                              </span>
+                            )}
                           </td>
                           <td className="py-2.5 px-3 text-center font-mono text-[11px] font-bold text-slate-700">
                             {l.firstResponseTimeFormatted || (l.firstResponseTimeMinutes !== undefined ? `${l.firstResponseTimeMinutes}m` : '-')}

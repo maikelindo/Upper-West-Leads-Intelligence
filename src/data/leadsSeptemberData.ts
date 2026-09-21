@@ -1,9 +1,179 @@
 import { ExcelRowInput } from '../types';
 
-// Dataset Leads September 2026 Updated (Total: 273 leads, up to 18 Sept 2026)
+// Dataset Leads September 2026 Updated (Total: 283 leads, up to 20 Sept 2026)
 export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
   {
     "no": 1,
+    "date": "20-Sep-26, 22:21",
+    "contact": "Angelina",
+    "phone": "85161303050",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "20-Sep-26, 22:24",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:02:55",
+    "source": "Google",
+    "adSource": "Apartemen LP2",
+    "remarks": "Sales tanya hari untuk private viewing, tunggu jawaban",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 2,
+    "date": "20-Sep-26, 17:04",
+    "contact": "Arina Renata",
+    "phone": "87887181555",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "20-Sep-26, 17:05",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:39",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Dapat harga 2BR mulai 2M, ditawari jadwal private viewing",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 3,
+    "date": "20-Sep-26, 14:46",
+    "contact": ".",
+    "phone": "85129869075",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "20-Sep-26, 14:48",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:01:41",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Ibu Nada: aktif, ditanya area aktivitas",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 4,
+    "date": "20-Sep-26, 7:33",
+    "contact": "--i",
+    "phone": "89676130952",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "20-Sep-26, 8:08",
+    "firstResponseTime": "0:35:48",
+    "agentFirstReplyTime": "0:35:48",
+    "source": "Google",
+    "adSource": "Apartemen LP3",
+    "remarks": "Balas 'hunian', kasih tau tujuan pembelian",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 5,
+    "date": "20-Sep-26, 5:44",
+    "contact": "P",
+    "phone": "89509685143",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "20-Sep-26, 5:44",
+    "firstResponseTime": "1:34:39",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Chat 'Bisa transit ya' tidak relevan, ditutup sales",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 6,
+    "date": "19-Sep-26, 17:19",
+    "contact": "kerbawww",
+    "phone": "85697124296",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "19-Sep-26, 17:20",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:01:08",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 7,
+    "date": "19-Sep-26, 14:18",
+    "contact": "Eliza Janalis",
+    "phone": "89637502074",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "19-Sep-26, 14:18",
+    "firstResponseTime": "0:02:45",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Chat 'Ini siapa', tidak relevan, ditutup sales",
+    "sop": "✅",
+    "notes": "[Ended by sales at 19-Sep-26 14:23 WIB]"
+  },
+  {
+    "no": 8,
+    "date": "19-Sep-26, 12:30",
+    "contact": "ASYA NUR UTAŞ",
+    "phone": "905337738574",
+    "resolve": "Follow Up",
+    "status": "Prospect",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "19-Sep-26, 12:31",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:39",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "WNA Turki, diundang private viewing minggu ini, balas 'Ok'",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 9,
+    "date": "19-Sep-26, 12:19",
+    "contact": ".",
+    "phone": "85891010161",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "19-Sep-26, 12:19",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:10",
+    "source": "Google",
+    "adSource": "Apartemen LP2",
+    "remarks": "Ibu Caca: sales tanya huni/invest, masih tunggu balasan",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 10,
+    "date": "18-Sep-26, 20:37",
+    "contact": "Nini Febriani",
+    "phone": "81319440878",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "18-Sep-26, 20:42",
+    "firstResponseTime": "0:02:02",
+    "agentFirstReplyTime": "0:04:47",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Salah nomor, kira nomor reservasi (diarahkan cek google maps)",
+    "sop": "✅",
+    "notes": "[Ended by sales at 19-Sep-26 13:17 WIB]"
+  },
+  {
+    "no": 11,
     "date": "18-Sep-26, 8:21",
     "contact": "Billy",
     "phone": "816626000",
@@ -20,7 +190,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 2,
+    "no": 12,
     "date": "18-Sep-26, 5:23",
     "contact": "i",
     "phone": "895711453636",
@@ -37,7 +207,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 3,
+    "no": 13,
     "date": "17-Sep-26, 22:30",
     "contact": "Mel",
     "phone": "81364137577",
@@ -54,7 +224,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 4,
+    "no": 14,
     "date": "17-Sep-26, 20:51",
     "contact": "bl",
     "phone": "8984935366",
@@ -71,7 +241,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 5,
+    "no": 15,
     "date": "17-Sep-26, 19:47",
     "contact": "b",
     "phone": "83135488173",
@@ -85,10 +255,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apartemen",
     "remarks": "Tanya sewa, diarahkan ke IG rental @lifeatupperwest",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 18-Sep-26 11:06 WIB]"
   },
   {
-    "no": 6,
+    "no": 16,
     "date": "17-Sep-26, 19:11",
     "contact": "EK",
     "phone": "8111759123",
@@ -105,24 +275,24 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 7,
+    "no": 17,
     "date": "17-Sep-26, 17:51",
     "contact": "Jonathan",
     "phone": "37064353730",
     "resolve": "Follow Up",
-    "status": "Prospect",
+    "status": "Visited",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "17-Sep-26, 17:52",
     "firstResponseTime": "0:00:23",
     "agentFirstReplyTime": "0:00:23",
     "source": "Not Detected",
     "adSource": "Not Detected",
-    "remarks": "WNA, diundang visit weekend, tunggu konfirmasi jadwal",
+    "remarks": "Masih compare dengan apart lain di BSD, karna baru tinggal 6 bln di BSD, Suka sama APF cara bayar masih dipikirkan",
     "sop": "✅",
     "notes": null
   },
   {
-    "no": 8,
+    "no": 18,
     "date": "17-Sep-26, 17:44",
     "contact": "Nabila",
     "phone": "85647177164",
@@ -136,10 +306,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Chat mengancam/troll ('viralin ke TikTok'), ditutup sales",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 18:11 WIB]"
   },
   {
-    "no": 9,
+    "no": 19,
     "date": "17-Sep-26, 15:22",
     "contact": "ayaa",
     "phone": "895410926744",
@@ -156,7 +326,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 10,
+    "no": 20,
     "date": "17-Sep-26, 13:49",
     "contact": "clarissa",
     "phone": "85601342005",
@@ -173,7 +343,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 11,
+    "no": 21,
     "date": "17-Sep-26, 12:56",
     "contact": "Ferry",
     "phone": "81293479291",
@@ -190,7 +360,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 12,
+    "no": 22,
     "date": "17-Sep-26, 12:09",
     "contact": "G.Arifah",
     "phone": "82393489548",
@@ -207,7 +377,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 13,
+    "no": 23,
     "date": "17-Sep-26, 8:02",
     "contact": "J",
     "phone": "81218116856",
@@ -224,7 +394,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 14,
+    "no": 24,
     "date": "17-Sep-26, 7:49",
     "contact": "Bantuan Aan",
     "phone": "85263574074",
@@ -241,7 +411,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 15,
+    "no": 25,
     "date": "17-Sep-26, 6:48",
     "contact": "LEGAL STATION CENTER",
     "phone": "87878580668",
@@ -258,7 +428,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 16,
+    "no": 26,
     "date": "17-Sep-26, 6:37",
     "contact": "Ibu Eri",
     "phone": "81385161312",
@@ -272,10 +442,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apartemen LP3",
     "remarks": "Mau sewa studio 1-2 bulan, diarahkan minimal 1 tahun",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 18-Sep-26 10:22 WIB]"
   },
   {
-    "no": 17,
+    "no": 27,
     "date": "17-Sep-26, 0:44",
     "contact": "Jikri",
     "phone": "89687982405",
@@ -292,7 +462,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 18,
+    "no": 28,
     "date": "16-Sep-26, 22:58",
     "contact": "Charles Tinangon",
     "phone": "81344585993",
@@ -309,7 +479,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 19,
+    "no": 29,
     "date": "16-Sep-26, 19:32",
     "contact": "La",
     "phone": "83866047185",
@@ -323,10 +493,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Wila: kasih nama, belum lanjut respon detail",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 15:20 WIB]"
   },
   {
-    "no": 20,
+    "no": 30,
     "date": "16-Sep-26, 19:26",
     "contact": "Galuh",
     "phone": "88989959208",
@@ -343,24 +513,24 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 21,
+    "no": 31,
     "date": "16-Sep-26, 14:32",
     "contact": "Jayro18",
     "phone": "59176325236",
     "resolve": "Follow Up",
-    "status": "Prospect",
+    "status": "Visited",
     "assigned": "Yulia Eunike",
     "answeredAt": "16-Sep-26, 14:33",
     "firstResponseTime": "0:00:47",
     "agentFirstReplyTime": "0:00:47",
     "source": "Google",
     "adSource": "Apartemen LP3",
-    "remarks": "Minat 2BR, diundang lihat showunit besok, masih tunggu konfirmasi",
+    "remarks": "Expat yang mau huni, tidak menetap lama, jadi mau sewa, pemain bola",
     "sop": "✅",
     "notes": null
   },
   {
-    "no": 22,
+    "no": 32,
     "date": "16-Sep-26, 13:11",
     "contact": "Felica",
     "phone": "61422958182",
@@ -377,7 +547,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 23,
+    "no": 33,
     "date": "16-Sep-26, 13:01",
     "contact": "Reni",
     "phone": "82231767458",
@@ -391,10 +561,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Salah nomor, kira nomor resto Ta Hwa Yuan",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 13:01 WIB]"
   },
   {
-    "no": 24,
+    "no": 34,
     "date": "16-Sep-26, 12:18",
     "contact": "Michael Pasaribu",
     "phone": "82112924434",
@@ -411,7 +581,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 25,
+    "no": 35,
     "date": "16-Sep-26, 8:09",
     "contact": "Right Translation Service",
     "phone": "85692526395",
@@ -428,10 +598,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 26,
+    "no": 36,
     "date": "16-Sep-26, 7:59",
     "contact": "DVMYN DM Instagram",
-    "phone": "Not Detected",
+    "phone": "DM Instagram",
     "resolve": "First Contact",
     "status": "Cold",
     "assigned": "Kadek Bayu Permana Putra",
@@ -445,7 +615,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 27,
+    "no": 37,
     "date": "16-Sep-26, 7:55",
     "contact": "Devi",
     "phone": "89662149996",
@@ -459,10 +629,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Chat tidak relevan mau rsvd Ta Hwa Yuan",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 08:38 WIB]"
   },
   {
-    "no": 28,
+    "no": 38,
     "date": "16-Sep-26, 7:47",
     "contact": "I'm Possible",
     "phone": "85883842234",
@@ -479,7 +649,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 29,
+    "no": 39,
     "date": "15-Sep-26, 16:19",
     "contact": "beloved",
     "phone": "85697810875",
@@ -496,7 +666,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 30,
+    "no": 40,
     "date": "15-Sep-26, 15:29",
     "contact": "Hw",
     "phone": "87785670007",
@@ -513,7 +683,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 31,
+    "no": 41,
     "date": "15-Sep-26, 15:03",
     "contact": ".",
     "phone": "85697156692",
@@ -530,7 +700,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 32,
+    "no": 42,
     "date": "15-Sep-26, 14:21",
     "contact": "Tin",
     "phone": "89501255015",
@@ -547,7 +717,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 33,
+    "no": 43,
     "date": "15-Sep-26, 12:45",
     "contact": "Inzaghi",
     "phone": "81211143498",
@@ -564,7 +734,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 34,
+    "no": 44,
     "date": "15-Sep-26, 12:23",
     "contact": "Imrann",
     "phone": "85721678812",
@@ -581,7 +751,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 35,
+    "no": 45,
     "date": "15-Sep-26, 11:43",
     "contact": "nada",
     "phone": "85117173166",
@@ -598,7 +768,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 36,
+    "no": 46,
     "date": "15-Sep-26, 11:34",
     "contact": "reznrr",
     "phone": "82110802302",
@@ -615,7 +785,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 15-Sep-26 11:35 WIB]"
   },
   {
-    "no": 37,
+    "no": 47,
     "date": "15-Sep-26, 10:58",
     "contact": "Babydut",
     "phone": "83189242343",
@@ -632,7 +802,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 38,
+    "no": 48,
     "date": "15-Sep-26, 9:51",
     "contact": "Huda",
     "phone": "887437050560",
@@ -649,24 +819,24 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 39,
+    "no": 49,
     "date": "15-Sep-26, 0:58",
     "contact": "Alfredi",
     "phone": "81372855990",
     "resolve": "Follow Up",
-    "status": "Warm",
+    "status": "Visited",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "15-Sep-26, 2:20",
     "firstResponseTime": "0:07:35",
     "agentFirstReplyTime": "0:00:24",
     "source": "Not Detected",
     "adSource": "Not Detected",
-    "remarks": "Belum bisa visit (di Batam), tanya harga SOHO 2,8-5,5M",
+    "remarks": "Minat SHG cicilan oke, tapi perlu disksui dengan direksi lain karna mau RUPS dlu akhir oktober",
     "sop": "✅",
     "notes": null
   },
   {
-    "no": 40,
+    "no": 50,
     "date": "15-Sep-26, 0:10",
     "contact": "Jessie",
     "phone": "82128231348",
@@ -680,10 +850,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 18:18 WIB]"
   },
   {
-    "no": 41,
+    "no": 51,
     "date": "15-Sep-26, 0:07",
     "contact": "Jack スノト",
     "phone": "8125612700",
@@ -700,7 +870,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 42,
+    "no": 52,
     "date": "14-Sep-26, 22:36",
     "contact": "Berli",
     "phone": "87878740395",
@@ -714,10 +884,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Salah nomor, kira nomor resto Ta Hwa Yuan",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 15-Sep-26 12:48 WIB]"
   },
   {
-    "no": 43,
+    "no": 53,
     "date": "14-Sep-26, 22:22",
     "contact": "ayusita",
     "phone": "85971707619",
@@ -734,7 +904,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 44,
+    "no": 54,
     "date": "14-Sep-26, 17:10",
     "contact": "Jovanie Lim",
     "phone": "81266167700",
@@ -751,7 +921,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 45,
+    "no": 55,
     "date": "14-Sep-26, 16:48",
     "contact": "Dhiyaul Haq",
     "phone": "85719035967",
@@ -768,7 +938,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 46,
+    "no": 56,
     "date": "14-Sep-26, 16:20",
     "contact": "Kenny Adinugroho",
     "phone": "8118303024",
@@ -785,7 +955,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 47,
+    "no": 57,
     "date": "14-Sep-26, 16:12",
     "contact": "Della Adhiani",
     "phone": "89696046380",
@@ -802,7 +972,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 48,
+    "no": 58,
     "date": "14-Sep-26, 16:02",
     "contact": "MasHadi Primatam4",
     "phone": "8111110028",
@@ -819,7 +989,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 49,
+    "no": 59,
     "date": "14-Sep-26, 15:31",
     "contact": "bagas.",
     "phone": "85775301259",
@@ -833,10 +1003,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 19:08 WIB]"
   },
   {
-    "no": 50,
+    "no": 60,
     "date": "14-Sep-26, 12:58",
     "contact": "Claudius B",
     "phone": "82111392084",
@@ -853,7 +1023,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 51,
+    "no": 61,
     "date": "14-Sep-26, 12:57",
     "contact": "Lusia Djong",
     "phone": "87771599225",
@@ -870,7 +1040,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 13:06 WIB]"
   },
   {
-    "no": 52,
+    "no": 62,
     "date": "14-Sep-26, 12:36",
     "contact": "MufiStore Kaos Custom",
     "phone": "82327803457",
@@ -887,7 +1057,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 53,
+    "no": 63,
     "date": "14-Sep-26, 12:31",
     "contact": "Cia Ardiansyah",
     "phone": "82236325905",
@@ -901,10 +1071,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Minta PL sewa bulanan/tahunan 1BR",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 15-Sep-26 12:50 WIB]"
   },
   {
-    "no": 54,
+    "no": 64,
     "date": "14-Sep-26, 12:07",
     "contact": "Winna",
     "phone": "81288960815",
@@ -918,10 +1088,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Salah nomor, kira nomor resto (soft opening, jam buka, diskon)",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 15-Sep-26 12:50 WIB]"
   },
   {
-    "no": 55,
+    "no": 65,
     "date": "14-Sep-26, 11:22",
     "contact": "Jenny Theng",
     "phone": "81994852768",
@@ -938,7 +1108,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 11:22 WIB]"
   },
   {
-    "no": 56,
+    "no": 66,
     "date": "14-Sep-26, 10:56",
     "contact": "MasyaAllah",
     "phone": "87771229771",
@@ -955,7 +1125,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 57,
+    "no": 67,
     "date": "14-Sep-26, 9:36",
     "contact": "AG",
     "phone": "87790063666",
@@ -972,7 +1142,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 58,
+    "no": 68,
     "date": "14-Sep-26, 9:33",
     "contact": "ALEX HAN",
     "phone": "81380778077",
@@ -989,7 +1159,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 59,
+    "no": 69,
     "date": "14-Sep-26, 8:15",
     "contact": "Dimas SamidunZ",
     "phone": "81808081821",
@@ -1003,10 +1173,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 19:08 WIB]"
   },
   {
-    "no": 60,
+    "no": 70,
     "date": "14-Sep-26, 2:00",
     "contact": "canpi",
     "phone": "87821956628",
@@ -1023,7 +1193,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 61,
+    "no": 71,
     "date": "13-Sep-26, 22:28",
     "contact": "hazel",
     "phone": "83135066376",
@@ -1040,7 +1210,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 62,
+    "no": 72,
     "date": "13-Sep-26, 21:26",
     "contact": "Zoma by.U",
     "phone": "85196482397",
@@ -1054,10 +1224,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, dapat harga 2-5M & brosur",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 15:13 WIB]"
   },
   {
-    "no": 63,
+    "no": 73,
     "date": "13-Sep-26, 21:26",
     "contact": "Novia - 23",
     "phone": "85770240858",
@@ -1071,10 +1241,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Tiktok",
     "remarks": "Minat SH untuk kantor administrasni bisnis alkohol, compare ruko (Source Leads https://vt.tiktok.com/ZSqHtYVpR/)",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 20-Sep-26 21:39 WIB]"
   },
   {
-    "no": 64,
+    "no": 74,
     "date": "13-Sep-26, 20:10",
     "contact": "DVJ",
     "phone": "82111386831",
@@ -1091,7 +1261,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 65,
+    "no": 75,
     "date": "13-Sep-26, 19:31",
     "contact": "Pay",
     "phone": "895365141738",
@@ -1105,10 +1275,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 18-Sep-26 14:24 WIB]"
   },
   {
-    "no": 66,
+    "no": 76,
     "date": "13-Sep-26, 19:04",
     "contact": "feliks adhitama",
     "phone": "81338724661",
@@ -1125,7 +1295,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 67,
+    "no": 77,
     "date": "13-Sep-26, 17:35",
     "contact": "sal",
     "phone": "83815405233",
@@ -1139,10 +1309,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 08:31 WIB]"
   },
   {
-    "no": 68,
+    "no": 78,
     "date": "13-Sep-26, 17:23",
     "contact": "Alda",
     "phone": "81546866442",
@@ -1159,7 +1329,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 69,
+    "no": 79,
     "date": "13-Sep-26, 16:59",
     "contact": "Faisal Nugraha",
     "phone": "81324580117",
@@ -1173,10 +1343,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Dibuatkan simulasi cicilan detail (tenor 15th, cicilan 13jt)",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 18:20 WIB]"
   },
   {
-    "no": 70,
+    "no": 80,
     "date": "13-Sep-26, 16:35",
     "contact": "Ryan",
     "phone": "81282794013",
@@ -1193,7 +1363,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 19:11 WIB]"
   },
   {
-    "no": 71,
+    "no": 81,
     "date": "13-Sep-26, 13:46",
     "contact": "Evita Febriyanti",
     "phone": "85966466216",
@@ -1210,7 +1380,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 72,
+    "no": 82,
     "date": "13-Sep-26, 12:39",
     "contact": "Jun 郭",
     "phone": "85121178717",
@@ -1224,10 +1394,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Booking resto, sadar 'salah chat', tidak relevan",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 15:34 WIB]"
   },
   {
-    "no": 73,
+    "no": 83,
     "date": "13-Sep-26, 12:15",
     "contact": "Natalia Vanessa",
     "phone": "811821996",
@@ -1244,7 +1414,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 11:21 WIB]"
   },
   {
-    "no": 74,
+    "no": 84,
     "date": "13-Sep-26, 11:33",
     "contact": "Kaleb",
     "phone": "81806087602",
@@ -1261,7 +1431,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 11:54 WIB]"
   },
   {
-    "no": 75,
+    "no": 85,
     "date": "13-Sep-26, 11:00",
     "contact": "Leny Mudiarti",
     "phone": "81289857308",
@@ -1278,7 +1448,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 11:07 WIB]"
   },
   {
-    "no": 76,
+    "no": 86,
     "date": "13-Sep-26, 10:55",
     "contact": "Charlie",
     "phone": "89520001349",
@@ -1295,7 +1465,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 77,
+    "no": 87,
     "date": "13-Sep-26, 10:01",
     "contact": "ARIL",
     "phone": "89668726269",
@@ -1312,7 +1482,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 78,
+    "no": 88,
     "date": "13-Sep-26, 7:10",
     "contact": "xxnzm",
     "phone": "83192631729",
@@ -1329,7 +1499,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 11:54 WIB]"
   },
   {
-    "no": 79,
+    "no": 89,
     "date": "13-Sep-26, 6:50",
     "contact": "JR",
     "phone": "81398617739",
@@ -1346,7 +1516,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 80,
+    "no": 90,
     "date": "13-Sep-26, 4:07",
     "contact": "jeniamalia44",
     "phone": "89653840009",
@@ -1363,7 +1533,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 22:20 WIB]"
   },
   {
-    "no": 81,
+    "no": 91,
     "date": "13-Sep-26, 4:04",
     "contact": "kuk",
     "phone": "895621548368",
@@ -1380,7 +1550,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 82,
+    "no": 92,
     "date": "13-Sep-26, 1:55",
     "contact": "Pdd",
     "phone": "81281238889",
@@ -1397,7 +1567,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 83,
+    "no": 93,
     "date": "13-Sep-26, 0:28",
     "contact": "OSIS//elmira aklidisa",
     "phone": "82111924354",
@@ -1414,7 +1584,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 84,
+    "no": 94,
     "date": "12-Sep-26, 18:34",
     "contact": "vy",
     "phone": "8984309696",
@@ -1431,7 +1601,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 85,
+    "no": 95,
     "date": "12-Sep-26, 17:51",
     "contact": "Natni",
     "phone": "85821717487",
@@ -1448,7 +1618,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 86,
+    "no": 96,
     "date": "12-Sep-26, 14:08",
     "contact": "Stenly Steven",
     "phone": "87730578488",
@@ -1465,7 +1635,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 15-Sep-26 12:53 WIB]"
   },
   {
-    "no": 87,
+    "no": 97,
     "date": "12-Sep-26, 13:28",
     "contact": "bismillah",
     "phone": "85781257684",
@@ -1482,7 +1652,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 07:47 WIB]"
   },
   {
-    "no": 88,
+    "no": 98,
     "date": "12-Sep-26, 12:06",
     "contact": "Lilye",
     "phone": "895393340200",
@@ -1499,7 +1669,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 89,
+    "no": 99,
     "date": "12-Sep-26, 11:20",
     "contact": "Dira",
     "phone": "81229967078",
@@ -1516,7 +1686,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 90,
+    "no": 100,
     "date": "12-Sep-26, 9:34",
     "contact": "Gde B",
     "phone": "81808803808",
@@ -1533,7 +1703,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 91,
+    "no": 101,
     "date": "12-Sep-26, 6:29",
     "contact": "Joyce",
     "phone": "81289721377",
@@ -1550,7 +1720,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 92,
+    "no": 102,
     "date": "12-Sep-26, 4:35",
     "contact": "19",
     "phone": "85191435080",
@@ -1567,7 +1737,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 93,
+    "no": 103,
     "date": "11-Sep-26, 23:10",
     "contact": "kok",
     "phone": "8211979252",
@@ -1584,7 +1754,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 94,
+    "no": 104,
     "date": "11-Sep-26, 23:01",
     "contact": "Penn",
     "phone": "87896542404",
@@ -1601,7 +1771,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 10:45 WIB]"
   },
   {
-    "no": 95,
+    "no": 105,
     "date": "11-Sep-26, 21:56",
     "contact": "JSBRdisa",
     "phone": "81285132727",
@@ -1618,7 +1788,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 96,
+    "no": 106,
     "date": "11-Sep-26, 19:38",
     "contact": "tdkdkthui",
     "phone": "88215923510",
@@ -1635,7 +1805,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:17 WIB]"
   },
   {
-    "no": 97,
+    "no": 107,
     "date": "11-Sep-26, 19:34",
     "contact": "E",
     "phone": "82289427392",
@@ -1652,7 +1822,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 19:39 WIB]"
   },
   {
-    "no": 98,
+    "no": 108,
     "date": "11-Sep-26, 18:48",
     "contact": "Andrie Riomalen",
     "phone": "82319592880",
@@ -1669,7 +1839,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 99,
+    "no": 109,
     "date": "11-Sep-26, 18:01",
     "contact": "Eko Eks Sungai Penuh",
     "phone": "81287533143",
@@ -1686,7 +1856,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 100,
+    "no": 110,
     "date": "11-Sep-26, 16:50",
     "contact": "Sonya Stevana",
     "phone": "81219893286",
@@ -1703,7 +1873,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 101,
+    "no": 111,
     "date": "11-Sep-26, 16:35",
     "contact": "elyn",
     "phone": "85894088450",
@@ -1720,7 +1890,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:22 WIB]"
   },
   {
-    "no": 102,
+    "no": 112,
     "date": "11-Sep-26, 14:53",
     "contact": "Yanto LUCAS",
     "phone": "81514360191",
@@ -1737,7 +1907,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 15:49 WIB]"
   },
   {
-    "no": 103,
+    "no": 113,
     "date": "11-Sep-26, 14:21",
     "contact": "Hari Bowo",
     "phone": "87871544509",
@@ -1754,7 +1924,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 104,
+    "no": 114,
     "date": "11-Sep-26, 14:05",
     "contact": "Sri Mulyaningsih",
     "phone": "8111704121",
@@ -1771,7 +1941,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 17:06 WIB]"
   },
   {
-    "no": 105,
+    "no": 115,
     "date": "11-Sep-26, 13:04",
     "contact": "😘💕🥰🤎",
     "phone": "85893070356",
@@ -1788,7 +1958,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:21 WIB]"
   },
   {
-    "no": 106,
+    "no": 116,
     "date": "11-Sep-26, 10:55",
     "contact": "fiorentinaskr",
     "phone": "88291015538",
@@ -1805,7 +1975,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 107,
+    "no": 117,
     "date": "11-Sep-26, 10:11",
     "contact": "Sylvia Agustina",
     "phone": "8159138446",
@@ -1822,7 +1992,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 108,
+    "no": 118,
     "date": "11-Sep-26, 7:48",
     "contact": "Val",
     "phone": "82140630156",
@@ -1839,7 +2009,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 109,
+    "no": 119,
     "date": "11-Sep-26, 6:57",
     "contact": ".",
     "phone": "87889509458",
@@ -1856,7 +2026,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 110,
+    "no": 120,
     "date": "10-Sep-26, 23:03",
     "contact": "Remina_Papua_Jayapura",
     "phone": "8215095064",
@@ -1873,7 +2043,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 111,
+    "no": 121,
     "date": "10-Sep-26, 16:38",
     "contact": "𝒱𝒶𝒶",
     "phone": "82199546134",
@@ -1890,7 +2060,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 112,
+    "no": 122,
     "date": "10-Sep-26, 14:37",
     "contact": "AffitrianyR",
     "phone": "81323910616",
@@ -1907,7 +2077,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 113,
+    "no": 123,
     "date": "10-Sep-26, 14:08",
     "contact": "Kevin 🇮🇩",
     "phone": "81541277051",
@@ -1921,10 +2091,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x (sempat gagal kirim), belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 10:01 WIB]"
   },
   {
-    "no": 114,
+    "no": 124,
     "date": "10-Sep-26, 12:54",
     "contact": "Eric Irawan",
     "phone": "8128566308",
@@ -1941,7 +2111,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 115,
+    "no": 125,
     "date": "10-Sep-26, 11:55",
     "contact": "SIM2",
     "phone": "82211037926",
@@ -1958,7 +2128,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 10:44 WIB]"
   },
   {
-    "no": 116,
+    "no": 126,
     "date": "10-Sep-26, 10:41",
     "contact": "Yus",
     "phone": "82115590154",
@@ -1975,7 +2145,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:09 WIB]"
   },
   {
-    "no": 117,
+    "no": 127,
     "date": "10-Sep-26, 10:40",
     "contact": "Chen",
     "phone": "81991999059",
@@ -1992,7 +2162,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 15:49 WIB]"
   },
   {
-    "no": 118,
+    "no": 128,
     "date": "10-Sep-26, 9:25",
     "contact": "Zaed",
     "phone": "818712456",
@@ -2009,7 +2179,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 119,
+    "no": 129,
     "date": "10-Sep-26, 9:09",
     "contact": "Deriandra Shifani Latifa",
     "phone": "81221685575",
@@ -2026,7 +2196,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 14:11 WIB]"
   },
   {
-    "no": 120,
+    "no": 130,
     "date": "10-Sep-26, 6:50",
     "contact": "Ariel W",
     "phone": "811224844",
@@ -2043,7 +2213,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 121,
+    "no": 131,
     "date": "10-Sep-26, 6:44",
     "contact": "F",
     "phone": "8118799689",
@@ -2057,10 +2227,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 2x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:55 WIB]"
   },
   {
-    "no": 122,
+    "no": 132,
     "date": "09-Sep-26, 20:32",
     "contact": "yanto",
     "phone": "85893013118",
@@ -2077,7 +2247,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 21:49 WIB]"
   },
   {
-    "no": 123,
+    "no": 133,
     "date": "09-Sep-26, 17:40",
     "contact": "a",
     "phone": "85710715941",
@@ -2094,7 +2264,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 18:01 WIB]"
   },
   {
-    "no": 124,
+    "no": 134,
     "date": "09-Sep-26, 14:34",
     "contact": "Bashar Wannous",
     "phone": "85212106558",
@@ -2111,7 +2281,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:43 WIB]"
   },
   {
-    "no": 125,
+    "no": 135,
     "date": "09-Sep-26, 13:53",
     "contact": "Dayang Melati - Dynamic",
     "phone": "81196911531",
@@ -2128,7 +2298,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 126,
+    "no": 136,
     "date": "09-Sep-26, 13:43",
     "contact": "Yessycharlotte",
     "phone": "8176976038",
@@ -2142,10 +2312,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Tanya apakah bisa sewa unit",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 18-Sep-26 18:27 WIB]"
   },
   {
-    "no": 127,
+    "no": 137,
     "date": "09-Sep-26, 8:52",
     "contact": "Gema Ilham",
     "phone": "81524661111",
@@ -2162,7 +2332,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 128,
+    "no": 138,
     "date": "09-Sep-26, 6:09",
     "contact": "Contact 2104",
     "phone": "85704135213",
@@ -2179,7 +2349,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:14 WIB]"
   },
   {
-    "no": 129,
+    "no": 139,
     "date": "08-Sep-26, 23:46",
     "contact": "Wanda",
     "phone": "8118499513",
@@ -2196,7 +2366,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Jul-26 12:02 WIB]"
   },
   {
-    "no": 130,
+    "no": 140,
     "date": "08-Sep-26, 21:29",
     "contact": "RM Meiza",
     "phone": "87885611878",
@@ -2213,7 +2383,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 11:36 WIB]"
   },
   {
-    "no": 131,
+    "no": 141,
     "date": "08-Sep-26, 20:23",
     "contact": "Arin Ramadhanty Alfaizah",
     "phone": "83854531460",
@@ -2230,7 +2400,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 11:30 WIB]"
   },
   {
-    "no": 132,
+    "no": 142,
     "date": "08-Sep-26, 20:03",
     "contact": "bandarr",
     "phone": "89699273489",
@@ -2247,7 +2417,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:16 WIB]"
   },
   {
-    "no": 133,
+    "no": 143,
     "date": "08-Sep-26, 17:37",
     "contact": "tmyyjfri",
     "phone": "83177566408",
@@ -2264,7 +2434,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 17:50 WIB]"
   },
   {
-    "no": 134,
+    "no": 144,
     "date": "08-Sep-26, 17:35",
     "contact": "Surya",
     "phone": "87761527160",
@@ -2281,7 +2451,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 135,
+    "no": 145,
     "date": "08-Sep-26, 17:23",
     "contact": ".",
     "phone": "88973618502",
@@ -2298,7 +2468,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 17:55 WIB]"
   },
   {
-    "no": 136,
+    "no": 146,
     "date": "08-Sep-26, 16:04",
     "contact": "laila",
     "phone": "81932356281",
@@ -2312,10 +2482,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 5x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:55 WIB]"
   },
   {
-    "no": 137,
+    "no": 147,
     "date": "08-Sep-26, 11:36",
     "contact": "Linda Ang",
     "phone": "81515008838",
@@ -2332,7 +2502,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 11:50 WIB]"
   },
   {
-    "no": 138,
+    "no": 148,
     "date": "08-Sep-26, 11:30",
     "contact": "Cryogas",
     "phone": "82111347777",
@@ -2349,7 +2519,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 139,
+    "no": 149,
     "date": "08-Sep-26, 10:24",
     "contact": "nadine",
     "phone": "82282892469",
@@ -2366,7 +2536,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 140,
+    "no": 150,
     "date": "07-Sep-26, 20:31",
     "contact": "~",
     "phone": "87780020930",
@@ -2383,7 +2553,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 19:24 WIB]"
   },
   {
-    "no": 141,
+    "no": 151,
     "date": "07-Sep-26, 19:00",
     "contact": "Allll",
     "phone": "81220711365",
@@ -2400,7 +2570,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 15:04 WIB]"
   },
   {
-    "no": 142,
+    "no": 152,
     "date": "07-Sep-26, 18:18",
     "contact": "secret~~~",
     "phone": "895389050102",
@@ -2417,7 +2587,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 143,
+    "no": 153,
     "date": "07-Sep-26, 18:00",
     "contact": "liaa¹³",
     "phone": "81383380613",
@@ -2431,10 +2601,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 13:12 WIB]"
   },
   {
-    "no": 144,
+    "no": 154,
     "date": "07-Sep-26, 11:47",
     "contact": "dhina",
     "phone": "8561937372",
@@ -2451,7 +2621,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 12:00 WIB]"
   },
   {
-    "no": 145,
+    "no": 155,
     "date": "07-Sep-26, 11:40",
     "contact": "Sonny",
     "phone": "81310202040",
@@ -2468,7 +2638,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 146,
+    "no": 156,
     "date": "07-Sep-26, 10:08",
     "contact": "Ady",
     "phone": "8114199923",
@@ -2485,7 +2655,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 147,
+    "no": 157,
     "date": "07-Sep-26, 9:39",
     "contact": "Pratama",
     "phone": "85878733881",
@@ -2502,7 +2672,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 148,
+    "no": 158,
     "date": "07-Sep-26, 9:19",
     "contact": "Akif Azmi",
     "phone": "82111157782",
@@ -2519,7 +2689,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 149,
+    "no": 159,
     "date": "07-Sep-26, 7:17",
     "contact": "RP",
     "phone": "8118889790",
@@ -2536,7 +2706,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 150,
+    "no": 160,
     "date": "07-Sep-26, 7:16",
     "contact": "Yona",
     "phone": "81910170929",
@@ -2553,7 +2723,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 151,
+    "no": 161,
     "date": "07-Sep-26, 7:05",
     "contact": "Benedictus Egan",
     "phone": "82124204244",
@@ -2570,7 +2740,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 152,
+    "no": 162,
     "date": "07-Sep-26, 1:54",
     "contact": "daviiia",
     "phone": "881012404435",
@@ -2587,7 +2757,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 14:25 WIB]"
   },
   {
-    "no": 153,
+    "no": 163,
     "date": "07-Sep-26, 0:14",
     "contact": "🍉🍉🍑 / Sri",
     "phone": "85771622602",
@@ -2604,7 +2774,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 154,
+    "no": 164,
     "date": "07-Sep-26, 0:05",
     "contact": "Ahmed Yousef Saeed Khalifa",
     "phone": "81210020646",
@@ -2621,7 +2791,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 00:20 WIB]"
   },
   {
-    "no": 155,
+    "no": 165,
     "date": "06-Sep-26, 21:46",
     "contact": "Ridha Setya Lestari",
     "phone": "81932854787",
@@ -2635,10 +2805,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 1x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 15-Sep-26 11:36 WIB]"
   },
   {
-    "no": 156,
+    "no": 166,
     "date": "06-Sep-26, 21:22",
     "contact": "Ailina Huang",
     "phone": "DM Instagram",
@@ -2655,7 +2825,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 157,
+    "no": 167,
     "date": "06-Sep-26, 21:01",
     "contact": "dindoy",
     "phone": "82174432366",
@@ -2672,7 +2842,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:16 WIB]"
   },
   {
-    "no": 158,
+    "no": 168,
     "date": "06-Sep-26, 20:48",
     "contact": "Yanti Dimaja",
     "phone": "82156736254",
@@ -2686,10 +2856,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya harga 2BR (start 2M), ditanya upgrade/investasi",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 10:06 WIB]"
   },
   {
-    "no": 159,
+    "no": 169,
     "date": "06-Sep-26, 20:41",
     "contact": "Welly",
     "phone": "87878363422",
@@ -2706,7 +2876,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 14:23 WIB]"
   },
   {
-    "no": 160,
+    "no": 170,
     "date": "06-Sep-26, 20:23",
     "contact": "akselken",
     "phone": "8981231032",
@@ -2723,7 +2893,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:14 WIB]"
   },
   {
-    "no": 161,
+    "no": 171,
     "date": "06-Sep-26, 20:12",
     "contact": "RALLZZ😝🤪",
     "phone": "82363093686",
@@ -2740,7 +2910,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 06-Sep-26 21:18 WIB, tanpa respon]"
   },
   {
-    "no": 162,
+    "no": 172,
     "date": "06-Sep-26, 19:56",
     "contact": "Sulthon",
     "phone": "895365140963",
@@ -2757,7 +2927,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 11:10 WIB]"
   },
   {
-    "no": 163,
+    "no": 173,
     "date": "06-Sep-26, 19:50",
     "contact": ".",
     "phone": "85882476730",
@@ -2771,10 +2941,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:41 WIB]"
   },
   {
-    "no": 164,
+    "no": 174,
     "date": "06-Sep-26, 17:48",
     "contact": "Luqman",
     "phone": "81396500200",
@@ -2791,7 +2961,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 165,
+    "no": 175,
     "date": "06-Sep-26, 17:46",
     "contact": "noname",
     "phone": "89689504520",
@@ -2808,7 +2978,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 166,
+    "no": 176,
     "date": "06-Sep-26, 17:13",
     "contact": "🅰️",
     "phone": "83187547303",
@@ -2825,7 +2995,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:27 WIB]"
   },
   {
-    "no": 167,
+    "no": 177,
     "date": "06-Sep-26, 16:48",
     "contact": "VheVhe",
     "phone": "82219787878",
@@ -2842,7 +3012,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 168,
+    "no": 178,
     "date": "06-Sep-26, 16:08",
     "contact": "Tedd",
     "phone": "83897318494",
@@ -2859,7 +3029,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 08:19 WIB]"
   },
   {
-    "no": 169,
+    "no": 179,
     "date": "06-Sep-26, 15:29",
     "contact": "Yosua",
     "phone": "85888815770",
@@ -2873,10 +3043,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Aktif nego 1BR LF-B 76sqm untuk huni, cicilan 12jt/bln",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:39 WIB]"
   },
   {
-    "no": 170,
+    "no": 180,
     "date": "06-Sep-26, 15:26",
     "contact": "bakekok",
     "phone": "882006850262",
@@ -2890,10 +3060,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 20-Sep-26 12:27 WIB]"
   },
   {
-    "no": 171,
+    "no": 181,
     "date": "06-Sep-26, 15:24",
     "contact": "em",
     "phone": "81517100919",
@@ -2910,7 +3080,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 12:01 WIB]"
   },
   {
-    "no": 172,
+    "no": 182,
     "date": "06-Sep-26, 15:13",
     "contact": "yhes",
     "phone": "85319108202",
@@ -2927,7 +3097,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:13 WIB]"
   },
   {
-    "no": 173,
+    "no": 183,
     "date": "06-Sep-26, 15:11",
     "contact": "mia",
     "phone": "83875509493",
@@ -2941,10 +3111,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 18:19 WIB]"
   },
   {
-    "no": 174,
+    "no": 184,
     "date": "06-Sep-26, 14:06",
     "contact": "Ginaro",
     "phone": "89520249800",
@@ -2961,7 +3131,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 19:07 WIB]"
   },
   {
-    "no": 175,
+    "no": 185,
     "date": "06-Sep-26, 13:29",
     "contact": "A",
     "phone": "81517011645",
@@ -2975,10 +3145,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Balas nama 'Abed', tidak lanjut respon",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 20-Sep-26 08:36 WIB]"
   },
   {
-    "no": 176,
+    "no": 186,
     "date": "06-Sep-26, 13:11",
     "contact": "BoBì",
     "phone": "81273918822",
@@ -2995,7 +3165,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 11:20 WIB]"
   },
   {
-    "no": 177,
+    "no": 187,
     "date": "06-Sep-26, 12:20",
     "contact": "m",
     "phone": "85759272657",
@@ -3009,10 +3179,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Awalnya tanya harga, akhirnya tanya sewa tahunan",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 17:55 WIB]"
   },
   {
-    "no": 178,
+    "no": 188,
     "date": "06-Sep-26, 11:17",
     "contact": "Sy",
     "phone": "81317078441",
@@ -3029,7 +3199,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 13:53 WIB]"
   },
   {
-    "no": 179,
+    "no": 189,
     "date": "06-Sep-26, 10:37",
     "contact": "J🌻🌿",
     "phone": "8986152554",
@@ -3043,10 +3213,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 20-Sep-26 12:25 WIB]"
   },
   {
-    "no": 180,
+    "no": 190,
     "date": "06-Sep-26, 9:15",
     "contact": "Varisha Anindita",
     "phone": "81316049080",
@@ -3060,10 +3230,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 5x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 13:08 WIB]"
   },
   {
-    "no": 181,
+    "no": 191,
     "date": "06-Sep-26, 4:41",
     "contact": "Bismillah",
     "phone": "81112001226",
@@ -3080,7 +3250,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 182,
+    "no": 192,
     "date": "06-Sep-26, 4:27",
     "contact": "rillzy",
     "phone": "882019076455",
@@ -3097,7 +3267,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:12 WIB]"
   },
   {
-    "no": 183,
+    "no": 193,
     "date": "06-Sep-26, 2:03",
     "contact": "gen",
     "phone": "8111199672",
@@ -3114,7 +3284,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 184,
+    "no": 194,
     "date": "06-Sep-26, 0:35",
     "contact": "anunkicaumania",
     "phone": "85773951194",
@@ -3131,7 +3301,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 06-Sep-26 09:29 WIB]"
   },
   {
-    "no": 185,
+    "no": 195,
     "date": "05-Sep-26, 22:26",
     "contact": ".",
     "phone": "8161474648",
@@ -3148,7 +3318,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 186,
+    "no": 196,
     "date": "05-Sep-26, 21:25",
     "contact": "Alkes",
     "phone": "81188095018",
@@ -3165,7 +3335,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 15:46 WIB]"
   },
   {
-    "no": 187,
+    "no": 197,
     "date": "05-Sep-26, 21:24",
     "contact": "~Sun",
     "phone": "82111890157",
@@ -3182,7 +3352,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:12 WIB]"
   },
   {
-    "no": 188,
+    "no": 198,
     "date": "05-Sep-26, 20:46",
     "contact": "mll",
     "phone": "85148276198",
@@ -3199,7 +3369,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 19:12 WIB]"
   },
   {
-    "no": 189,
+    "no": 199,
     "date": "05-Sep-26, 19:06",
     "contact": "Siti Nurhasanah",
     "phone": "85882644504",
@@ -3216,7 +3386,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:12 WIB]"
   },
   {
-    "no": 190,
+    "no": 200,
     "date": "05-Sep-26, 18:52",
     "contact": "Ricko",
     "phone": "85777779525",
@@ -3233,7 +3403,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 191,
+    "no": 201,
     "date": "05-Sep-26, 17:13",
     "contact": "A,an_Adv indoraya lawfirm",
     "phone": "87828870937",
@@ -3250,7 +3420,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 19:09 WIB]"
   },
   {
-    "no": 192,
+    "no": 202,
     "date": "05-Sep-26, 16:55",
     "contact": "Santi",
     "phone": "81231376088",
@@ -3267,7 +3437,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 06-Sep-26 11:21 WIB]"
   },
   {
-    "no": 193,
+    "no": 203,
     "date": "05-Sep-26, 16:47",
     "contact": "Rais",
     "phone": "81384942325",
@@ -3281,10 +3451,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 18-Sep-26 14:26 WIB]"
   },
   {
-    "no": 194,
+    "no": 204,
     "date": "05-Sep-26, 16:28",
     "contact": "Vendi",
     "phone": "8174765893",
@@ -3301,7 +3471,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 16:37 WIB]"
   },
   {
-    "no": 195,
+    "no": 205,
     "date": "05-Sep-26, 16:10",
     "contact": "d",
     "phone": "82298709863",
@@ -3318,7 +3488,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 19:14 WIB]"
   },
   {
-    "no": 196,
+    "no": 206,
     "date": "05-Sep-26, 14:44",
     "contact": "tanzz suka Spiderman",
     "phone": "85719478155",
@@ -3335,7 +3505,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 19:15 WIB]"
   },
   {
-    "no": 197,
+    "no": 207,
     "date": "05-Sep-26, 13:20",
     "contact": "Fen",
     "phone": "817879900",
@@ -3352,7 +3522,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 198,
+    "no": 208,
     "date": "05-Sep-26, 12:59",
     "contact": "Deidy",
     "phone": "89697985670",
@@ -3366,10 +3536,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 17:42 WIB]"
   },
   {
-    "no": 199,
+    "no": 209,
     "date": "05-Sep-26, 10:55",
     "contact": "Mutiara Proehoeman",
     "phone": "81311509252",
@@ -3386,7 +3556,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:11 WIB]"
   },
   {
-    "no": 200,
+    "no": 210,
     "date": "05-Sep-26, 9:58",
     "contact": "Regina",
     "phone": "89632108887",
@@ -3403,7 +3573,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 201,
+    "no": 211,
     "date": "05-Sep-26, 8:37",
     "contact": "🦚",
     "phone": "85776254908",
@@ -3417,10 +3587,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 2x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:36 WIB]"
   },
   {
-    "no": 202,
+    "no": 212,
     "date": "04-Sep-26, 20:53",
     "contact": "Naufal Ahmad RR",
     "phone": "81218160322",
@@ -3437,7 +3607,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 203,
+    "no": 213,
     "date": "04-Sep-26, 20:50",
     "contact": "Zril",
     "phone": "85710903389",
@@ -3454,7 +3624,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 19:39 WIB]"
   },
   {
-    "no": 204,
+    "no": 214,
     "date": "04-Sep-26, 20:43",
     "contact": "awaaa",
     "phone": "85693460378",
@@ -3468,10 +3638,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 3x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:46 WIB]"
   },
   {
-    "no": 205,
+    "no": 215,
     "date": "04-Sep-26, 18:11",
     "contact": "nawraa",
     "phone": "81268508310",
@@ -3485,10 +3655,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 6x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 17:42 WIB]"
   },
   {
-    "no": 206,
+    "no": 216,
     "date": "04-Sep-26, 18:07",
     "contact": "Bagus Adrianto",
     "phone": "85697969439",
@@ -3505,7 +3675,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 04-Sep-26 18:35 WIB]"
   },
   {
-    "no": 207,
+    "no": 217,
     "date": "04-Sep-26, 17:39",
     "contact": "DW",
     "phone": "817888647",
@@ -3522,7 +3692,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 208,
+    "no": 218,
     "date": "04-Sep-26, 14:42",
     "contact": "Margo",
     "phone": "81387680361",
@@ -3539,7 +3709,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 13:00 WIB]"
   },
   {
-    "no": 209,
+    "no": 219,
     "date": "04-Sep-26, 14:21",
     "contact": "Clara Regina",
     "phone": "81212222096",
@@ -3553,10 +3723,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Balas nama 'Clara', tidak lanjut respon setelah ditanya kebutuhan",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 17:41 WIB]"
   },
   {
-    "no": 210,
+    "no": 220,
     "date": "04-Sep-26, 11:35",
     "contact": "VL",
     "phone": "81519801995",
@@ -3573,7 +3743,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 05-Sep-26 10:08 WIB]"
   },
   {
-    "no": 211,
+    "no": 221,
     "date": "04-Sep-26, 11:09",
     "contact": "za",
     "phone": "881024183584",
@@ -3590,7 +3760,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 20:41 WIB]"
   },
   {
-    "no": 212,
+    "no": 222,
     "date": "04-Sep-26, 10:34",
     "contact": "Abdul Barkah",
     "phone": "87733754130",
@@ -3604,10 +3774,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 17:41 WIB]"
   },
   {
-    "no": 213,
+    "no": 223,
     "date": "04-Sep-26, 10:03",
     "contact": "aaron",
     "phone": "89510205665",
@@ -3624,7 +3794,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:11 WIB]"
   },
   {
-    "no": 214,
+    "no": 224,
     "date": "04-Sep-26, 9:55",
     "contact": "Aliska",
     "phone": "82114187262",
@@ -3641,7 +3811,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 215,
+    "no": 225,
     "date": "04-Sep-26, 9:34",
     "contact": "Alif",
     "phone": "85811082706",
@@ -3658,7 +3828,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 05-Sep-26 15:47 WIB]"
   },
   {
-    "no": 216,
+    "no": 226,
     "date": "04-Sep-26, 9:13",
     "contact": "Adrian Johan Turangan",
     "phone": "811919988",
@@ -3675,7 +3845,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 12:52 WIB]"
   },
   {
-    "no": 217,
+    "no": 227,
     "date": "04-Sep-26, 9:02",
     "contact": "Arya",
     "phone": "87877182007",
@@ -3692,7 +3862,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:10 WIB]"
   },
   {
-    "no": 218,
+    "no": 228,
     "date": "04-Sep-26, 7:08",
     "contact": "OK",
     "phone": "811926805",
@@ -3706,10 +3876,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Cust (Bapak Bowo) aktif: 20 karyawan, butuh 155sqm, bidang kesehatan, lokasi Pondok Pinang; sales undang visit Sabtu jam 1",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 16:08 WIB]"
   },
   {
-    "no": 219,
+    "no": 229,
     "date": "04-Sep-26, 6:48",
     "contact": "EKA 🇯6",
     "phone": "818800006",
@@ -3726,7 +3896,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 220,
+    "no": 230,
     "date": "04-Sep-26, 6:35",
     "contact": "(-_-)",
     "phone": "85781380524",
@@ -3740,10 +3910,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 4x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 17:41 WIB]"
   },
   {
-    "no": 221,
+    "no": 231,
     "date": "03-Sep-26, 18:20",
     "contact": "salsafira larasati",
     "phone": "85778861734",
@@ -3757,10 +3927,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 7x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 17:41 WIB]"
   },
   {
-    "no": 222,
+    "no": 232,
     "date": "03-Sep-26, 17:27",
     "contact": "Anam",
     "phone": "85876016745",
@@ -3777,7 +3947,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 223,
+    "no": 233,
     "date": "03-Sep-26, 16:49",
     "contact": "Evelyn",
     "phone": "85210059400",
@@ -3794,7 +3964,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 14:47 WIB]"
   },
   {
-    "no": 224,
+    "no": 234,
     "date": "03-Sep-26, 16:48",
     "contact": "~idoo",
     "phone": "85975459118",
@@ -3808,10 +3978,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 7x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:46 WIB]"
   },
   {
-    "no": 225,
+    "no": 235,
     "date": "03-Sep-26, 14:58",
     "contact": "iqbal",
     "phone": "85718447018",
@@ -3828,7 +3998,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:08 WIB]"
   },
   {
-    "no": 226,
+    "no": 236,
     "date": "03-Sep-26, 14:54",
     "contact": "....",
     "phone": "85894711509",
@@ -3845,7 +4015,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 04-Sep-26 09:07 WIB]"
   },
   {
-    "no": 227,
+    "no": 237,
     "date": "03-Sep-26, 14:16",
     "contact": "bim",
     "phone": "83142399291",
@@ -3862,7 +4032,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 16:07 WIB]"
   },
   {
-    "no": 228,
+    "no": 238,
     "date": "03-Sep-26, 13:53",
     "contact": "AdniL",
     "phone": "81213670791",
@@ -3879,7 +4049,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:32 WIB]"
   },
   {
-    "no": 229,
+    "no": 239,
     "date": "03-Sep-26, 13:46",
     "contact": "~",
     "phone": "89662566862",
@@ -3896,7 +4066,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 16:24 WIB]"
   },
   {
-    "no": 230,
+    "no": 240,
     "date": "03-Sep-26, 13:34",
     "contact": "Komdko",
     "phone": "83892375416",
@@ -3913,7 +4083,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:32 WIB]"
   },
   {
-    "no": 231,
+    "no": 241,
     "date": "03-Sep-26, 10:01",
     "contact": "olifaaa oliff",
     "phone": "85881802553",
@@ -3927,10 +4097,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 7x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 11:24 WIB]"
   },
   {
-    "no": 232,
+    "no": 242,
     "date": "03-Sep-26, 9:35",
     "contact": "Ara",
     "phone": "85695322641",
@@ -3947,7 +4117,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 03-Sep-26 09:45 WIB]"
   },
   {
-    "no": 233,
+    "no": 243,
     "date": "03-Sep-26, 9:33",
     "contact": "dito",
     "phone": "85781044163",
@@ -3964,7 +4134,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 11:23 WIB]"
   },
   {
-    "no": 234,
+    "no": 244,
     "date": "03-Sep-26, 7:49",
     "contact": "Capt. Chris",
     "phone": "81213777529",
@@ -3978,10 +4148,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Balas 2x: tanya unit studio & harga; sales masih proses jawab",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 11:24 WIB]"
   },
   {
-    "no": 235,
+    "no": 245,
     "date": "03-Sep-26, 6:08",
     "contact": "pnde",
     "phone": "85692376126",
@@ -3998,7 +4168,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:32 WIB]"
   },
   {
-    "no": 236,
+    "no": 246,
     "date": "03-Sep-26, 6:05",
     "contact": "z",
     "phone": "83854512767",
@@ -4015,7 +4185,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 20:41 WIB]"
   },
   {
-    "no": 237,
+    "no": 247,
     "date": "03-Sep-26, 5:19",
     "contact": "Hudri",
     "phone": "81617435195",
@@ -4032,7 +4202,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 09:09 WIB]"
   },
   {
-    "no": 238,
+    "no": 248,
     "date": "03-Sep-26, 4:56",
     "contact": "Aca",
     "phone": "81572011344",
@@ -4049,7 +4219,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 03-Sep-26 08:13 WIB]"
   },
   {
-    "no": 239,
+    "no": 249,
     "date": "02-Sep-26, 21:58",
     "contact": "isaac",
     "phone": "85718930594",
@@ -4063,10 +4233,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 13:26 WIB]"
   },
   {
-    "no": 240,
+    "no": 250,
     "date": "02-Sep-26, 20:08",
     "contact": "Wahyu",
     "phone": "81804301782",
@@ -4083,7 +4253,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 241,
+    "no": 251,
     "date": "02-Sep-26, 20:07",
     "contact": "Apid",
     "phone": "85778089834",
@@ -4100,7 +4270,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:32 WIB]"
   },
   {
-    "no": 242,
+    "no": 252,
     "date": "02-Sep-26, 18:56",
     "contact": "rehanabdiw",
     "phone": "85381084349",
@@ -4117,7 +4287,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 14:29 WIB]"
   },
   {
-    "no": 243,
+    "no": 253,
     "date": "02-Sep-26, 18:40",
     "contact": "rapli",
     "phone": "85714553525",
@@ -4131,10 +4301,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 13:26 WIB]"
   },
   {
-    "no": 244,
+    "no": 254,
     "date": "02-Sep-26, 18:37",
     "contact": "Axel",
     "phone": "89679152641",
@@ -4148,10 +4318,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU intensif 4x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 17:55 WIB]"
   },
   {
-    "no": 245,
+    "no": 255,
     "date": "02-Sep-26, 18:36",
     "contact": "Ghibran sH",
     "phone": "85110511160",
@@ -4168,7 +4338,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 14:11 WIB]"
   },
   {
-    "no": 246,
+    "no": 256,
     "date": "02-Sep-26, 15:09",
     "contact": "Haris N Toro",
     "phone": "87771110666",
@@ -4185,7 +4355,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 02-Sep-26 15:23 WIB]"
   },
   {
-    "no": 247,
+    "no": 257,
     "date": "02-Sep-26, 14:38",
     "contact": "Succesfull",
     "phone": "87711010707",
@@ -4199,10 +4369,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Cust (Ernest) benar-benar visit ke lokasi, ketemu di Lobby North/depan Strada Coffee dgn sales",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 08:26 WIB]"
   },
   {
-    "no": 248,
+    "no": 258,
     "date": "02-Sep-26, 14:06",
     "contact": "6",
     "phone": "85899022258",
@@ -4219,7 +4389,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 249,
+    "no": 259,
     "date": "02-Sep-26, 13:18",
     "contact": "Bhaskara",
     "phone": "81286131921",
@@ -4236,7 +4406,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 250,
+    "no": 260,
     "date": "02-Sep-26, 12:40",
     "contact": "....",
     "phone": "89675617704",
@@ -4250,10 +4420,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Masih terus di-follow up sales sampai FU ke-7",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 18-Sep-26 21:28 WIB]"
   },
   {
-    "no": 251,
+    "no": 261,
     "date": "02-Sep-26, 12:01",
     "contact": "Lusiana",
     "phone": "81319081000",
@@ -4270,7 +4440,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:31 WIB]"
   },
   {
-    "no": 252,
+    "no": 262,
     "date": "02-Sep-26, 9:15",
     "contact": "william",
     "phone": "88293103400",
@@ -4284,13 +4454,13 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 5x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 15:17 WIB]"
   },
   {
-    "no": 253,
+    "no": 263,
     "date": "02-Sep-26, 8:25",
     "contact": "Jcfeen",
-    "phone": "DM instagram",
+    "phone": "DM Instagram",
     "resolve": "Follow Up",
     "status": "Warm",
     "assigned": "Kadek Bayu Permana Putra",
@@ -4304,7 +4474,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 254,
+    "no": 264,
     "date": "02-Sep-26, 7:33",
     "contact": "🤏",
     "phone": "6287887804672",
@@ -4321,7 +4491,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 02-Sep-26 14:51 WIB]"
   },
   {
-    "no": 255,
+    "no": 265,
     "date": "02-Sep-26, 6:50",
     "contact": "Yudia/Dd",
     "phone": "62818812266",
@@ -4338,7 +4508,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 03-Sep-26 13:23 WIB]"
   },
   {
-    "no": 256,
+    "no": 266,
     "date": "02-Sep-26, 6:07",
     "contact": "Teddy",
     "phone": "6281317976617",
@@ -4352,10 +4522,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Tanya harga (start 2M) & luas SOHO (69-80/76sqm), aktif diskusi",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 08:28 WIB]"
   },
   {
-    "no": 257,
+    "no": 267,
     "date": "02-Sep-26, 5:31",
     "contact": "ell",
     "phone": "6285766866658",
@@ -4372,7 +4542,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 04-Sep-26 09:07 WIB]"
   },
   {
-    "no": 258,
+    "no": 268,
     "date": "02-Sep-26, 5:11",
     "contact": "Anita Amanda",
     "phone": "6285782449591",
@@ -4386,10 +4556,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 19-Sep-26 13:27 WIB]"
   },
   {
-    "no": 259,
+    "no": 269,
     "date": "02-Sep-26, 5:10",
     "contact": "Stasya IG @anastassyaspr",
     "phone": "6281319957898",
@@ -4403,10 +4573,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Cust respon nama & minta lihat detail, sales tanya kebutuhan tinggal/invest, masih tahap awal",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 08:28 WIB]"
   },
   {
-    "no": 260,
+    "no": 270,
     "date": "01-Sep-26, 21:48",
     "contact": ".",
     "phone": "6287796643554",
@@ -4423,7 +4593,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:30 WIB]"
   },
   {
-    "no": 261,
+    "no": 271,
     "date": "01-Sep-26, 21:05",
     "contact": "mumtaz",
     "phone": "6281917013853",
@@ -4440,7 +4610,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 16:03 WIB]"
   },
   {
-    "no": 262,
+    "no": 272,
     "date": "01-Sep-26, 20:53",
     "contact": "Rosaline Paramita",
     "phone": "6281311578699",
@@ -4457,7 +4627,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 263,
+    "no": 273,
     "date": "01-Sep-26, 19:49",
     "contact": "BG _to",
     "phone": "6281901251106",
@@ -4474,7 +4644,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 12:03 WIB]"
   },
   {
-    "no": 264,
+    "no": 274,
     "date": "01-Sep-26, 17:03",
     "contact": "kiaaa",
     "phone": "6285381958571",
@@ -4491,7 +4661,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 08:30 WIB]"
   },
   {
-    "no": 265,
+    "no": 275,
     "date": "01-Sep-26, 15:51",
     "contact": "D3",
     "phone": "6281294940707",
@@ -4505,10 +4675,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Salah sambung, cust kira ini nomor BCA KCU Gading Serpong",
     "sop": null,
-    "notes": null
+    "notes": "[Ended by sales at 04-Sep-26 11:32 WIB]"
   },
   {
-    "no": 266,
+    "no": 276,
     "date": "01-Sep-26, 13:46",
     "contact": "fah",
     "phone": "6285755120037",
@@ -4525,7 +4695,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 10:57 WIB]"
   },
   {
-    "no": 267,
+    "no": 277,
     "date": "01-Sep-26, 13:40",
     "contact": "Habib",
     "phone": "6281282260717",
@@ -4542,7 +4712,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 16:02 WIB]"
   },
   {
-    "no": 268,
+    "no": 278,
     "date": "01-Sep-26, 13:34",
     "contact": "Na'tona Eet",
     "phone": "62811125656",
@@ -4556,10 +4726,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU intensif 5x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 15:17 WIB]"
   },
   {
-    "no": 269,
+    "no": 279,
     "date": "01-Sep-26, 13:19",
     "contact": "achaimupf_",
     "phone": "62895627133202",
@@ -4576,7 +4746,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 01-Sep-26 13:28 WIB]"
   },
   {
-    "no": 270,
+    "no": 280,
     "date": "01-Sep-26, 11:21",
     "contact": "Rana Syarifah",
     "phone": "6285156133177",
@@ -4590,10 +4760,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 4x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 18-Sep-26 18:25 WIB]"
   },
   {
-    "no": 271,
+    "no": 281,
     "date": "01-Sep-26, 10:12",
     "contact": "Sera S Notoraharjo",
     "phone": "6282114700552",
@@ -4610,7 +4780,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:36 WIB]"
   },
   {
-    "no": 272,
+    "no": 282,
     "date": "01-Sep-26, 6:25",
     "contact": "BUN",
     "phone": "6285876657720",
@@ -4627,7 +4797,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 09:35 WIB]"
   },
   {
-    "no": 273,
+    "no": 283,
     "date": "01-Sep-26, 5:49",
     "contact": "adsta",
     "phone": "62895386240458",

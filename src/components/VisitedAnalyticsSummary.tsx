@@ -275,7 +275,7 @@ export const VisitedAnalyticsSummary: React.FC<VisitedAnalyticsSummaryProps> = (
       }
 
       products[key].count++;
-      if (lead.status === 'closing') products[key].closings++;
+      if (lead.status === 'closing') products[key].closings += (lead.closingUnits || 1);
       if (lead.status === 'reservation') products[key].reservations++;
     }
 

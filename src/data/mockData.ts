@@ -240,11 +240,20 @@ export function mapExcelRowToLead(row: ExcelRowInput): Lead {
       : sopStatus === 'PENDING' 
       ? 'Non-Evaluated / Junk Lead' 
       : 'SOP Sales Tidak Sesuai (❌ Breached)',
+    isEnded: Boolean(
+      (row.notes && row.notes.toLowerCase().includes('ended by sales')) ||
+      (row.remarks && (row.remarks.toLowerCase().includes('ended by sales') || row.remarks.toLowerCase().includes('ditutup sales')))
+    ),
+    endedAt: row.notes?.match(/Ended by sales at ([^\]]+)/i)?.[1]?.trim(),
+    endedNotes: row.notes || undefined,
     createdAt: new Date().toISOString(),
     preferredUnit: row.adSource.includes('SOHO') ? 'Lifestyle SOHO (Type A - 78m²)' : row.adSource.includes('Apart') ? '2BR Sky Residence (88m²)' : 'Lifestyle SOHO (Type A - 78m²)',
     budgetEstimated: category === 'WARM' ? 1850000000 : 1200000000,
     city: 'Jabodetabek',
-    notes: row.remarks ? [row.remarks] : [],
+    notes: [
+      ...(row.remarks ? [row.remarks] : []),
+      ...(row.notes ? [row.notes] : [])
+    ],
     messages: [
       {
         id: `msg-${monthTag}-${row.no}-1`,

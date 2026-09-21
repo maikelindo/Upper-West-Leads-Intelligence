@@ -268,6 +268,25 @@ export const WeeklyReportDashboard: React.FC<WeeklyReportDashboardProps> = ({
   const slaMetCount = filteredLeads.filter((l) => l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes <= 2).length;
   const slaComplianceRate = totalLeads > 0 ? Math.round((slaMetCount / totalLeads) * 100) : 0;
 
+  // Ended by Sales Tracking (Total & Percentage from Qualified Leads)
+  const isLeadEnded = (l: Lead) =>
+    Boolean(
+      l.isEnded ||
+      l.notes?.some((n) => {
+        const lower = n.toLowerCase();
+        return lower.includes('ended by sales') || lower.includes('ditutup sales');
+      })
+    );
+  const endedLeads = filteredLeads.filter(isLeadEnded);
+  const endedTotalCount = endedLeads.length;
+  const endedQualifiedLeads = endedLeads.filter((l) => l.category !== 'JUNK');
+  const endedQualifiedCount = endedQualifiedLeads.length;
+  const endedJunkCount = endedLeads.filter((l) => l.category === 'JUNK').length;
+
+  const endedTotalPct = totalLeads > 0 ? ((endedTotalCount / totalLeads) * 100).toFixed(1) : '0';
+  const endedQualifiedPct = qualifiedLeadsCount > 0 ? ((endedQualifiedCount / qualifiedLeadsCount) * 100).toFixed(1) : '0';
+  const endedJunkPct = junkCount > 0 ? ((endedJunkCount / junkCount) * 100).toFixed(1) : '0';
+
   const totalPipelineValue = filteredLeads.reduce((sum, l) => sum + (l.budgetEstimated || 0), 0);
   const highTierPipelineValue = [...visitedLeads, ...prospectLeads].reduce((sum, l) => sum + (l.budgetEstimated || 0), 0);
 
@@ -475,6 +494,11 @@ export const WeeklyReportDashboard: React.FC<WeeklyReportDashboardProps> = ({
 
       const hotCount = agentLeads.filter((l) => l.category === 'VISITED' || l.category === 'PROSPECT').length;
 
+      const agentEndedLeads = agentLeads.filter(isLeadEnded);
+      const endedTotal = agentEndedLeads.length;
+      const endedQualified = agentEndedLeads.filter((l) => l.category !== 'JUNK').length;
+      const endedQualifiedRate = validCount > 0 ? Math.round((endedQualified / validCount) * 100) : 0;
+
       return {
         name: agent.name.split(' ')[0],
         fullName: agent.name,
@@ -485,6 +509,9 @@ export const WeeklyReportDashboard: React.FC<WeeklyReportDashboardProps> = ({
         hotLeads: hotCount,
         sopComplianceRate: sopRate,
         avgResponseMinutes: avgMins,
+        endedTotal,
+        endedQualified,
+        endedQualifiedRate,
       };
     }).filter(a => a.totalLeads > 0 || selectedWeekId === 'ALL');
   }, [salesAgents, filteredLeads, selectedWeekId]);
@@ -769,6 +796,54 @@ export const WeeklyReportDashboard: React.FC<WeeklyReportDashboardProps> = ({
               {visitedCount} <span className="text-xs text-purple-800">({visitedPctFromQualified}%)</span>
             </div>
             <span className="text-[9px] text-purple-800/80 block mt-0.5">dari {qualifiedLeadsCount} Qualified Leads</span>
+          </div>
+        </div>
+
+        {/* Status Data Leads Ended by Sales */}
+        <div className="mt-3.5 pt-3.5 border-t border-slate-100">
+          <div className="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3.5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span className="text-[11px] font-bold text-indigo-900 uppercase flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>4. Status Leads Di-Ended oleh Sales Advisor</span>
+                </span>
+                <p className="text-[11px] text-indigo-700/80 mt-0.5">
+                  Total data leads yang telah di-ended oleh sales agent dan persentase yang dihitung dari qualified leads.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-black text-xs">
+                  {endedTotalCount} Total Ended ({endedTotalPct}%)
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-2.5">
+              <div className="bg-white/90 rounded-lg p-2.5 border border-indigo-200">
+                <span className="text-[10px] uppercase font-bold text-slate-500 block">Total Data Ended</span>
+                <div className="text-lg font-black text-slate-900 mt-0.5">
+                  {endedTotalCount} <span className="text-xs text-slate-500 font-normal">Leads ({endedTotalPct}% dari Total)</span>
+                </div>
+                <span className="text-[9px] text-slate-400 block mt-0.5">Seluruh leads yang di-ended sales</span>
+              </div>
+
+              <div className="bg-white/90 rounded-lg p-2.5 border border-indigo-200 ring-1 ring-indigo-300">
+                <span className="text-[10px] uppercase font-bold text-indigo-900 block font-black">Ended dari Qualified Leads</span>
+                <div className="text-lg font-black text-indigo-700 mt-0.5">
+                  {endedQualifiedCount} <span className="text-xs text-indigo-900 font-bold">Leads ({endedQualifiedPct}%)</span>
+                </div>
+                <span className="text-[9px] text-indigo-600 font-medium block mt-0.5">Dihitung dari {qualifiedLeadsCount} Qualified Leads</span>
+              </div>
+
+              <div className="bg-white/90 rounded-lg p-2.5 border border-indigo-200">
+                <span className="text-[10px] uppercase font-bold text-rose-700 block">Ended dari Junk Leads</span>
+                <div className="text-lg font-black text-rose-600 mt-0.5">
+                  {endedJunkCount} <span className="text-xs text-rose-700 font-normal">Leads ({endedJunkPct}%)</span>
+                </div>
+                <span className="text-[9px] text-slate-400 block mt-0.5">Dihitung dari {junkCount} Junk Leads</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1166,6 +1241,54 @@ export const WeeklyReportDashboard: React.FC<WeeklyReportDashboardProps> = ({
                   <Bar dataKey="sopComplianceRate" name="% Kepatuhan SOP (✅ Sesuai)" fill="#10b981" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
+            </div>
+
+            {/* Rekapitulasi Leads Ended per Sales Agent */}
+            <div className="mt-4 pt-3 border-t border-slate-100">
+              <h4 className="text-xs font-black text-slate-800 mb-2 flex items-center justify-between">
+                <span>Rincian Leads yang Di-Ended oleh Sales Advisor</span>
+                <span className="text-[11px] font-normal text-slate-500">
+                  Total Ended: <b className="text-indigo-700 font-bold">{endedTotalCount}</b> leads ({endedQualifiedCount} dari Qualified)
+                </span>
+              </h4>
+              <div className="overflow-x-auto rounded-lg border border-slate-200">
+                <table className="w-full text-xs text-left">
+                  <thead className="bg-slate-50 text-[10px] uppercase font-bold text-slate-600 border-b border-slate-200">
+                    <tr>
+                      <th className="py-2.5 px-3">Sales Advisor</th>
+                      <th className="py-2.5 px-2.5 text-center">Total Leads</th>
+                      <th className="py-2.5 px-2.5 text-center">Qualified Leads</th>
+                      <th className="py-2.5 px-2.5 text-center bg-indigo-50/50 text-indigo-900">Total Di-Ended</th>
+                      <th className="py-2.5 px-2.5 text-center bg-indigo-50 text-indigo-900">Ended Qualified</th>
+                      <th className="py-2.5 px-2.5 text-center bg-indigo-100/70 text-indigo-950 font-black">% dari Qualified</th>
+                      <th className="py-2.5 px-2.5 text-center">Kepatuhan SOP</th>
+                      <th className="py-2.5 px-2.5 text-center">Avg Respon</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {agentPerformanceData.map((agent) => (
+                      <tr key={agent.fullName} className="hover:bg-slate-50/80">
+                        <td className="py-2 px-3 font-semibold text-slate-900">{agent.fullName}</td>
+                        <td className="py-2 px-2.5 text-center font-bold text-slate-700">{agent.totalLeads}</td>
+                        <td className="py-2 px-2.5 text-center font-bold text-emerald-700">{agent.validLeads}</td>
+                        <td className="py-2 px-2.5 text-center font-bold text-slate-800 bg-indigo-50/30">{agent.endedTotal}</td>
+                        <td className="py-2 px-2.5 text-center font-black text-indigo-700 bg-indigo-50/60">{agent.endedQualified}</td>
+                        <td className="py-2 px-2.5 text-center bg-indigo-50 font-mono">
+                          <span className={`px-2 py-0.5 rounded text-[11px] font-black ${agent.endedQualifiedRate > 50 ? 'bg-indigo-600 text-white' : 'bg-indigo-100 text-indigo-900'}`}>
+                            {agent.endedQualifiedRate}%
+                          </span>
+                        </td>
+                        <td className="py-2 px-2.5 text-center">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${agent.sopComplianceRate >= 80 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>
+                            {agent.sopComplianceRate}%
+                          </span>
+                        </td>
+                        <td className="py-2 px-2.5 text-center font-mono text-slate-600">{agent.avgResponseMinutes}m</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

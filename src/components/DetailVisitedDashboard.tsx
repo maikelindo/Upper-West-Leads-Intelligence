@@ -52,7 +52,9 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
       const leadsInMonth = m.key === 'ALL' 
         ? ALL_VISITED_LEADS 
         : ALL_VISITED_LEADS.filter((l) => l.month === m.key);
-      const closings = leadsInMonth.filter((l) => l.status === 'closing').length;
+      const closings = leadsInMonth
+        .filter((l) => l.status === 'closing')
+        .reduce((sum, l) => sum + (l.closingUnits || 1), 0);
       return {
         ...m,
         count: leadsInMonth.length,
@@ -130,7 +132,9 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
   // Overall & Filtered Metrics
   const metrics = useMemo(() => {
     const total = filteredLeads.length;
-    const closingCount = filteredLeads.filter(l => l.status === 'closing').length;
+    const closingCount = filteredLeads
+      .filter(l => l.status === 'closing')
+      .reduce((sum, l) => sum + (l.closingUnits || 1), 0);
     const reservationCount = filteredLeads.filter(l => l.status === 'reservation').length;
     const cancelledCount = filteredLeads.filter(l => l.status === 'cancelled').length;
     const inProgressCount = filteredLeads.filter(l => l.status === 'in_progress').length;
@@ -156,7 +160,9 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
   const globalStatusCounts = useMemo(() => {
     return {
       all: ALL_VISITED_LEADS.length,
-      closing: ALL_VISITED_LEADS.filter(l => l.status === 'closing').length,
+      closing: ALL_VISITED_LEADS
+        .filter(l => l.status === 'closing')
+        .reduce((sum, l) => sum + (l.closingUnits || 1), 0),
       reservation: ALL_VISITED_LEADS.filter(l => l.status === 'reservation').length,
       cancelled: ALL_VISITED_LEADS.filter(l => l.status === 'cancelled').length,
       inProgress: ALL_VISITED_LEADS.filter(l => l.status === 'in_progress').length,
@@ -883,7 +889,7 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
                       {/* 14. Status Badge */}
                       <td className="py-2 px-3 text-center whitespace-nowrap">
                         <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full border ${statusConf.badge}`}>
-                          {item.status === 'closing' && 'Closing'}
+                          {item.status === 'closing' && (item.closingUnits && item.closingUnits > 1 ? `Closing (${item.closingUnits} Unit)` : 'Closing')}
                           {item.status === 'reservation' && 'Reservasi'}
                           {item.status === 'cancelled' && 'Batal'}
                           {item.status === 'in_progress' && 'Visited'}
@@ -944,7 +950,7 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
                 {previewRecord.status === 'in_progress' && <Clock className="w-5 h-5 text-slate-500" />}
                 <div>
                   <div className="text-xs font-bold">
-                    {previewRecord.status === 'closing' && 'Status: Closing (Deal Sukses)'}
+                    {previewRecord.status === 'closing' && (previewRecord.closingUnits && previewRecord.closingUnits > 1 ? `Status: Closing (${previewRecord.closingUnits} Unit Deal)` : 'Status: Closing (Deal Sukses)')}
                     {previewRecord.status === 'reservation' && 'Status: Reservasi Unit'}
                     {previewRecord.status === 'cancelled' && 'Status: Batal / Cancelled'}
                     {previewRecord.status === 'in_progress' && 'Status: Visited / Dalam Follow Up'}

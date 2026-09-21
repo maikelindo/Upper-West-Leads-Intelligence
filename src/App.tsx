@@ -39,6 +39,9 @@ import { DetailVisitedDashboard } from './components/DetailVisitedDashboard';
 import { DigitalAdsResultDashboard } from './components/DigitalAdsResultDashboard';
 import { UnifiedDigitalResultDashboard } from './components/UnifiedDigitalResultDashboard';
 import { ReportLeadsDashboard } from './components/ReportLeadsDashboard';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { AccessGateScreen } from './components/AccessGateScreen';
+import { AccessManagementModal } from './components/AccessManagementModal';
 import { 
   Bell, 
   Flame, 
@@ -47,7 +50,9 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export default function App() {
+function DashboardApp() {
+  const [isAccessManagementOpen, setIsAccessManagementOpen] = useState(false);
+
   const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS);
   const [salesAgents] = useState<SalesAgent[]>(MOCK_SALES_AGENTS);
   const [webhookLogs, setWebhookLogs] = useState<GoAppWebhookLog[]>(MOCK_GOAPP_WEBHOOKS);
@@ -409,6 +414,7 @@ export default function App() {
         selectedAgentId={selectedAgentId}
         setSelectedAgentId={setSelectedAgentId}
         salesAgents={salesAgents}
+        onOpenAccessManagement={() => setIsAccessManagementOpen(true)}
         onOpenAddLead={() => setIsAddLeadOpen(true)}
         onOpenExcelImport={() => setIsExcelImportOpen(true)}
         onOpenScoringRules={() => setIsScoringRulesOpen(true)}
@@ -424,6 +430,7 @@ export default function App() {
         <Sidebar
           activeMenu={navigationMenu}
           setActiveMenu={setNavigationMenu}
+          onOpenAccessManagement={() => setIsAccessManagementOpen(true)}
           onOpenAddLead={() => setIsAddLeadOpen(true)}
           onOpenExcelImport={() => setIsExcelImportOpen(true)}
           onOpenScoringRules={() => setIsScoringRulesOpen(true)}
@@ -635,6 +642,41 @@ export default function App() {
         />
       )}
 
+      {/* Modal: Owner Access Control / ACC Izin Pengguna */}
+      {isAccessManagementOpen && (
+        <AccessManagementModal
+          isOpen={isAccessManagementOpen}
+          onClose={() => setIsAccessManagementOpen(false)}
+        />
+      )}
+
     </div>
+  );
+}
+
+function AuthGate() {
+  const { isApproved, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-300 gap-3 select-none">
+        <div className="w-10 h-10 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-mono tracking-widest text-slate-400 uppercase">Memeriksa Izin Akses Gmail...</span>
+      </div>
+    );
+  }
+
+  if (!isApproved) {
+    return <AccessGateScreen />;
+  }
+
+  return <DashboardApp />;
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AuthGate />
+    </AuthProvider>
   );
 }

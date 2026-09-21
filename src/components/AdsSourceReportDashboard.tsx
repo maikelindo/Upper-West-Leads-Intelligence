@@ -168,15 +168,25 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
   
   // Table Filters
   const [platformFilter, setPlatformFilter] = useState<'ALL' | 'Instagram' | 'Google' | 'TikTok' | 'Not Detected'>('ALL');
-  const [statusFilter, setStatusFilter] = useState<'ALL' | 'QUALIFIED' | LeadCategory>('ALL');
+  const [statusFilter, setStatusFilter] = useState<'ALL' | 'QUALIFIED' | 'ENDED' | LeadCategory>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortBy, setSortBy] = useState<'LEADS_DESC' | 'QUALIFIED_DESC' | 'COST_DESC' | 'CPL_ASC' | 'CPQL_ASC'>('LEADS_DESC');
+  const [sortBy, setSortBy] = useState<'LEADS_DESC' | 'QUALIFIED_DESC' | 'ENDED_DESC' | 'COST_DESC' | 'CPL_ASC' | 'CPQL_ASC'>('LEADS_DESC');
   
   // Drill-down modal state
   const [drilldownCampaign, setDrilldownCampaign] = useState<CampaignSourceStat | null>(null);
-  const [drilldownStatusFilter, setDrilldownStatusFilter] = useState<'ALL' | 'QUALIFIED' | LeadCategory>('ALL');
+  const [drilldownStatusFilter, setDrilldownStatusFilter] = useState<'ALL' | 'QUALIFIED' | 'ENDED' | LeadCategory>('ALL');
   const [drilldownSearch, setDrilldownSearch] = useState<string>('');
   const [savedAlert, setSavedAlert] = useState<string | null>(null);
+
+  // Helper to identify ended leads
+  const isLeadEnded = (l: Lead) =>
+    Boolean(
+      l.isEnded ||
+      l.notes?.some((n) => {
+        const lower = n.toLowerCase();
+        return lower.includes('ended by sales') || lower.includes('ditutup sales');
+      })
+    );
 
   // Reload ad costs whenever selectedMonth changes
   useEffect(() => {
@@ -267,6 +277,9 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
     totalCold,
     totalJunk,
     totalQualified,
+    totalEndedTotal,
+    totalEndedQualified,
+    totalEndedFromQualifiedRate,
     overallCpl,
     overallCpql,
     overallCostVisited,
@@ -336,6 +349,11 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
       const totalRespMinutes = campLeads.reduce((acc, l) => acc + (l.firstResponseTimeMinutes || 0), 0);
       const avgResponseTime = count > 0 ? Math.round((totalRespMinutes / count) * 10) / 10 : 0;
 
+      // Ended leads from this specific campaign/ad
+      const campEndedTotal = campLeads.filter(isLeadEnded).length;
+      const campEndedQualified = campLeads.filter(l => l.category !== 'JUNK' && isLeadEnded(l)).length;
+      const campEndedFromQualifiedRate = qualifiedCount > 0 ? (campEndedQualified / qualifiedCount) * 100 : 0;
+
       return {
         campaignKey: key,
         platform: g.platform,
@@ -356,6 +374,9 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
         cpql,
         costPerVisited,
         avgResponseTime,
+        endedTotal: campEndedTotal,
+        endedQualified: campEndedQualified,
+        endedFromQualifiedRate: campEndedFromQualifiedRate,
         leads: campLeads,
       };
     });
@@ -372,6 +393,11 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
     const gCpl = totalLeads > 0 && totalSpend > 0 ? Math.round(totalSpend / totalLeads) : 0;
     const gCpql = qCount > 0 && totalSpend > 0 ? Math.round(totalSpend / qCount) : 0;
     const gCostVisited = vCount > 0 && totalSpend > 0 ? Math.round(totalSpend / vCount) : 0;
+
+    // Global Ended metrics
+    const totalEndedTotal = activeLeads.filter(isLeadEnded).length;
+    const totalEndedQualified = activeLeads.filter(l => l.category !== 'JUNK' && isLeadEnded(l)).length;
+    const totalEndedFromQualifiedRate = qCount > 0 ? (totalEndedQualified / qCount) * 100 : 0;
 
     // Platform Distribution (Instagram, Google, TikTok, Not Detected, and dynamic platforms)
     const basePlatforms = ['Instagram', 'Google', 'TikTok', 'Not Detected'];
@@ -391,6 +417,10 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
       const pCount = pLeads.length;
       const pJunk = pLeads.filter(l => l.category === 'JUNK').length;
       const pQualified = pCount - pJunk; // Valid non-junk leads
+      const pEndedTotal = pLeads.filter(isLeadEnded).length;
+      const pEndedQualified = pLeads.filter(l => l.category !== 'JUNK' && isLeadEnded(l)).length;
+      const pEndedFromQualifiedRate = pQualified > 0 ? (pEndedQualified / pQualified) * 100 : 0;
+      const pEndedTotalRate = pCount > 0 ? (pEndedTotal / pCount) * 100 : 0;
       
       let pSpend = 0;
       Object.keys(campaignCostsForPeriod).forEach((k) => {
@@ -407,6 +437,10 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
         qualifiedRate: pCount > 0 ? (pQualified / pCount) * 100 : 0,
         junkCount: pJunk,
         junkRate: pCount > 0 ? (pJunk / pCount) * 100 : 0,
+        endedTotal: pEndedTotal,
+        endedQualified: pEndedQualified,
+        endedFromQualifiedRate: pEndedFromQualifiedRate,
+        endedTotalRate: pEndedTotalRate,
         spend: pSpend,
         cpl: pCount > 0 && pSpend > 0 ? Math.round(pSpend / pCount) : 0,
         cpql: pQualified > 0 && pSpend > 0 ? Math.round(pSpend / pQualified) : 0,
@@ -432,6 +466,9 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
       totalCold: cCount,
       totalJunk: jCount,
       totalQualified: qCount,
+      totalEndedTotal,
+      totalEndedQualified,
+      totalEndedFromQualifiedRate,
       overallCpl: gCpl,
       overallCpql: gCpql,
       overallCostVisited: gCostVisited,
@@ -451,6 +488,8 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
     // Filter by status presence
     if (statusFilter === 'QUALIFIED') {
       list = list.filter(c => c.qualifiedCount > 0);
+    } else if (statusFilter === 'ENDED') {
+      list = list.filter(c => (c.endedQualified || 0) > 0);
     } else if (statusFilter === 'VISITED') {
       list = list.filter(c => c.visitedCount > 0);
     } else if (statusFilter === 'PROSPECT') {
@@ -478,6 +517,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
     list.sort((a, b) => {
       if (sortBy === 'LEADS_DESC') return b.totalLeads - a.totalLeads;
       if (sortBy === 'QUALIFIED_DESC') return b.qualifiedCount - a.qualifiedCount;
+      if (sortBy === 'ENDED_DESC') return (b.endedQualified || 0) - (a.endedQualified || 0);
       if (sortBy === 'COST_DESC') return b.manualCost - a.manualCost;
       if (sortBy === 'CPL_ASC') {
         if (a.cpl === 0) return 1;
@@ -502,6 +542,8 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
 
     if (drilldownStatusFilter === 'QUALIFIED') {
       list = list.filter(l => l.category !== 'JUNK');
+    } else if (drilldownStatusFilter === 'ENDED') {
+      list = list.filter(isLeadEnded);
     } else if (drilldownStatusFilter !== 'ALL') {
       list = list.filter(l => l.category === drilldownStatusFilter);
     }
@@ -544,6 +586,9 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
       'Cold': c.coldCount,
       'Junk': c.junkCount,
       'Total Qualified Leads (Valid)': c.qualifiedCount,
+      'Ended Qualified Leads': c.endedQualified || 0,
+      'Ended from Qualified (%)': `${(c.endedFromQualifiedRate || 0).toFixed(1)}%`,
+      'Total Leads Ended': c.endedTotal || 0,
       'Qualified Conversion (%)': `${c.qualifiedRate.toFixed(1)}%`,
       'Junk Rate (%)': `${c.junkRate.toFixed(1)}%`,
       'CPL Gross (IDR)': c.cpl,
@@ -698,7 +743,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
         </div>
 
         {/* Breakdown of Qualified Leads */}
-        <div className="mt-3.5 pt-3.5 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="mt-3.5 pt-3.5 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-5 gap-2.5">
           <div className="bg-slate-50 rounded-lg p-2.5 border border-slate-200">
             <span className="text-[10px] uppercase font-bold text-slate-500 block">Cold Leads</span>
             <div className="text-base font-black text-slate-800 mt-0.5">
@@ -729,6 +774,14 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
               {totalVisited} <span className="text-xs text-purple-800">({totalQualified > 0 ? ((totalVisited / totalQualified) * 100).toFixed(1) : 0}%)</span>
             </div>
             <span className="text-[9px] text-purple-800/80 block mt-0.5">dari {totalQualified} Qualified Leads</span>
+          </div>
+
+          <div className="bg-indigo-50/80 rounded-lg p-2.5 border border-indigo-200">
+            <span className="text-[10px] uppercase font-bold text-indigo-800 block">Ended by Sales</span>
+            <div className="text-base font-black text-indigo-700 mt-0.5">
+              {totalEndedQualified} <span className="text-xs text-indigo-900 font-semibold">({totalEndedFromQualifiedRate.toFixed(1)}%)</span>
+            </div>
+            <span className="text-[9px] text-indigo-700/80 block mt-0.5">dari {totalQualified} Qualified (Tot: {totalEndedTotal})</span>
           </div>
         </div>
       </div>
@@ -869,6 +922,10 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                       <span>Junk ({p.junkCount})</span>
                       <span className="font-bold text-rose-600">{p.junkRate.toFixed(1)}%</span>
                     </div>
+                    <div className="flex justify-between items-center text-slate-600">
+                      <span>Ended Sales ({p.endedQualified})</span>
+                      <span className="font-bold text-indigo-600">{p.endedFromQualifiedRate.toFixed(1)}%</span>
+                    </div>
                     <div className="flex justify-between items-center text-slate-700 pt-1 font-mono font-bold text-[10px]">
                       <span>Biaya Ads</span>
                       <span>{p.spend > 0 ? formatRupiah(p.spend) : 'Rp 0'}</span>
@@ -974,6 +1031,20 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
               </div>
             </div>
 
+            {/* Ended by Sales */}
+            <div className="flex items-center justify-between p-2.5 rounded-lg bg-indigo-50/80 border border-indigo-200">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-indigo-600" />
+                <span className="font-bold text-indigo-950">Ended by Sales</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-mono font-black text-indigo-900">{totalEndedQualified}</span>
+                <span className="text-[10px] font-bold bg-indigo-200 text-indigo-900 px-1.5 py-0.5 rounded">
+                  {totalQualified > 0 ? ((totalEndedQualified / totalQualified) * 100).toFixed(1) : 0}% valid
+                </span>
+              </div>
+            </div>
+
           </div>
 
           <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
@@ -1070,6 +1141,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                     {item.visitedCount > 0 && <span className="px-1.5 py-0.5 rounded bg-purple-100 text-purple-900">Visited: {item.visitedCount}</span>}
                     {item.warmCount > 0 && <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900">Warm: {item.warmCount}</span>}
                     {item.coldCount > 0 && <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">Cold: {item.coldCount}</span>}
+                    {item.endedQualified > 0 && <span className="px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-900 border border-indigo-200">Ended: {item.endedQualified}</span>}
                     {item.junkCount > 0 && <span className="px-1.5 py-0.5 rounded bg-rose-100 text-rose-700">Junk: {item.junkCount}</span>}
                   </div>
                 </div>
@@ -1176,6 +1248,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
               >
                 <option value="ALL">Semua Status ({totalLeadsCount})</option>
                 <option value="QUALIFIED">Qualified Valid ({totalQualified})</option>
+                <option value="ENDED">Ended by Sales ({totalEndedQualified})</option>
                 <option value="VISITED">Visited ({totalVisited})</option>
                 <option value="PROSPECT">Prospect ({totalProspect})</option>
                 <option value="WARM">Warm ({totalWarm})</option>
@@ -1194,6 +1267,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
               >
                 <option value="LEADS_DESC">Leads Terbanyak</option>
                 <option value="QUALIFIED_DESC">Qualified Terbanyak</option>
+                <option value="ENDED_DESC">Ended Sales Terbanyak</option>
                 <option value="COST_DESC">Biaya Ads Tertinggi</option>
                 <option value="CPL_ASC">CPL Terendah</option>
                 <option value="CPQL_ASC">CPQL Terendah</option>
@@ -1213,6 +1287,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                 <th className="py-3 px-4 text-center whitespace-nowrap">TOTAL LEADS</th>
                 <th className="py-3 px-4 text-center whitespace-nowrap">KOMPOSISI STATUS</th>
                 <th className="py-3 px-4 text-center whitespace-nowrap">QUALIFIED (VALID)</th>
+                <th className="py-3 px-4 text-center whitespace-nowrap bg-indigo-50/70 text-indigo-950">ENDED (SALES)</th>
                 <th className="py-3 px-4 text-center whitespace-nowrap">JUNK</th>
                 <th className="py-3 px-4 text-center whitespace-nowrap">CPL (GROSS)</th>
                 <th className="py-3 px-4 text-center whitespace-nowrap">CPQL (QUALIFIED)</th>
@@ -1222,7 +1297,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
             <tbody className="divide-y divide-slate-100 font-medium">
               {displayedCampaigns.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="py-8 text-center text-slate-400 text-xs">
+                  <td colSpan={10} className="py-8 text-center text-slate-400 text-xs">
                     Tidak ada data source iklan yang cocok dengan filter pencarian.
                   </td>
                 </tr>
@@ -1363,7 +1438,22 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                         </span>
                       </td>
 
-                      {/* 6. Junk Count & Rate */}
+                      {/* 6. Ended Count & Rate */}
+                      <td className="py-3.5 px-4 text-center whitespace-nowrap bg-indigo-50/20">
+                        <div className="font-black text-indigo-700 text-sm font-mono">
+                          {row.endedQualified || 0}
+                        </div>
+                        <span className="text-[10px] font-bold text-indigo-600 block">
+                          {(row.endedFromQualifiedRate || 0).toFixed(1)}% valid
+                        </span>
+                        {(row.endedTotal || 0) > (row.endedQualified || 0) && (
+                          <span className="text-[9px] text-slate-400 block">
+                            Tot: {row.endedTotal}
+                          </span>
+                        )}
+                      </td>
+
+                      {/* 7. Junk Count & Rate */}
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
                         <div className="font-black text-rose-600 text-sm font-mono">
                           {row.junkCount}
@@ -1373,17 +1463,17 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                         </span>
                       </td>
 
-                      {/* 7. CPL (Gross) */}
+                      {/* 8. CPL (Gross) */}
                       <td className="py-3.5 px-4 text-center font-black text-amber-800 text-sm whitespace-nowrap font-mono">
                         {row.cpl > 0 ? formatRupiah(row.cpl) : (row.manualCost === 0 ? 'Rp 0' : '-')}
                       </td>
 
-                      {/* 8. CPQL (Qualified) */}
+                      {/* 9. CPQL (Qualified) */}
                       <td className="py-3.5 px-4 text-center font-black text-emerald-700 text-sm whitespace-nowrap font-mono">
                         {row.cpql > 0 ? formatRupiah(row.cpql) : (row.manualCost === 0 && row.qualifiedCount > 0 ? 'Rp 0' : '-')}
                       </td>
 
-                      {/* 9. Action Drilldown */}
+                      {/* 10. Action Drilldown */}
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
                         <button
                           onClick={() => {
@@ -1424,6 +1514,12 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                 </td>
                 <td className="py-4 px-4 text-center font-black text-base text-emerald-700 whitespace-nowrap">
                   {totalQualified}
+                </td>
+                <td className="py-4 px-4 text-center font-black text-base text-indigo-700 whitespace-nowrap bg-indigo-50/60">
+                  {totalEndedQualified}
+                  <span className="block text-[10px] text-indigo-600 font-bold">
+                    {totalEndedFromQualifiedRate.toFixed(1)}% valid
+                  </span>
                 </td>
                 <td className="py-4 px-4 text-center font-black text-base text-rose-600 whitespace-nowrap">
                   {totalJunk}
@@ -1492,6 +1588,11 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                 </div>
                 <div className="h-4 w-px bg-amber-300" />
                 <div>
+                  <span className="text-slate-600 font-medium">Ended by Sales: </span>
+                  <span className="font-black text-indigo-700">{drilldownCampaign.endedQualified || 0} ({(drilldownCampaign.endedFromQualifiedRate || 0).toFixed(1)}% valid)</span>
+                </div>
+                <div className="h-4 w-px bg-amber-300" />
+                <div>
                   <span className="text-slate-600 font-medium">CPL Gross: </span>
                   <span className="font-mono font-black text-amber-900">{drilldownCampaign.cpl > 0 ? formatRupiah(drilldownCampaign.cpl) : '-'}</span>
                 </div>
@@ -1527,6 +1628,18 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                 >
                   Qualified Valid ({drilldownCampaign.qualifiedCount})
                 </button>
+                {(drilldownCampaign.endedQualified || 0) > 0 && (
+                  <button
+                    onClick={() => setDrilldownStatusFilter('ENDED')}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      drilldownStatusFilter === 'ENDED'
+                        ? 'bg-indigo-700 text-white shadow-xs'
+                        : 'bg-white text-indigo-900 hover:bg-indigo-50 border border-indigo-200'
+                    }`}
+                  >
+                    Ended Sales ({drilldownCampaign.endedQualified})
+                  </button>
+                )}
                 {drilldownCampaign.visitedCount > 0 && (
                   <button
                     onClick={() => setDrilldownStatusFilter('VISITED')}
@@ -1636,9 +1749,16 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
                             </div>
                           </td>
                           <td className="py-2.5 px-3 whitespace-nowrap">
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${catMeta.badgeBg} ${catMeta.badgeText} border ${catMeta.badgeBorder}`}>
-                              {catMeta.label}
-                            </span>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${catMeta.badgeBg} ${catMeta.badgeText} border ${catMeta.badgeBorder}`}>
+                                {catMeta.label}
+                              </span>
+                              {isLeadEnded(l) && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-indigo-100 text-indigo-900 border border-indigo-300">
+                                  ENDED
+                                </span>
+                              )}
+                            </div>
                           </td>
                           <td className="py-2.5 px-3 text-slate-700 font-medium whitespace-nowrap">
                             {l.assignedToName || '-'}
