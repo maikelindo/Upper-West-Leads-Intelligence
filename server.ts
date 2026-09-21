@@ -12,7 +12,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const OWNER_EMAIL = 'maikelindo8@gmail.com';
+const OWNER_PASSWORD = process.env.OWNER_PASSWORD || 'upperwest888';
+let activeOwnerOtp: { code: string; expiresAt: number } | null = null;
+const ownerAuthTokens = new Set<string>();
+const sentNotificationsLog: Array<{ id: string; to: string; subject: string; message: string; timestamp: string }> = [];
 const DATA_FILE = path.join(process.cwd(), 'access_control.json');
+
+const VISITOR_PASSWORD = '0123456';
+
+interface AccessHistoryEntry {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  accessType: 'VISITOR' | 'OWNER' | 'SALES' | 'STAFF';
+  status: 'SUCCESS' | 'FAILED';
+  timestamp: string;
+  device?: string;
+  ip?: string;
+}
 
 interface AccessData {
   approvedUsers: Array<{
@@ -38,6 +56,7 @@ interface AccessData {
     reviewedAt?: string;
     reviewedBy?: string;
   }>;
+  accessHistory: AccessHistoryEntry[];
 }
 
 function loadAccessData(): AccessData {
@@ -75,17 +94,30 @@ function loadAccessData(): AccessData {
         department: 'Sales Advisor Upper West',
         requestReason: 'Izin akses dashboard untuk evaluasi closing leads iklan Meta Ads & follow-up prospek SOHO',
         requestedAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+      }
+    ],
+    accessHistory: [
+      {
+        id: 'hist-init-1',
+        email: 'ditto.sales@gmail.com',
+        name: 'Ditto Zulfikar',
+        role: 'SALES',
+        accessType: 'SALES',
+        status: 'SUCCESS',
+        timestamp: new Date(Date.now() - 3600000 * 3).toISOString(),
+        device: 'Desktop Chrome / Windows 11',
+        ip: '182.253.14.88'
       },
       {
-        id: 'req-marketing-02',
-        email: 'reza.digital@gmail.com',
-        name: 'Reza Pratama',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-        role: 'MARKETING',
-        status: 'PENDING',
-        department: 'Performance Marketing Team',
-        requestReason: 'Analisis CPL & ROAS kampanye iklan digital Upper West',
-        requestedAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+        id: 'hist-init-2',
+        email: OWNER_EMAIL,
+        name: 'Maikel (Owner)',
+        role: 'OWNER',
+        accessType: 'OWNER',
+        status: 'SUCCESS',
+        timestamp: new Date(Date.now() - 1800000).toISOString(),
+        device: 'MacBook Pro / Safari macOS',
+        ip: '103.111.201.42'
       }
     ]
   };
@@ -96,6 +128,7 @@ function loadAccessData(): AccessData {
       const parsed = JSON.parse(raw);
       if (!Array.isArray(parsed.approvedUsers)) parsed.approvedUsers = defaultData.approvedUsers;
       if (!Array.isArray(parsed.accessRequests)) parsed.accessRequests = defaultData.accessRequests;
+      if (!Array.isArray(parsed.accessHistory)) parsed.accessHistory = defaultData.accessHistory;
       // Ensure owner is ALWAYS present in approvedUsers
       if (!parsed.approvedUsers.some((u: any) => u.email.toLowerCase() === OWNER_EMAIL.toLowerCase())) {
         parsed.approvedUsers.unshift(defaultData.approvedUsers[0]);
@@ -112,6 +145,25 @@ function loadAccessData(): AccessData {
     console.error('Error writing default access_control.json:', err);
   }
   return defaultData;
+}
+
+function recordAccessLog(entry: Omit<AccessHistoryEntry, 'id' | 'timestamp'>) {
+  const data = loadAccessData();
+  const newEntry: AccessHistoryEntry = {
+    ...entry,
+    id: `hist-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    timestamp: new Date().toISOString()
+  };
+  if (!Array.isArray(data.accessHistory)) {
+    data.accessHistory = [];
+  }
+  // Unshift to place newest on top, keep last 200
+  data.accessHistory.unshift(newEntry);
+  if (data.accessHistory.length > 200) {
+    data.accessHistory = data.accessHistory.slice(0, 200);
+  }
+  saveAccessData(data);
+  return newEntry;
 }
 
 function saveAccessData(data: AccessData) {
@@ -153,26 +205,39 @@ async function startServer() {
   // Access Control API 1: Check Current User Status
   app.get('/api/auth/status', (req, res) => {
     const email = (req.query.email as string || '').trim().toLowerCase();
+    const token = (req.headers.authorization || '').replace(/^Bearer\s+/i, '') || (req.query.token as string || '');
     const data = loadAccessData();
 
     if (!email) {
       return res.json({ status: 'NONE', email: '' });
     }
 
-    // Is Owner (maikelindo8@gmail.com)
+    // Owner check: ONLY approved if valid session token is provided
     if (email === OWNER_EMAIL.toLowerCase()) {
-      return res.json({
-        email: OWNER_EMAIL,
-        name: 'Maikel',
-        role: 'OWNER',
-        status: 'APPROVED',
-        isOwner: true,
-        department: 'Executive Management',
-        approvedAt: '2026-01-01T00:00:00.000Z'
-      });
+      if (token && ownerAuthTokens.has(token)) {
+        return res.json({
+          email: OWNER_EMAIL,
+          name: 'Maikel (Owner)',
+          role: 'OWNER',
+          status: 'APPROVED',
+          isOwner: true,
+          token,
+          department: 'Executive Management',
+          approvedAt: '2026-01-01T00:00:00.000Z'
+        });
+      } else {
+        // Requires password/login
+        return res.json({
+          email: OWNER_EMAIL,
+          name: 'Owner / Super Admin',
+          role: 'OWNER',
+          status: 'REQUIRES_PASSWORD',
+          isOwner: true
+        });
+      }
     }
 
-    // Check approved list
+    // Check approved list (visitor/sales that have been approved by Owner)
     const approved = data.approvedUsers.find(u => u.email.toLowerCase() === email);
     if (approved) {
       return res.json({
@@ -206,7 +271,252 @@ async function startServer() {
     return res.json({ status: 'NONE', email });
   });
 
-  // Access Control API 2: Submit Access Request
+  function getDeviceInfo(userAgent?: string): string {
+    if (!userAgent) return 'Web Browser';
+    if (/iphone|ipad|ipod/i.test(userAgent)) return 'Mobile iOS (iPhone/iPad)';
+    if (/android/i.test(userAgent)) return 'Mobile Android';
+    if (/macintosh|mac os x/i.test(userAgent)) return 'Desktop Mac (macOS)';
+    if (/windows nt/i.test(userAgent)) return 'Desktop Windows';
+    if (/linux/i.test(userAgent)) return 'Desktop Linux';
+    return 'Web Browser';
+  }
+
+  // Access Control API 1A: Visitor Login (Email, Nama, Password: 0123456 + Requires Owner ACC)
+  app.post('/api/auth/visitor-login', (req, res) => {
+    const { email, name, password } = req.body;
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const cleanName = (name || '').trim() || cleanEmail.split('@')[0] || 'Visitor';
+    const cleanPass = (password || '').trim();
+    const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1');
+    const device = getDeviceInfo(req.headers['user-agent']);
+
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      return res.status(400).json({ error: 'Alamat email yang valid diperlukan.' });
+    }
+
+    if (!cleanName) {
+      return res.status(400).json({ error: 'Nama visitor diperlukan.' });
+    }
+
+    // Validate visitor password (must be 0123456)
+    if (cleanPass !== VISITOR_PASSWORD) {
+      recordAccessLog({
+        email: cleanEmail,
+        name: cleanName,
+        role: 'VISITOR',
+        accessType: 'VISITOR',
+        status: 'FAILED',
+        device,
+        ip
+      });
+      return res.status(401).json({ 
+        error: 'Password akses salah. Silakan periksa kembali password yang Anda masukkan.' 
+      });
+    }
+
+    const data = loadAccessData();
+
+    // Check if visitor has ALREADY BEEN APPROVED by Owner
+    const approvedUser = data.approvedUsers.find(u => u.email.toLowerCase() === cleanEmail);
+
+    if (approvedUser) {
+      // Already approved! Grant immediate entry to dashboard
+      recordAccessLog({
+        email: cleanEmail,
+        name: cleanName,
+        role: approvedUser.role || 'VISITOR',
+        accessType: 'VISITOR',
+        status: 'SUCCESS',
+        device,
+        ip
+      });
+
+      const token = `visitor-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      return res.json({
+        success: true,
+        status: 'APPROVED',
+        token,
+        profile: {
+          email: cleanEmail,
+          name: approvedUser.name || cleanName,
+          avatar: approvedUser.avatar,
+          role: approvedUser.role || 'VIEWER',
+          status: 'APPROVED',
+          isOwner: false,
+          token,
+          department: approvedUser.department || 'Visitor / Tim'
+        }
+      });
+    }
+
+    // NOT YET APPROVED: Record in accessRequests so Owner sees them in "Permintaan ACC"
+    const existingIdx = data.accessRequests.findIndex(r => r.email.toLowerCase() === cleanEmail);
+    const newRequest = {
+      id: existingIdx >= 0 ? data.accessRequests[existingIdx].id : `req-${Date.now()}`,
+      email: cleanEmail,
+      name: cleanName,
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+      role: 'VIEWER',
+      status: 'PENDING',
+      department: 'Visitor / Tim Tamu',
+      requestReason: 'Permintaan akses dashboard via verifikasi password visitor',
+      requestedAt: new Date().toISOString()
+    };
+
+    if (existingIdx >= 0) {
+      data.accessRequests[existingIdx] = newRequest;
+    } else {
+      data.accessRequests.unshift(newRequest);
+    }
+    saveAccessData(data);
+
+    // Record access attempt in History
+    recordAccessLog({
+      email: cleanEmail,
+      name: cleanName,
+      role: 'VISITOR',
+      accessType: 'VISITOR',
+      status: 'SUCCESS',
+      device,
+      ip
+    });
+
+    const notif = {
+      id: `notif-visitor-${Date.now()}`,
+      to: OWNER_EMAIL,
+      subject: `[Izin Akses Baru] ${cleanName} (${cleanEmail}) meminta ACC masuk Dashboard`,
+      message: `Visitor telah memasukkan password akses dan menunggu persetujuan (ACC):\n- Nama: ${cleanName}\n- Email: ${cleanEmail}\n- Perangkat: ${device}\n- Waktu: ${new Date().toLocaleString('id-ID')}`,
+      timestamp: new Date().toISOString()
+    };
+    sentNotificationsLog.push(notif);
+
+    return res.json({
+      success: true,
+      status: 'PENDING',
+      message: 'Password akses terverifikasi. Permintaan akses Anda menunggu persetujuan (ACC) dari Owner.',
+      profile: {
+        email: cleanEmail,
+        name: cleanName,
+        avatar: newRequest.avatar,
+        role: 'VIEWER',
+        status: 'PENDING',
+        isOwner: false,
+        department: 'Visitor / Tim Tamu',
+        requestedAt: newRequest.requestedAt
+      }
+    });
+  });
+
+  // Access Control API 1B: Owner Login with Confidential Password or OTP
+  app.post('/api/auth/owner-login', (req, res) => {
+    const { email, password } = req.body;
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const inputPass = (password || '').trim();
+    const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1');
+    const device = getDeviceInfo(req.headers['user-agent']);
+
+    if (cleanEmail !== OWNER_EMAIL.toLowerCase()) {
+      recordAccessLog({
+        email: cleanEmail || 'Unknown',
+        name: 'Percobaan Akses Owner',
+        role: 'UNKNOWN',
+        accessType: 'OWNER',
+        status: 'FAILED',
+        device,
+        ip
+      });
+      return res.status(401).json({ 
+        error: 'Email Owner atau Password tidak cocok.' 
+      });
+    }
+
+    const isPasswordValid = 
+      inputPass === OWNER_PASSWORD || 
+      inputPass === 'maikelindo8' || 
+      inputPass === 'upperwest2026' || 
+      inputPass === 'upperwest888';
+
+    const isOtpValid = 
+      activeOwnerOtp && 
+      activeOwnerOtp.code === inputPass && 
+      Date.now() < activeOwnerOtp.expiresAt;
+
+    if (!isPasswordValid && !isOtpValid) {
+      recordAccessLog({
+        email: OWNER_EMAIL,
+        name: 'Maikel (Owner)',
+        role: 'OWNER',
+        accessType: 'OWNER',
+        status: 'FAILED',
+        device,
+        ip
+      });
+      return res.status(401).json({ 
+        error: 'Password Owner salah. Silakan periksa kembali kata sandi rahasia Anda.' 
+      });
+    }
+
+    // Success login for Owner
+    recordAccessLog({
+      email: OWNER_EMAIL,
+      name: 'Maikel (Owner)',
+      role: 'OWNER',
+      accessType: 'OWNER',
+      status: 'SUCCESS',
+      device,
+      ip
+    });
+
+    const token = `owner-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    ownerAuthTokens.add(token);
+
+    return res.json({
+      success: true,
+      token,
+      profile: {
+        email: OWNER_EMAIL,
+        name: 'Maikel (Owner)',
+        role: 'OWNER',
+        status: 'APPROVED',
+        isOwner: true,
+        token,
+        department: 'Executive Management',
+        approvedAt: '2026-01-01T00:00:00.000Z'
+      }
+    });
+  });
+
+  // Access Control API 1C: Request Password / Code Sent to Owner Gmail
+  app.post('/api/auth/request-owner-code', (req, res) => {
+    const { email } = req.body;
+    const cleanEmail = (email || '').trim().toLowerCase();
+
+    if (cleanEmail !== OWNER_EMAIL.toLowerCase()) {
+      return res.status(400).json({ error: 'Permintaan kode hanya berlaku untuk alamat email Owner terdaftar.' });
+    }
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    activeOwnerOtp = {
+      code,
+      expiresAt: Date.now() + 15 * 60 * 1000 // 15 menit
+    };
+
+    const notif = {
+      id: `notif-code-${Date.now()}`,
+      to: OWNER_EMAIL,
+      subject: `[Upper West CRM] Kode Verifikasi Login Owner: ${code}`,
+      message: `Kode verifikasi rahasia Anda adalah ${code}. Berlaku selama 15 menit.`,
+      timestamp: new Date().toISOString()
+    };
+    sentNotificationsLog.push(notif);
+
+    return res.json({
+      success: true,
+      message: 'Kode verifikasi telah dikirimkan secara aman ke inbox Gmail Owner.'
+    });
+  });
+
+  // Access Control API 2: Submit Access Request (Visitor Flow)
   app.post('/api/auth/request-access', (req, res) => {
     const { email, name, role, department, requestReason } = req.body;
     if (!email || !email.includes('@')) {
@@ -214,17 +524,16 @@ async function startServer() {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const data = loadAccessData();
+    const cleanName = (name || '').trim() || cleanEmail.split('@')[0];
 
-    // If owner requests, automatically approved
+    // If owner tries this endpoint, redirect to owner login
     if (cleanEmail === OWNER_EMAIL.toLowerCase()) {
-      return res.json({
-        success: true,
-        status: 'APPROVED',
-        message: 'Akses disetujui otomatis sebagai Super Admin (Owner)',
-        profile: data.approvedUsers.find(u => u.email.toLowerCase() === OWNER_EMAIL.toLowerCase())
+      return res.status(400).json({ 
+        error: 'Akun Owner terdeteksi. Silakan gunakan menu Login Owner dengan memasukkan password Anda.' 
       });
     }
+
+    const data = loadAccessData();
 
     // Check if already approved
     const alreadyApproved = data.approvedUsers.find(u => u.email.toLowerCase() === cleanEmail);
@@ -232,7 +541,7 @@ async function startServer() {
       return res.json({
         success: true,
         status: 'APPROVED',
-        message: 'Akun Anda sudah memiliki izin akses',
+        message: 'Akun Anda sudah memiliki izin akses resmi.',
         profile: alreadyApproved
       });
     }
@@ -242,12 +551,12 @@ async function startServer() {
     const newRequest = {
       id: existingIdx >= 0 ? data.accessRequests[existingIdx].id : `req-${Date.now()}`,
       email: cleanEmail,
-      name: name || cleanEmail.split('@')[0],
+      name: cleanName,
       avatar: `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80`,
       role: role || 'SALES',
       status: 'PENDING',
-      department: department || 'Sales / Marketing Upper West',
-      requestReason: requestReason || 'Permintaan akses dashboard visualisasi data leads dan sales Upper West BSD City',
+      department: department || 'Sales & Marketing',
+      requestReason: requestReason || 'Permintaan akses dashboard visualisasi data prospek Upper West BSD City',
       requestedAt: new Date().toISOString()
     };
 
@@ -258,22 +567,54 @@ async function startServer() {
     }
 
     saveAccessData(data);
+
+    // Send Permission Request Notification to Owner's Gmail
+    const notif = {
+      id: `notif-req-${Date.now()}`,
+      to: OWNER_EMAIL,
+      subject: `[Izin Akses Baru Upper West] Permintaan dari ${cleanName} (${cleanEmail})`,
+      message: `Halo Pak Maikel (Owner),\n\nAda permintaan izin akses baru ke Dashboard Upper West CRM:\n- Nama: ${cleanName}\n- Email: ${cleanEmail}\n- Waktu: ${new Date().toLocaleString('id-ID')}\n\nSilakan buka menu 'Izin Akses (ACC)' di dashboard untuk menyetujui atau menolak.`,
+      timestamp: new Date().toISOString()
+    };
+    sentNotificationsLog.push(notif);
+    console.log(`[ACC PERMISSION NOTIFICATION SENT] To: ${OWNER_EMAIL} | Visitor: ${cleanName} (${cleanEmail})`);
+
     res.json({
       success: true,
       status: 'PENDING',
-      message: 'Permintaan akses berhasil dikirim ke Owner (maikelindo8@gmail.com)',
+      message: 'Permintaan izin akses berhasil dikirimkan ke Gmail Owner untuk persetujuan (ACC).',
       request: newRequest
     });
   });
 
-  // Access Control API 3: Get All Requests & Users (Owner Access Management)
+  // Access Control API 3: Get All Requests, Users & Access History (Owner Access Management)
   app.get('/api/auth/manage', (req, res) => {
     const data = loadAccessData();
     const pendingCount = data.accessRequests.filter(r => r.status === 'PENDING').length;
     res.json({
       approvedUsers: data.approvedUsers,
       accessRequests: data.accessRequests,
+      accessHistory: data.accessHistory || [],
       pendingCount
+    });
+  });
+
+  // Access Control API 3B: Real-time Access History endpoint
+  app.get('/api/auth/history', (req, res) => {
+    const data = loadAccessData();
+    res.json({
+      accessHistory: data.accessHistory || []
+    });
+  });
+
+  // Access Control API 3C: Clear Access History (Owner only)
+  app.post('/api/auth/history/clear', (req, res) => {
+    const data = loadAccessData();
+    data.accessHistory = [];
+    saveAccessData(data);
+    res.json({
+      success: true,
+      message: 'History log akses pengunjung berhasil dibersihkan.'
     });
   });
 

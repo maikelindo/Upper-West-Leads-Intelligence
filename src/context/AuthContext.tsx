@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { UserAccessProfile, AccessRequestItem, UserRole } from '../types';
+import { UserAccessProfile, AccessRequestItem, UserRole, AccessHistoryItem } from '../types';
 
 interface AuthContextType {
   currentUser: UserAccessProfile | null;
@@ -8,18 +8,25 @@ interface AuthContextType {
   isApproved: boolean;
   pendingRequestsCount: number;
   login: (email: string, name?: string) => Promise<UserAccessProfile>;
+  visitorLogin: (params: { email: string; name: string; password: string }) => Promise<{ success: boolean; status?: 'APPROVED' | 'PENDING'; error?: string }>;
+  ownerLogin: (password: string, email?: string) => Promise<{ success: boolean; error?: string }>;
+  requestOwnerCode: (email?: string) => Promise<{ success: boolean; message: string; simulatedCode?: string }>;
   logout: () => void;
   submitAccessRequest: (params: {
+    email: string;
     name: string;
-    department: string;
-    requestReason: string;
+    department?: string;
+    requestReason?: string;
     role?: UserRole;
   }) => Promise<boolean>;
   checkStatus: () => Promise<UserAccessProfile | null>;
   // Owner actions
   pendingRequests: AccessRequestItem[];
   approvedUsers: UserAccessProfile[];
+  accessHistory: AccessHistoryItem[];
   refreshManageData: () => Promise<void>;
+  refreshHistory: () => Promise<void>;
+  clearAccessHistory: () => Promise<boolean>;
   approveUser: (email: string, role?: UserRole) => Promise<boolean>;
   rejectUser: (email: string) => Promise<boolean>;
   revokeUser: (email: string) => Promise<boolean>;
@@ -37,36 +44,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [pendingRequestsCount, setPendingRequestsCount] = useState<number>(0);
   const [pendingRequests, setPendingRequests] = useState<AccessRequestItem[]>([]);
   const [approvedUsers, setApprovedUsers] = useState<UserAccessProfile[]>([]);
+  const [accessHistory, setAccessHistory] = useState<AccessHistoryItem[]>([]);
 
   // Check status with server
-  const fetchUserStatus = useCallback(async (email: string): Promise<UserAccessProfile | null> => {
+  const fetchUserStatus = useCallback(async (email: string, token?: string): Promise<UserAccessProfile | null> => {
     try {
-      const res = await fetch(`/api/auth/status?email=${encodeURIComponent(email)}`);
+      const headers: Record<string, string> = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`/api/auth/status?email=${encodeURIComponent(email)}${token ? `&token=${encodeURIComponent(token)}` : ''}`, {
+        headers
+      });
       const contentType = res.headers.get('content-type') || '';
       if (res.ok && contentType.includes('application/json')) {
         const data = await res.json();
         return data;
       }
     } catch (err) {
-      console.warn('Network error fetching status, using fallback:', err);
-    }
-
-    // Fallback if offline
-    if (email.toLowerCase() === OWNER_EMAIL.toLowerCase()) {
-      return {
-        email: OWNER_EMAIL,
-        name: 'Maikel (Owner)',
-        role: 'OWNER',
-        status: 'APPROVED',
-        isOwner: true,
-        department: 'Executive Management',
-        approvedAt: '2026-01-01T00:00:00.000Z'
-      };
+      console.warn('Network error fetching status:', err);
     }
     return null;
   }, []);
 
-  // Fetch management data for Owner
+  // Fetch management data for Owner (including real-time access history)
   const refreshManageData = useCallback(async () => {
     try {
       const res = await fetch('/api/auth/manage');
@@ -81,11 +80,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setPendingRequests(pending);
           setPendingRequestsCount(pending.length);
         }
+        if (data && Array.isArray(data.accessHistory)) {
+          setAccessHistory(data.accessHistory);
+        }
       }
     } catch {
       // Quiet fallback when offline or during transient server restart
     }
   }, []);
+
+  // Fetch history specifically
+  const refreshHistory = useCallback(async () => {
+    try {
+      const res = await fetch('/api/auth/history');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.accessHistory)) {
+          setAccessHistory(data.accessHistory);
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  // Clear history
+  const clearAccessHistory = async (): Promise<boolean> => {
+    try {
+      const res = await fetch('/api/auth/history/clear', { method: 'POST' });
+      if (res.ok) {
+        setAccessHistory([]);
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
+    }
+  };
+
 
   // Initial load from localStorage
   useEffect(() => {
@@ -96,17 +128,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (saved) {
           const parsed = JSON.parse(saved);
           if (parsed && parsed.email) {
-            const fresh = await fetchUserStatus(parsed.email);
-            if (fresh && fresh.status !== 'NONE') {
+            const fresh = await fetchUserStatus(parsed.email, parsed.token);
+            if (fresh && fresh.status === 'APPROVED') {
+              const updatedProfile = { ...fresh, token: parsed.token };
+              setCurrentUser(updatedProfile);
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
+            } else if (fresh && fresh.status === 'PENDING') {
               setCurrentUser(fresh);
               localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
             } else {
-              setCurrentUser(parsed);
+              // If owner session without valid token or status NONE/REJECTED
+              if (parsed.email.toLowerCase() === OWNER_EMAIL.toLowerCase() && (!parsed.token || fresh?.status === 'REQUIRES_PASSWORD')) {
+                setCurrentUser(null);
+                localStorage.removeItem(STORAGE_KEY);
+              } else {
+                setCurrentUser(fresh || parsed);
+              }
             }
           }
         } else {
-          // If no stored user, default to prompt login
-          // (User will see the elegant Gate screen)
           setCurrentUser(null);
         }
       } catch (err) {
@@ -123,7 +163,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     if (!currentUser) return;
 
-    if (currentUser.isOwner) {
+    if (currentUser.isOwner && currentUser.status === 'APPROVED') {
       refreshManageData();
       const interval = setInterval(refreshManageData, 15000);
       return () => clearInterval(interval);
@@ -131,43 +171,80 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (currentUser.status === 'PENDING') {
       const interval = setInterval(async () => {
-        const fresh = await fetchUserStatus(currentUser.email);
+        const fresh = await fetchUserStatus(currentUser.email, currentUser.token);
         if (fresh && fresh.status !== currentUser.status) {
           setCurrentUser(fresh);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
         }
-      }, 4000);
+      }, 3500);
       return () => clearInterval(interval);
     }
   }, [currentUser, refreshManageData, fetchUserStatus]);
 
+  // Visitor / Tim Login (Email, Nama, Password: 0123456)
+  const visitorLogin = async (params: {
+    email: string;
+    name: string;
+    password: string;
+  }): Promise<{ success: boolean; status?: 'APPROVED' | 'PENDING'; error?: string }> => {
+    setIsLoading(true);
+    try {
+      const res = await fetch('/api/auth/visitor-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: params.email.trim(),
+          name: params.name.trim(),
+          password: params.password.trim()
+        })
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success && data.profile) {
+        const profileWithToken = {
+          ...data.profile,
+          token: data.token
+        };
+        setCurrentUser(profileWithToken);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(profileWithToken));
+        return { success: true, status: (data.profile.status || data.status) as 'APPROVED' | 'PENDING' };
+      }
+
+      return {
+        success: false,
+        error: data.error || 'Password akses salah. Silakan periksa kembali password yang Anda masukkan.'
+      };
+    } catch (err: any) {
+      return { success: false, error: err?.message || 'Terjadi kesalahan jaringan' };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Visitor / Staff regular login check
   const login = async (email: string, name?: string): Promise<UserAccessProfile> => {
     setIsLoading(true);
     try {
-      const fresh = await fetchUserStatus(email);
-      let profile: UserAccessProfile;
+      const cleanEmail = email.trim().toLowerCase();
+      const fresh = await fetchUserStatus(cleanEmail);
 
+      let profile: UserAccessProfile;
       if (fresh && fresh.status !== 'NONE') {
         profile = fresh;
       } else {
-        const isOwner = email.toLowerCase() === OWNER_EMAIL.toLowerCase();
         profile = {
-          email,
-          name: name || (isOwner ? 'Maikel (Owner)' : email.split('@')[0]),
-          role: isOwner ? 'OWNER' : 'SALES',
-          status: isOwner ? 'APPROVED' : 'NONE',
-          isOwner,
-          avatar: isOwner 
-            ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
-            : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'
+          email: cleanEmail,
+          name: name || cleanEmail.split('@')[0],
+          role: 'SALES',
+          status: cleanEmail === OWNER_EMAIL.toLowerCase() ? 'REQUIRES_PASSWORD' : 'NONE',
+          isOwner: cleanEmail === OWNER_EMAIL.toLowerCase(),
+          avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'
         };
       }
 
       setCurrentUser(profile);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-
-      if (profile.isOwner) {
-        await refreshManageData();
+      if (profile.status === 'APPROVED') {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
       }
 
       return profile;
@@ -176,28 +253,86 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Secure Owner Login with Password or OTP
+  const ownerLogin = async (password: string, email?: string): Promise<{ success: boolean; error?: string }> => {
+    setIsLoading(true);
+    try {
+      const targetEmail = (email || OWNER_EMAIL).trim().toLowerCase();
+      const res = await fetch('/api/auth/owner-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: targetEmail,
+          password: password.trim()
+        })
+      });
+
+      const contentType = res.headers.get('content-type') || '';
+      if (res.ok && contentType.includes('application/json')) {
+        const data = await res.json();
+        if (data.success && data.profile) {
+          const profileWithToken = {
+            ...data.profile,
+            token: data.token
+          };
+          setCurrentUser(profileWithToken);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(profileWithToken));
+          await refreshManageData();
+          return { success: true };
+        }
+      }
+
+      const errData = await res.json().catch(() => ({ error: 'Password salah' }));
+      return { success: false, error: errData.error || 'Password Owner salah' };
+    } catch (err: any) {
+      return { success: false, error: err?.message || 'Terjadi kesalahan jaringan' };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Request Code / Password to Owner's Gmail
+  const requestOwnerCode = async (email?: string): Promise<{ success: boolean; message: string; simulatedCode?: string }> => {
+    try {
+      const targetEmail = (email || OWNER_EMAIL).trim().toLowerCase();
+      const res = await fetch('/api/auth/request-owner-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: targetEmail })
+      });
+      const data = await res.json();
+      return data;
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Gagal mengirim kode ke Gmail' };
+    }
+  };
+
   const logout = () => {
     setCurrentUser(null);
     localStorage.removeItem(STORAGE_KEY);
   };
 
+  // Visitor Submits Access Request (Name + Email)
   const submitAccessRequest = async (params: {
+    email: string;
     name: string;
-    department: string;
-    requestReason: string;
+    department?: string;
+    requestReason?: string;
     role?: UserRole;
   }): Promise<boolean> => {
-    if (!currentUser) return false;
-
+    setIsLoading(true);
     try {
+      const cleanEmail = params.email.trim().toLowerCase();
+      const cleanName = params.name.trim();
+
       const res = await fetch('/api/auth/request-access', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: currentUser.email,
-          name: params.name || currentUser.name,
-          department: params.department,
-          requestReason: params.requestReason,
+          email: cleanEmail,
+          name: cleanName,
+          department: params.department || 'Sales & Marketing',
+          requestReason: params.requestReason || 'Permintaan izin akses dashboard Upper West CRM',
           role: params.role || 'SALES'
         })
       });
@@ -205,10 +340,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (res.ok) {
         const data = await res.json();
         const updated: UserAccessProfile = {
-          ...currentUser,
-          name: params.name || currentUser.name,
-          department: params.department,
-          requestReason: params.requestReason,
+          email: cleanEmail,
+          name: cleanName,
+          department: params.department || 'Sales & Marketing',
+          requestReason: params.requestReason || 'Permintaan izin akses dashboard Upper West CRM',
           status: data.status || 'PENDING',
           role: params.role || 'SALES',
           requestedAt: new Date().toISOString()
@@ -220,29 +355,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false;
     } catch (err) {
       console.error('Error requesting access:', err);
-      // Fallback local update
+      // Local fallback
       const updated: UserAccessProfile = {
-        ...currentUser,
+        email: params.email,
         name: params.name,
-        department: params.department,
-        requestReason: params.requestReason,
+        department: params.department || 'Sales & Marketing',
         status: 'PENDING',
+        role: 'SALES',
         requestedAt: new Date().toISOString()
       };
       setCurrentUser(updated);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       return true;
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const checkStatus = async (): Promise<UserAccessProfile | null> => {
     if (!currentUser) return null;
-    const fresh = await fetchUserStatus(currentUser.email);
+    const fresh = await fetchUserStatus(currentUser.email, currentUser.token);
     if (fresh) {
-      setCurrentUser(fresh);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
+      const updated = { ...fresh, token: currentUser.token };
+      setCurrentUser(updated);
+      if (updated.status === 'APPROVED' || updated.status === 'PENDING') {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+      return updated;
     }
-    return fresh;
+    return null;
   };
 
   const approveUser = async (email: string, role?: UserRole): Promise<boolean> => {
@@ -323,9 +466,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const isOwner = Boolean(
-    currentUser && (currentUser.isOwner || currentUser.email.toLowerCase() === OWNER_EMAIL.toLowerCase())
+    currentUser && currentUser.isOwner && currentUser.status === 'APPROVED' && currentUser.email.toLowerCase() === OWNER_EMAIL.toLowerCase()
   );
-  const isApproved = Boolean(currentUser && (isOwner || currentUser.status === 'APPROVED'));
+  const isApproved = Boolean(currentUser && currentUser.status === 'APPROVED');
 
   return (
     <AuthContext.Provider
@@ -336,12 +479,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isApproved,
         pendingRequestsCount,
         login,
+        visitorLogin,
+        ownerLogin,
+        requestOwnerCode,
         logout,
         submitAccessRequest,
         checkStatus,
         pendingRequests,
         approvedUsers,
+        accessHistory,
         refreshManageData,
+        refreshHistory,
+        clearAccessHistory,
         approveUser,
         rejectUser,
         revokeUser,

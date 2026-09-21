@@ -417,7 +417,7 @@ export interface DigitalAdsResultRow {
 }
 
 // User Authentication & Access Control Types
-export type UserAccessStatus = 'APPROVED' | 'PENDING' | 'REJECTED' | 'NONE';
+export type UserAccessStatus = 'APPROVED' | 'PENDING' | 'REJECTED' | 'REQUIRES_PASSWORD' | 'NONE';
 export type UserRole = 'OWNER' | 'ADMIN' | 'SALES' | 'MARKETING' | 'VIEWER';
 
 export interface UserAccessProfile {
@@ -426,6 +426,7 @@ export interface UserAccessProfile {
   avatar?: string;
   role: UserRole;
   status: UserAccessStatus;
+  token?: string;
   requestedAt?: string;
   approvedAt?: string;
   department?: string;
@@ -445,5 +446,17 @@ export interface AccessRequestItem {
   requestedAt: string;
   reviewedAt?: string;
   reviewedBy?: string;
+}
+
+export interface AccessHistoryItem {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  accessType: 'VISITOR' | 'OWNER' | 'SALES' | 'STAFF';
+  status: 'SUCCESS' | 'FAILED';
+  timestamp: string;
+  device?: string;
+  ip?: string;
 }
 

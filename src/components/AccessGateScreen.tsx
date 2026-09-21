@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { UserRole } from '../types';
 import { 
   ShieldCheck, 
   Lock, 
   Mail, 
   User, 
-  Briefcase, 
-  FileText, 
   Send, 
   Clock, 
   CheckCircle2, 
   XCircle, 
   RefreshCw, 
   LogOut, 
-  Building2, 
   Sparkles,
-  ArrowRight,
-  ShieldAlert,
-  Crown
+  KeyRound,
+  Eye,
+  EyeOff,
+  Users,
+  TableProperties
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -29,70 +27,143 @@ interface AccessGateScreenProps {
 export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApproved }) => {
   const { 
     currentUser, 
-    login, 
+    visitorLogin,
+    ownerLogin,
     logout, 
-    submitAccessRequest, 
     checkStatus, 
     isLoading 
   } = useAuth();
 
-  const [inputEmail, setInputEmail] = useState('');
-  const [inputName, setInputName] = useState('');
-  const [department, setDepartment] = useState('Sales Advisor Upper West');
-  const [role, setRole] = useState<UserRole>('SALES');
-  const [requestReason, setRequestReason] = useState('Review performa data leads iklan digital & follow-up prospek Upper West BSD City');
+  // Active Tab: 'VISITOR' (default for everyone) vs 'OWNER' (confidential login for owner)
+  const [activeTab, setActiveTab] = useState<'VISITOR' | 'OWNER'>('VISITOR');
+
+  // Visitor Form State
+  const [visitorEmail, setVisitorEmail] = useState('');
+  const [visitorName, setVisitorName] = useState('');
+  const [visitorPassword, setVisitorPassword] = useState('');
+  const [showVisitorPassword, setShowVisitorPassword] = useState(false);
+
+  // Owner Form State (Kept completely confidential, empty by default)
+  const [ownerEmail, setOwnerEmail] = useState('');
+  const [ownerPassword, setOwnerPassword] = useState('');
+  const [showOwnerPassword, setShowOwnerPassword] = useState(false);
+
+  // Status & UI States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3500);
-  };
-
-  const handleGoogleLogin = async (presetEmail?: string, presetName?: string) => {
-    const emailToUse = presetEmail || inputEmail.trim();
-    if (!emailToUse || !emailToUse.includes('@')) {
-      showToast('Masukkan alamat Gmail yang valid');
-      return;
-    }
-
-    const profile = await login(emailToUse, presetName || inputName.trim());
-    if (profile.status === 'APPROVED') {
+  // Auto-transition into dashboard if user status becomes APPROVED
+  useEffect(() => {
+    if (currentUser && currentUser.status === 'APPROVED') {
       confetti({
-        particleCount: 80,
+        particleCount: 90,
         spread: 70,
         origin: { y: 0.6 }
       });
       onSuccessApproved?.();
-    } else {
-      showToast(`Masuk sebagai ${profile.email}. Silakan ajukan izin akses.`);
     }
+  }, [currentUser, onSuccessApproved]);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 4000);
   };
 
-  const handleSubmitRequest = async (e: React.FormEvent) => {
+  // 1. Visitor Login (Email, Nama Visitor, Password must be 0123456, then requires Owner ACC)
+  const handleVisitorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!currentUser) return;
+    setErrorMessage(null);
+
+    const email = visitorEmail.trim().toLowerCase();
+    const name = visitorName.trim();
+    const pass = visitorPassword.trim();
+
+    if (!email || !email.includes('@')) {
+      setErrorMessage('Masukkan alamat email yang valid.');
+      return;
+    }
+
+    if (!name) {
+      setErrorMessage('Masukkan nama visitor lengkap Anda.');
+      return;
+    }
+
+    if (!pass) {
+      setErrorMessage('Masukkan password akses visitor.');
+      return;
+    }
 
     setIsSubmitting(true);
     try {
-      const success = await submitAccessRequest({
-        name: inputName.trim() || currentUser.name,
-        department,
-        requestReason,
-        role
+      const res = await visitorLogin({
+        email,
+        name,
+        password: pass
       });
 
-      if (success) {
-        showToast('Permintaan izin akses berhasil dikirim ke Owner (maikelindo8@gmail.com)!');
+      if (res.success) {
+        if (res.status === 'APPROVED') {
+          confetti({
+            particleCount: 90,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+          showToast(`Akses disetujui! Selamat datang, ${name}. Membuka dashboard...`);
+          onSuccessApproved?.();
+        } else {
+          // Status is PENDING - Waiting for Owner ACC
+          showToast(`Password terverifikasi. Permintaan akses sedang menunggu persetujuan (ACC) Owner.`);
+        }
       } else {
-        showToast('Gagal mengirim permintaan. Silakan coba kembali.');
+        setErrorMessage(res.error || 'Password akses salah. Silakan periksa kembali password yang Anda masukkan.');
+      }
+    } catch (err: any) {
+      setErrorMessage(err?.message || 'Terjadi kesalahan sistem saat memproses login.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // 2. Owner Login (Confidential credentials, no hints exposed)
+  const handleOwnerLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage(null);
+
+    const email = ownerEmail.trim().toLowerCase();
+    const pass = ownerPassword.trim();
+
+    if (!email || !email.includes('@')) {
+      setErrorMessage('Masukkan alamat email Owner terdaftar.');
+      return;
+    }
+
+    if (!pass) {
+      setErrorMessage('Masukkan kata sandi akun Owner.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await ownerLogin(pass, email);
+      if (res.success) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+        showToast('Login berhasil sebagai Owner / Super Admin.');
+        onSuccessApproved?.();
+      } else {
+        setErrorMessage(res.error || 'Email atau password Owner salah. Silakan coba lagi.');
       }
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Manual Check if Pending Request has been Approved (if applicable)
   const handleManualCheck = async () => {
     setIsChecking(true);
     try {
@@ -103,12 +174,12 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
           spread: 80,
           origin: { y: 0.6 }
         });
-        showToast('Selamat! Izin akses Anda telah di-ACC oleh Owner.');
+        showToast('Izin akses telah disetujui Owner! Membuka dashboard...');
         onSuccessApproved?.();
       } else if (fresh?.status === 'PENDING') {
         showToast('Status masih menunggu persetujuan (ACC) dari Owner.');
       } else if (fresh?.status === 'REJECTED') {
-        showToast('Permintaan akses Anda belum disetujui.');
+        showToast('Permintaan akses ditolak oleh Owner.');
       }
     } finally {
       setIsChecking(false);
@@ -118,13 +189,12 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
   return (
     <div id="access-gate-screen" className="min-h-screen bg-slate-950 flex flex-col justify-between relative overflow-hidden text-slate-100 select-none">
       
-      {/* Dynamic Luxury Ambient Lighting Background */}
+      {/* Background Lighting & Subtle Pattern */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-amber-500/15 via-indigo-600/10 to-transparent rounded-full blur-3xl opacity-80" />
-        <div className="absolute bottom-[-15%] left-[-10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-3xl" />
-        <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-3xl" />
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[850px] h-[500px] bg-gradient-to-b from-amber-500/15 via-indigo-600/10 to-transparent rounded-full blur-3xl opacity-80" />
+        <div className="absolute bottom-[-15%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl" />
+        <div className="absolute top-[30%] right-[-10%] w-[450px] h-[450px] bg-amber-600/10 rounded-full blur-3xl" />
         
-        {/* Subtle grid pattern overlay */}
         <div 
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -134,7 +204,7 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
         />
       </div>
 
-      {/* Floating Toast */}
+      {/* Floating Toast Notification */}
       {toastMessage && (
         <div className="fixed top-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-amber-400/40 flex items-center gap-2.5 text-xs font-bold animate-in fade-in slide-in-from-top-2">
           <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
@@ -142,306 +212,44 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
         </div>
       )}
 
-      {/* Top Navigation / Brand Header */}
+      {/* Header */}
       <header className="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-3.5">
+        <div className="flex items-center gap-3">
           <img
             src="/logo.png"
-            alt="Upper West Logo"
-            className="w-11 h-11 rounded-full object-cover shadow-lg ring-2 ring-amber-400/50 shrink-0 bg-amber-400"
+            alt="Upper West Official Logo"
+            className="w-10 h-10 rounded-full object-cover shadow-lg ring-2 ring-amber-400/40 bg-amber-400"
             referrerPolicy="no-referrer"
           />
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-black tracking-widest uppercase text-white font-mono">
-                Upper West
-              </span>
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-amber-400 text-slate-950">
-                BSD CITY
-              </span>
-            </div>
-            <p className="text-[10px] text-slate-400 font-medium">
-              Executive Lead Intelligence &amp; Revenue CRM
-            </p>
+            <span className="text-sm font-black text-white tracking-wider uppercase block">
+              UPPER WEST
+            </span>
+            <span className="text-[10px] text-amber-400 tracking-widest uppercase font-semibold">
+              BSD City · Property CRM &amp; Lead Intelligence
+            </span>
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-400 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-md">
-          <Lock className="w-3.5 h-3.5 text-amber-400" />
-          <span>Sistem Akses Internal Terbatas</span>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-900/80 border border-white/10 text-slate-300">
+            <Lock className="w-3 h-3 text-amber-400" />
+            <span>Sistem Terproteksi</span>
+          </div>
         </div>
       </header>
 
-      {/* Center Portal Box */}
-      <main className="relative z-10 w-full max-w-xl mx-auto px-4 py-6 my-auto">
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/15 rounded-3xl p-6 sm:p-10 shadow-2xl shadow-black/80 relative">
+      {/* Main Content Area */}
+      <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-lg bg-slate-900/90 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-black/80 relative overflow-hidden">
           
-          {/* Subtle Top Accent Glow Line */}
+          {/* Top Decorative Gold Line */}
           <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
 
-          {/* STATE 1: NOT LOGGED IN YET */}
-          {!currentUser && (
-            <div className="space-y-6">
-              <div className="text-center space-y-2.5">
-                <div className="flex justify-center mb-1">
-                  <div className="relative">
-                    <img
-                      src="/logo.png"
-                      alt="Upper West Official Logo"
-                      className="w-20 h-20 rounded-full object-cover shadow-2xl ring-4 ring-amber-400/40 bg-amber-400"
-                      referrerPolicy="no-referrer"
-                    />
-                    <span className="absolute -bottom-1 -right-1 px-2 py-0.5 bg-slate-950 text-amber-400 border border-amber-400/50 rounded-full text-[9px] font-black tracking-wider uppercase">
-                      OFFICIAL
-                    </span>
-                  </div>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase bg-amber-400/15 text-amber-300 border border-amber-400/30 mb-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Verifikasi Izin Akses Gmail</span>
-                </div>
-                <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  Masuk ke Dashboard
-                </h1>
-                <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
-                  Dashboard ini dilindungi izin otorisasi. Setiap akun Gmail harus disetujui (ACC) oleh Owner sebelum dapat melihat data penjualan &amp; leads.
-                </p>
-              </div>
-
-              {/* Instant Owner Quick-Access Card */}
-              <div className="bg-gradient-to-r from-amber-500/15 via-amber-400/5 to-transparent border border-amber-400/30 rounded-2xl p-4 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black shadow-md shrink-0">
-                    <Crown className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black text-white">Owner / Super Admin</span>
-                      <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-amber-400 text-slate-950">Akses Penuh</span>
-                    </div>
-                    <p className="text-[11px] text-amber-200/80 font-mono">maikelindo8@gmail.com</p>
-                  </div>
-                </div>
-                <button
-                  id="btn-login-owner"
-                  onClick={() => handleGoogleLogin('maikelindo8@gmail.com', 'Maikel (Owner)')}
-                  disabled={isLoading}
-                  className="px-3.5 py-2 rounded-xl text-xs font-black bg-amber-400 hover:bg-amber-300 text-slate-950 transition-all flex items-center gap-1.5 cursor-pointer shadow-md shrink-0"
-                >
-                  <span>Masuk Langsung</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Divider */}
-              <div className="flex items-center gap-3 text-xs text-slate-500 font-bold uppercase tracking-wider">
-                <div className="flex-1 h-px bg-white/10" />
-                <span>Atau Masuk dengan Akun Lain</span>
-                <div className="flex-1 h-px bg-white/10" />
-              </div>
-
-              {/* Google Sign In / Manual Gmail Form */}
-              <div className="space-y-3">
-                <label className="block text-xs font-bold text-slate-300">
-                  Alamat Akun Gmail Anda
-                </label>
-                <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="email"
-                    placeholder="contoh: nama.sales@gmail.com"
-                    value={inputEmail}
-                    onChange={(e) => setInputEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 text-sm bg-slate-950/70 border border-white/15 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all"
-                  />
-                </div>
-
-                <div className="relative">
-                  <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    placeholder="Nama Lengkap Anda (opsional)"
-                    value={inputName}
-                    onChange={(e) => setInputName(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 text-sm bg-slate-950/70 border border-white/15 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all"
-                  />
-                </div>
-
-                <button
-                  id="btn-google-sign-in"
-                  onClick={() => handleGoogleLogin()}
-                  disabled={isLoading || !inputEmail.trim()}
-                  className="w-full py-3 px-4 rounded-xl text-sm font-black bg-white hover:bg-slate-100 text-slate-950 transition-all flex items-center justify-center gap-3 cursor-pointer shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-2"
-                >
-                  {/* Google Colorful SVG Icon */}
-                  <svg className="w-4 h-4" viewBox="0 0 24 24">
-                    <path
-                      fill="#4285F4"
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                    />
-                    <path
-                      fill="#EA4335"
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                    />
-                  </svg>
-                  <span>Lanjutkan Masuk dengan Gmail</span>
-                </button>
-              </div>
-
-              {/* Sample Quick Testing Pills */}
-              <div className="pt-2 border-t border-white/10">
-                <p className="text-[11px] text-slate-400 font-medium mb-2 text-center">
-                  Atau uji coba alur permintaan izin dengan akun demo:
-                </p>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  <button
-                    onClick={() => handleGoogleLogin('fitri.sales@gmail.com', 'Fitriyani Dewi')}
-                    className="text-[11px] px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all"
-                  >
-                    fitri.sales@gmail.com
-                  </button>
-                  <button
-                    onClick={() => handleGoogleLogin('rekan.baru@gmail.com', 'Rekan Sales Baru')}
-                    className="text-[11px] px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all"
-                  >
-                    rekan.baru@gmail.com
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* STATE 2: LOGGED IN, BUT NEEDS TO REQUEST ACCESS (status === 'NONE') */}
-          {currentUser && currentUser.status === 'NONE' && (
-            <div className="space-y-6">
-              <div className="text-center space-y-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase bg-amber-400/15 text-amber-300 border border-amber-400/30">
-                  <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Izin Akses Belum Terdaftar</span>
-                </div>
-                <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  Ajukan Permintaan Izin Akses
-                </h1>
-                <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
-                  Akun Anda terverifikasi, namun memerlukan persetujuan (ACC) dari Owner untuk membuka seluruh modul &amp; data dashboard.
-                </p>
-              </div>
-
-              {/* Logged in User Badge */}
-              <div className="bg-slate-950/70 border border-white/15 rounded-2xl p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={currentUser.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'}
-                    alt={currentUser.name}
-                    className="w-10 h-10 rounded-full border border-amber-400/40 object-cover"
-                  />
-                  <div>
-                    <div className="text-sm font-bold text-white">{currentUser.name}</div>
-                    <div className="text-xs text-slate-400 font-mono">{currentUser.email}</div>
-                  </div>
-                </div>
-                <button
-                  onClick={logout}
-                  className="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-white/5 transition-all"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span>Ganti Akun</span>
-                </button>
-              </div>
-
-              {/* Form Request */}
-              <form onSubmit={handleSubmitRequest} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Nama Lengkap Anda</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={inputName || currentUser.name}
-                    onChange={(e) => setInputName(e.target.value)}
-                    placeholder="Masukkan nama lengkap"
-                    className="w-full px-3.5 py-2.5 text-sm bg-slate-950 border border-white/15 rounded-xl text-white focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <Briefcase className="w-3.5 h-3.5 text-amber-400" />
-                      <span>Divisi / Unit Kerja</span>
-                    </label>
-                    <select
-                      value={department}
-                      onChange={(e) => setDepartment(e.target.value)}
-                      className="w-full px-3.5 py-2.5 text-sm bg-slate-950 border border-white/15 rounded-xl text-white focus:outline-none focus:border-amber-400"
-                    >
-                      <option value="Sales Advisor Upper West">Sales Advisor Upper West</option>
-                      <option value="Inhouse Sales Team">Inhouse Sales Team</option>
-                      <option value="Digital & Performance Marketing">Digital Marketing</option>
-                      <option value="Management & SPV">Management &amp; SPV</option>
-                      <option value="External Broker / Partner">External Broker / Partner</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                      <span>Peran yang Diajukan</span>
-                    </label>
-                    <select
-                      value={role}
-                      onChange={(e) => setRole(e.target.value as UserRole)}
-                      className="w-full px-3.5 py-2.5 text-sm bg-slate-950 border border-white/15 rounded-xl text-white focus:outline-none focus:border-amber-400"
-                    >
-                      <option value="SALES">Sales Advisor</option>
-                      <option value="MARKETING">Marketing Specialist</option>
-                      <option value="VIEWER">Viewer (Hanya Lihat)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <FileText className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Keperluan Akses Data</span>
-                  </label>
-                  <textarea
-                    rows={2}
-                    required
-                    value={requestReason}
-                    onChange={(e) => setRequestReason(e.target.value)}
-                    placeholder="Contoh: Mengelola leads masuk kampanye digital dan melihat performa closing mingguan"
-                    className="w-full px-3.5 py-2 text-sm bg-slate-950 border border-white/15 rounded-xl text-white focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3.5 px-4 rounded-xl text-sm font-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-amber-500/20 disabled:opacity-50"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{isSubmitting ? 'Mengirim Permintaan...' : 'Kirim Permintaan Izin ke Owner (maikelindo8@gmail.com)'}</span>
-                </button>
-              </form>
-            </div>
-          )}
-
-          {/* STATE 3: PENDING APPROVAL (status === 'PENDING') */}
+          {/* STATE 1: PENDING APPROVAL VIEW (AFTER VISITOR SUBMITS PASSWORD 0123456) */}
           {currentUser && currentUser.status === 'PENDING' && (
             <div className="space-y-6 text-center">
               
-              {/* Pulse Animated Status Icon */}
               <div className="relative inline-flex items-center justify-center w-20 h-20 mx-auto">
                 <div className="absolute inset-0 rounded-full bg-amber-400/20 animate-ping" />
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 shadow-xl shadow-amber-400/30">
@@ -451,36 +259,34 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
 
               <div className="space-y-2">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase bg-amber-400/15 text-amber-300 border border-amber-400/30">
-                  <span>Status: Menunggu ACC Owner</span>
+                  <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Menunggu Persetujuan (ACC) Owner</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  Permintaan Sedang Ditinjau
+                <h2 className="text-2xl font-black text-white tracking-tight">
+                  Permintaan Akses Terkirim
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
-                  Permintaan izin akses Anda telah berhasil terkirim kepada Owner (<strong className="text-amber-300 font-mono">maikelindo8@gmail.com</strong>).
+                <p className="text-xs sm:text-sm text-slate-400 max-w-sm mx-auto leading-relaxed">
+                  Password akses berhasil diverifikasi. Akun Anda sedang menunggu persetujuan resmi (ACC) dari Owner sebelum dapat masuk ke dashboard.
                 </p>
               </div>
 
-              {/* Request Details Box */}
-              <div className="bg-slate-950/80 border border-white/15 rounded-2xl p-5 text-left space-y-3">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="bg-slate-950/80 border border-white/15 rounded-2xl p-4 text-left space-y-2.5">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block">Akun Pemohon</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block">Data Pemohon</span>
                     <span className="text-sm font-black text-white">{currentUser.name}</span>
                     <span className="text-xs text-amber-300 font-mono block">{currentUser.email}</span>
                   </div>
                   <span className="px-2.5 py-1 rounded-md text-[10px] font-black uppercase bg-amber-400/20 text-amber-300 border border-amber-400/30">
-                    {currentUser.role || 'SALES'}
+                    Menunggu ACC
                   </span>
                 </div>
 
-                <div className="text-xs text-slate-300 space-y-1">
-                  <div>
-                    <span className="text-slate-400 font-semibold">Divisi:</span> {currentUser.department || department}
-                  </div>
-                  <div>
-                    <span className="text-slate-400 font-semibold">Keperluan:</span> {currentUser.requestReason || requestReason}
-                  </div>
+                <div className="text-xs text-slate-300 flex items-center justify-between pt-1">
+                  <span className="text-slate-400">Status Password:</span>
+                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Terverifikasi
+                  </span>
                 </div>
               </div>
 
@@ -492,28 +298,28 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
                   className="w-full py-3 px-4 rounded-xl text-xs font-black bg-white hover:bg-slate-100 text-slate-950 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isChecking ? 'animate-spin' : ''}`} />
-                  <span>{isChecking ? 'Memeriksa Persetujuan...' : 'Cek Status Persetujuan Sekarang'}</span>
+                  <span>{isChecking ? 'Memeriksa Persetujuan...' : 'Cek Status Persetujuan (ACC)'}</span>
                 </button>
 
                 <p className="text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Sistem memantau persetujuan secara otomatis di latar belakang</span>
+                  <span>Sistem memantau persetujuan Owner secara real-time</span>
                 </p>
 
                 <div className="pt-2">
                   <button
                     onClick={logout}
-                    className="text-xs font-semibold text-slate-400 hover:text-white inline-flex items-center gap-1.5 transition-all"
+                    className="text-xs font-semibold text-slate-400 hover:text-white inline-flex items-center gap-1.5 transition-all cursor-pointer"
                   >
                     <LogOut className="w-3.5 h-3.5" />
-                    <span>Ganti Akun Gmail</span>
+                    <span>Ganti Email / Masuk Ulang</span>
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* STATE 4: REJECTED (status === 'REJECTED') */}
+          {/* STATE 2: REJECTED VIEW */}
           {currentUser && currentUser.status === 'REJECTED' && (
             <div className="space-y-6 text-center">
               <div className="w-16 h-16 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center mx-auto shadow-lg">
@@ -522,37 +328,285 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
 
               <div className="space-y-2">
                 <h2 className="text-2xl font-black text-white">
-                  Permintaan Akses Belum Disetujui
+                  Akses Ditolak
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
-                  Akun <strong className="text-rose-300 font-mono">{currentUser.email}</strong> belum diberikan izin untuk mengakses dashboard ini oleh Owner.
+                <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                  Akses untuk akun <strong className="text-rose-300 font-mono">{currentUser.email}</strong> belum diberikan izin oleh Owner.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <div className="flex flex-col gap-2 pt-2">
                 <button
-                  onClick={() => {
-                    submitAccessRequest({
-                      name: currentUser.name,
-                      department,
-                      requestReason: 'Pengajuan ulang izin akses dashboard Upper West',
-                      role: 'SALES'
-                    });
-                  }}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-black bg-amber-400 text-slate-950 hover:bg-amber-300 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={logout}
+                  className="w-full py-2.5 rounded-xl text-xs font-black bg-white/10 text-white hover:bg-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Ajukan Permintaan Ulang</span>
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Ganti Akun Email</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* STATE 3: FORM ENTRY (VISITOR FORM OR CONFIDENTIAL OWNER LOGIN) */}
+          {(!currentUser || currentUser.status === 'NONE' || currentUser.status === 'REQUIRES_PASSWORD') && (
+            <div className="space-y-5">
+              
+              {/* Logo & Headline */}
+              <div className="text-center space-y-2">
+                <div className="flex justify-center mb-2">
+                  <div className="relative">
+                    <img
+                      src="/logo.png"
+                      alt="Upper West Official Logo"
+                      className="w-16 h-16 rounded-full object-cover shadow-2xl ring-4 ring-amber-400/40 bg-amber-400"
+                      referrerPolicy="no-referrer"
+                    />
+                    <span className="absolute -bottom-1 -right-1 px-2 py-0.5 bg-slate-950 text-amber-400 border border-amber-400/50 rounded-full text-[9px] font-black tracking-wider uppercase">
+                      OFFICIAL
+                    </span>
+                  </div>
+                </div>
+
+                <h1 className="text-2xl font-black text-white tracking-tight">
+                  Dashboard Upper West
+                </h1>
+                <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+                  Sistem pemantauan prospek dan lead intelligence Upper West BSD City.
+                </p>
+              </div>
+
+              {/* Mode Switch Tabs */}
+              <div className="flex bg-slate-950/80 p-1 rounded-2xl border border-white/10">
+                <button
+                  type="button"
+                  id="tab-visitor"
+                  onClick={() => {
+                    setActiveTab('VISITOR');
+                    setErrorMessage(null);
+                  }}
+                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    activeTab === 'VISITOR'
+                      ? 'bg-amber-400 text-slate-950 shadow-md font-black'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Users className="w-3.5 h-3.5" />
+                  <span>Akses Pengunjung / Tim</span>
                 </button>
 
                 <button
-                  onClick={logout}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-black bg-white/10 text-white hover:bg-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  type="button"
+                  id="tab-owner"
+                  onClick={() => {
+                    setActiveTab('OWNER');
+                    setErrorMessage(null);
+                  }}
+                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    activeTab === 'OWNER'
+                      ? 'bg-amber-400 text-slate-950 shadow-md font-black'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
                 >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span>Ganti Akun Gmail</span>
+                  <KeyRound className="w-3.5 h-3.5" />
+                  <span>Login Khusus Owner</span>
                 </button>
               </div>
+
+              {/* Error Alert Box */}
+              {errorMessage && (
+                <div className="bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs px-3.5 py-2.5 rounded-xl animate-in fade-in flex items-center gap-2">
+                  <XCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {/* TAB 1: VISITOR ACCESS FORM (TABLE FORMAT: 1. Email, 2. Nama, 3. Password tanpa menampilkan angka) */}
+              {activeTab === 'VISITOR' && (
+                <form onSubmit={handleVisitorSubmit} className="space-y-4">
+                  
+                  {/* Styled Summary Table / Specification Card (Password hidden from display) */}
+                  <div className="bg-slate-950/80 border border-amber-400/30 rounded-2xl p-3.5 space-y-2.5 shadow-inner">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                      <div className="flex items-center gap-2 text-amber-400 text-xs font-black">
+                        <TableProperties className="w-4 h-4" />
+                        <span>Kredensial Akses Pengunjung:</span>
+                      </div>
+                      <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 font-bold">
+                        Perlu ACC Owner
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 text-[11px]">
+                      <div className="bg-slate-900/90 p-2 rounded-xl border border-white/5">
+                        <span className="text-slate-400 block font-medium">1. Alamat Email</span>
+                        <span className="text-white font-semibold truncate block">Email Anda</span>
+                      </div>
+                      <div className="bg-slate-900/90 p-2 rounded-xl border border-white/5">
+                        <span className="text-slate-400 block font-medium">2. Nama Visitor</span>
+                        <span className="text-white font-semibold truncate block">Nama Lengkap</span>
+                      </div>
+                      <div className="bg-slate-900/90 p-2 rounded-xl border border-white/5">
+                        <span className="text-slate-400 block font-medium">3. Pasword</span>
+                        <span className="text-white font-semibold truncate block">Wajib Diisi</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Form Inputs */}
+                  <div className="space-y-3 pt-1">
+                    {/* 1. Alamat Email */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center justify-between">
+                        <span>1. Alamat Email Visitor</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Wajib diisi</span>
+                      </label>
+                      <div className="relative">
+                        <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <input
+                          type="email"
+                          required
+                          id="visitor-email"
+                          placeholder="contoh: nama.anda@gmail.com"
+                          value={visitorEmail}
+                          onChange={(e) => setVisitorEmail(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-950/70 border border-white/15 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {/* 2. Nama Visitor */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center justify-between">
+                        <span>2. Nama Visitor</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Nama lengkap pemohon</span>
+                      </label>
+                      <div className="relative">
+                        <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <input
+                          type="text"
+                          required
+                          id="visitor-name"
+                          placeholder="Masukkan nama lengkap Anda"
+                          value={visitorName}
+                          onChange={(e) => setVisitorName(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-950/70 border border-white/15 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {/* 3. Password Akses (Hidden placeholder and label, internal requirement is 0123456) */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center justify-between">
+                        <span>3. Pasword Akses</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Wajib diisi</span>
+                      </label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <input
+                          type={showVisitorPassword ? 'text' : 'password'}
+                          required
+                          id="visitor-password"
+                          placeholder="Masukkan password akses"
+                          value={visitorPassword}
+                          onChange={(e) => setVisitorPassword(e.target.value)}
+                          className="w-full pl-10 pr-10 py-2.5 text-sm bg-slate-950/70 border border-white/15 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 transition-all"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowVisitorPassword(!showVisitorPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+                        >
+                          {showVisitorPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-950/40 border border-white/5 rounded-xl p-2.5 text-[11px] text-slate-400 leading-relaxed flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>Setelah verifikasi password, akses ke dashboard memerlukan persetujuan (ACC) Owner.</span>
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    id="btn-submit-visitor-access"
+                    disabled={isSubmitting || !visitorEmail.trim() || !visitorName.trim() || !visitorPassword.trim()}
+                    className="w-full py-3 px-4 rounded-xl text-sm font-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>{isSubmitting ? 'Memproses Verifikasi...' : 'Masuk / Ajukan Akses'}</span>
+                  </button>
+                </form>
+              )}
+
+              {/* TAB 2: CONFIDENTIAL OWNER LOGIN (NO OWNER EMAIL PRE-FILLED, NO PASSWORDS SHOWN) */}
+              {activeTab === 'OWNER' && (
+                <form onSubmit={handleOwnerLogin} className="space-y-4">
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        Alamat Email Owner
+                      </label>
+                      <div className="relative">
+                        <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <input
+                          type="email"
+                          required
+                          id="owner-email"
+                          placeholder="Masukkan email terdaftar Owner"
+                          value={ownerEmail}
+                          onChange={(e) => setOwnerEmail(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-950/70 border border-white/15 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                        Kata Sandi Rahasia Owner
+                      </label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <input
+                          type={showOwnerPassword ? 'text' : 'password'}
+                          required
+                          id="owner-password"
+                          placeholder="••••••••••••"
+                          value={ownerPassword}
+                          onChange={(e) => setOwnerPassword(e.target.value)}
+                          className="w-full pl-10 pr-10 py-2.5 text-sm bg-slate-950/70 border border-white/15 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 transition-all"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowOwnerPassword(!showOwnerPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+                        >
+                          {showOwnerPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-950/50 border border-white/5 rounded-xl p-3 text-[11px] text-slate-400 leading-relaxed flex items-start gap-2">
+                    <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span>
+                      Area otentikasi khusus Super Admin. Kredensial terlindungi secara enkripsi dan tidak dibagikan ke publik.
+                    </span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    id="btn-submit-owner-login"
+                    disabled={isSubmitting || !ownerEmail.trim() || !ownerPassword.trim()}
+                    className="w-full py-3 px-4 rounded-xl text-sm font-black bg-amber-400 hover:bg-amber-300 text-slate-950 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg disabled:opacity-50"
+                  >
+                    <Lock className="w-4 h-4" />
+                    <span>{isSubmitting ? 'Memverifikasi...' : 'Masuk sebagai Owner'}</span>
+                  </button>
+                </form>
+              )}
+
             </div>
           )}
 

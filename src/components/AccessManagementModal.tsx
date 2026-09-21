@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
 import { 
@@ -13,7 +13,15 @@ import {
   PlusCircle, 
   Sparkles,
   Search,
-  CheckCircle2
+  CheckCircle2,
+  XCircle,
+  History,
+  RefreshCw,
+  Laptop,
+  Smartphone,
+  Globe,
+  Filter,
+  AlertTriangle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -26,15 +34,21 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
   const { 
     pendingRequests, 
     approvedUsers, 
+    accessHistory = [],
+    refreshHistory,
+    clearAccessHistory,
     approveUser, 
     rejectUser, 
     revokeUser, 
     inviteUser 
   } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'PENDING' | 'APPROVED' | 'INVITE'>('PENDING');
+  const [activeTab, setActiveTab] = useState<'HISTORY' | 'PENDING' | 'APPROVED' | 'INVITE'>('HISTORY');
   const [selectedRoles, setSelectedRoles] = useState<Record<string, UserRole>>({});
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [historyFilter, setHistoryFilter] = useState<'ALL' | 'SUCCESS' | 'FAILED'>('ALL');
+  const [historySearch, setHistorySearch] = useState('');
 
   // Direct invite form
   const [inviteEmail, setInviteEmail] = useState('');
@@ -43,7 +57,41 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
   const [inviteRole, setInviteRole] = useState<UserRole>('SALES');
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Real-time polling every 4 seconds while modal is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Trigger initial refresh
+    refreshHistory();
+
+    const interval = setInterval(() => {
+      refreshHistory();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isOpen, refreshHistory]);
+
   if (!isOpen) return null;
+
+  const handleManualRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refreshHistory();
+    } finally {
+      setTimeout(() => setIsRefreshing(false), 500);
+    }
+  };
+
+  const handleClearHistory = async () => {
+    if (window.confirm('Apakah Anda yakin ingin menghapus seluruh log riwayat akses pengunjung?')) {
+      setActionLoading('clear-history');
+      try {
+        await clearAccessHistory();
+      } finally {
+        setActionLoading(null);
+      }
+    }
+  };
 
   const handleApprove = async (email: string) => {
     setActionLoading(email);
@@ -72,13 +120,11 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
   };
 
   const handleRevoke = async (email: string) => {
-    if (window.confirm(`Cabut izin akses untuk ${email}?`)) {
-      setActionLoading(email);
-      try {
-        await revokeUser(email);
-      } finally {
-        setActionLoading(null);
-      }
+    setActionLoading(email);
+    try {
+      await revokeUser(email);
+    } finally {
+      setActionLoading(null);
     }
   };
 
@@ -111,14 +157,53 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
     (u.department && u.department.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  // Filter history
+  const filteredHistory = accessHistory.filter(item => {
+    // Status filter
+    if (historyFilter !== 'ALL' && item.status !== historyFilter) return false;
+    
+    // Search query
+    if (historySearch.trim()) {
+      const q = historySearch.toLowerCase();
+      const matchName = item.name.toLowerCase().includes(q);
+      const matchEmail = item.email.toLowerCase().includes(q);
+      const matchDevice = (item.device || '').toLowerCase().includes(q);
+      const matchRole = (item.role || '').toLowerCase().includes(q);
+      return matchName || matchEmail || matchDevice || matchRole;
+    }
+    return true;
+  });
+
+  // Helper function to format relative or exact time
+  const formatAccessTime = (isoString: string) => {
+    try {
+      const date = new Date(isoString);
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const diffSec = Math.floor(diffMs / 1000);
+
+      let relative = '';
+      if (diffSec < 15) relative = 'Baru saja';
+      else if (diffSec < 60) relative = `${diffSec} detik lalu`;
+      else if (diffSec < 3600) relative = `${Math.floor(diffSec / 60)} menit lalu`;
+      else if (diffSec < 86400) relative = `${Math.floor(diffSec / 3600)} jam lalu`;
+      else relative = `${Math.floor(diffSec / 86400)} hari lalu`;
+
+      const exact = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' WIB';
+      return { relative, exact, fullDate: date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) };
+    } catch {
+      return { relative: 'Waktu tercatat', exact: isoString, fullDate: '' };
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
       <div 
-        className="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden text-slate-100"
+        className="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden text-slate-100"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="px-6 py-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+        <div className="px-6 py-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/70">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black shadow-md shadow-amber-400/20">
               <Crown className="w-5 h-5" />
@@ -126,14 +211,18 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-black text-white">
-                  Manajemen Izin Akses Pengguna
+                  Owner Control Center
                 </h3>
                 <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-400/20 text-amber-300 border border-amber-400/30">
-                  Owner Portal
+                  Super Admin
+                </span>
+                <span className="flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  <span>Real-Time Active</span>
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Persetujuan akses via Gmail untuk dashboard Upper West BSD City
+                Pemantauan riwayat akses pengunjung dashboard &amp; manajemen izin otentikasi
               </p>
             </div>
           </div>
@@ -147,16 +236,33 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
         </div>
 
         {/* Modal Tabs */}
-        <div className="px-6 pt-4 border-b border-slate-800 bg-slate-900/40 flex items-center gap-2">
+        <div className="px-6 pt-3 border-b border-slate-800 bg-slate-900/40 flex items-center gap-1 sm:gap-2 overflow-x-auto">
+          {/* TAB 1: HISTORY AKSES (REAL-TIME) */}
+          <button
+            onClick={() => setActiveTab('HISTORY')}
+            className={`pb-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+              activeTab === 'HISTORY'
+                ? 'border-amber-400 text-amber-400'
+                : 'border-transparent text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <History className="w-3.5 h-3.5" />
+            <span>Riwayat Akses Real-Time</span>
+            <span className="px-1.5 py-0.5 text-[10px] font-black rounded-full bg-amber-400 text-slate-950">
+              {accessHistory.length}
+            </span>
+          </button>
+
+          {/* TAB 2: PENDING */}
           <button
             onClick={() => setActiveTab('PENDING')}
-            className={`pb-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+            className={`pb-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'PENDING'
                 ? 'border-amber-400 text-amber-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
-            <span>Permintaan Menunggu ACC</span>
+            <span>Permintaan ACC</span>
             {pendingRequests.length > 0 && (
               <span className="px-1.5 py-0.5 text-[10px] font-black rounded-full bg-amber-400 text-slate-950 animate-pulse">
                 {pendingRequests.length}
@@ -164,48 +270,258 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
             )}
           </button>
 
+          {/* TAB 3: APPROVED USERS */}
           <button
             onClick={() => setActiveTab('APPROVED')}
-            className={`pb-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+            className={`pb-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'APPROVED'
                 ? 'border-amber-400 text-amber-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
-            <span>Pengguna Aktif Disetujui</span>
+            <span>Pengguna Aktif</span>
             <span className="px-1.5 py-0.5 text-[10px] font-black rounded-full bg-slate-800 text-slate-300">
               {approvedUsers.length}
             </span>
           </button>
 
+          {/* TAB 4: INVITE */}
           <button
             onClick={() => setActiveTab('INVITE')}
-            className={`pb-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+            className={`pb-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'INVITE'
                 ? 'border-amber-400 text-amber-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
             <PlusCircle className="w-3.5 h-3.5" />
-            <span>Beri Akses Langsung (Whitelist)</span>
+            <span>Tambah Akses Langsung</span>
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 overflow-y-auto flex-1 space-y-4">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
           
-          {/* TAB 1: PENDING REQUESTS */}
+          {/* TAB 1: HISTORY AKSES (REAL-TIME VISITOR LOG) */}
+          {activeTab === 'HISTORY' && (
+            <div className="space-y-4">
+              
+              {/* Controls bar: Search, Filter status, Refresh, Clear */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-slate-950/60 p-3 rounded-2xl border border-slate-800">
+                <div className="flex items-center gap-2 flex-1">
+                  <div className="relative flex-1">
+                    <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      placeholder="Cari nama, email, perangkat..."
+                      value={historySearch}
+                      onChange={(e) => setHistorySearch(e.target.value)}
+                      className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-900 border border-slate-700/80 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+
+                  {/* Status filter buttons */}
+                  <div className="flex bg-slate-900 p-0.5 rounded-xl border border-slate-700/80">
+                    <button
+                      type="button"
+                      onClick={() => setHistoryFilter('ALL')}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                        historyFilter === 'ALL'
+                          ? 'bg-amber-400 text-slate-950 font-black'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Semua
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setHistoryFilter('SUCCESS')}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                        historyFilter === 'SUCCESS'
+                          ? 'bg-emerald-500 text-white font-black'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Berhasil
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setHistoryFilter('FAILED')}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                        historyFilter === 'FAILED'
+                          ? 'bg-rose-500 text-white font-black'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Gagal
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={handleManualRefresh}
+                    disabled={isRefreshing}
+                    className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+                    <span>Perbarui Log</span>
+                  </button>
+
+                  {accessHistory.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={handleClearHistory}
+                      disabled={actionLoading === 'clear-history'}
+                      className="px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-slate-800 transition-all cursor-pointer"
+                      title="Bersihkan Log"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Table of Access Logs */}
+              {filteredHistory.length === 0 ? (
+                <div className="py-12 text-center space-y-3 bg-slate-950/40 rounded-2xl border border-slate-800">
+                  <div className="w-12 h-12 rounded-2xl bg-slate-800 text-slate-500 flex items-center justify-center mx-auto">
+                    <History className="w-6 h-6 text-amber-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-white">Belum Ada Catatan Riwayat</h4>
+                    <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1">
+                      Setiap kali ada pengunjung atau pengguna yang mencoba masuk dengan kredensial, log akan tercatat secara real-time di sini.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="border border-slate-800 rounded-2xl overflow-hidden shadow-inner bg-slate-950/60">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse text-xs">
+                      <thead>
+                        <tr className="border-b border-slate-800 bg-slate-900/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                          <th className="py-3 px-4">Waktu Akses</th>
+                          <th className="py-3 px-4">Nama Visitor</th>
+                          <th className="py-3 px-4">Alamat Email</th>
+                          <th className="py-3 px-4">Tipe &amp; Peran</th>
+                          <th className="py-3 px-4">Perangkat / IP</th>
+                          <th className="py-3 px-4 text-center">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-800/60">
+                        {filteredHistory.map((item) => {
+                          const time = formatAccessTime(item.timestamp);
+                          const isSuccess = item.status === 'SUCCESS';
+                          const isOwnerLog = item.role === 'OWNER' || item.accessType === 'OWNER';
+
+                          return (
+                            <tr 
+                              key={item.id} 
+                              className="hover:bg-slate-800/40 transition-colors"
+                            >
+                              {/* Waktu */}
+                              <td className="py-3 px-4 whitespace-nowrap">
+                                <div className="font-semibold text-white flex items-center gap-1.5">
+                                  <Clock className="w-3 h-3 text-amber-400 shrink-0" />
+                                  <span>{time.relative}</span>
+                                </div>
+                                <div className="text-[10px] text-slate-400 font-mono">
+                                  {time.exact} · {time.fullDate}
+                                </div>
+                              </td>
+
+                              {/* Nama Visitor */}
+                              <td className="py-3 px-4">
+                                <div className="flex items-center gap-2">
+                                  <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] shrink-0 ${
+                                    isOwnerLog 
+                                      ? 'bg-amber-400 text-slate-950 ring-1 ring-amber-300' 
+                                      : 'bg-indigo-600 text-white'
+                                  }`}>
+                                    {item.name.charAt(0).toUpperCase()}
+                                  </div>
+                                  <span className="font-bold text-white whitespace-nowrap">
+                                    {item.name}
+                                  </span>
+                                </div>
+                              </td>
+
+                              {/* Email */}
+                              <td className="py-3 px-4 font-mono text-slate-300 whitespace-nowrap">
+                                {item.email}
+                              </td>
+
+                              {/* Tipe & Peran */}
+                              <td className="py-3 px-4 whitespace-nowrap">
+                                {isOwnerLog ? (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                                    <Crown className="w-3 h-3" />
+                                    <span>OWNER</span>
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-black uppercase bg-slate-800 text-slate-300 border border-slate-700">
+                                    <span>VISITOR</span>
+                                  </span>
+                                )}
+                              </td>
+
+                              {/* Perangkat & IP */}
+                              <td className="py-3 px-4">
+                                <div className="text-slate-300 flex items-center gap-1.5 whitespace-nowrap">
+                                  {item.device?.includes('Mobile') ? (
+                                    <Smartphone className="w-3 h-3 text-slate-400 shrink-0" />
+                                  ) : (
+                                    <Laptop className="w-3 h-3 text-slate-400 shrink-0" />
+                                  )}
+                                  <span>{item.device || 'Browser Web'}</span>
+                                </div>
+                                {item.ip && (
+                                  <div className="text-[10px] text-slate-500 font-mono">
+                                    IP: {item.ip}
+                                  </div>
+                                )}
+                              </td>
+
+                              {/* Status */}
+                              <td className="py-3 px-4 text-center whitespace-nowrap">
+                                {isSuccess ? (
+                                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                                    <span>Berhasil</span>
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                                    <XCircle className="w-3 h-3 text-rose-400" />
+                                    <span>Gagal</span>
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          )}
+
+          {/* TAB 2: PENDING REQUESTS */}
           {activeTab === 'PENDING' && (
             <div className="space-y-4">
               {pendingRequests.length === 0 ? (
-                <div className="py-12 text-center space-y-3">
+                <div className="py-12 text-center space-y-3 bg-slate-950/40 rounded-2xl border border-slate-800">
                   <div className="w-12 h-12 rounded-2xl bg-slate-800 text-slate-500 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-6 h-6 text-emerald-400" />
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-white">Semua Permintaan Telah Ditinjau</h4>
                     <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1">
-                      Tidak ada permohonan akses baru saat ini. Setiap ada yang mengajukan izin lewat Gmail, akan langsung muncul di sini.
+                      Tidak ada permohonan akses baru saat ini.
                     </p>
                   </div>
                 </div>
@@ -231,9 +547,11 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
                         <div className="text-xs text-slate-400">
                           <span className="text-slate-300 font-semibold">{req.department}</span> · Diajukan {new Date(req.requestedAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
                         </div>
-                        <p className="text-xs text-slate-300 bg-slate-900 px-3 py-2 rounded-xl border border-slate-800 italic">
-                          &ldquo;{req.requestReason}&rdquo;
-                        </p>
+                        {req.requestReason && (
+                          <p className="text-xs text-slate-300 bg-slate-900 px-3 py-2 rounded-xl border border-slate-800 italic">
+                            &ldquo;{req.requestReason}&rdquo;
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -262,14 +580,13 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
                           <UserX className="w-3.5 h-3.5" />
                           <span>Tolak</span>
                         </button>
-
                         <button
                           onClick={() => handleApprove(req.email)}
                           disabled={actionLoading === req.email}
-                          className="flex-1 sm:flex-initial px-4 py-1.5 rounded-xl text-xs font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-emerald-500/20 disabled:opacity-50"
+                          className="flex-1 sm:flex-initial px-4 py-1.5 rounded-xl text-xs font-black bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-md shadow-amber-400/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                         >
-                          <UserCheck className="w-4 h-4" />
-                          <span>{actionLoading === req.email ? 'Memproses...' : 'Setujui (ACC)'}</span>
+                          <UserCheck className="w-3.5 h-3.5" />
+                          <span>ACC &amp; Izinkan</span>
                         </button>
                       </div>
                     </div>
@@ -279,126 +596,115 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
             </div>
           )}
 
-          {/* TAB 2: APPROVED USERS */}
+          {/* TAB 3: APPROVED ACTIVE USERS */}
           {activeTab === 'APPROVED' && (
             <div className="space-y-4">
               <div className="relative">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Cari email atau nama pengguna aktif..."
+                  placeholder="Cari nama, email, atau departemen..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-xs bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
+                  className="w-full pl-9 pr-4 py-2 text-xs bg-slate-950 border border-slate-800 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
                 />
               </div>
 
-              <div className="space-y-2">
-                {filteredApproved.map((user) => (
+              <div className="space-y-2.5">
+                {filteredApproved.map((u) => (
                   <div
-                    key={user.email}
-                    className="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between gap-3"
+                    key={u.email}
+                    className="bg-slate-950/60 border border-slate-800 rounded-2xl p-3.5 sm:p-4 flex items-center justify-between gap-3 hover:border-slate-700 transition-all"
                   >
                     <div className="flex items-center gap-3">
                       <img
-                        src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'}
-                        alt={user.name}
-                        className="w-10 h-10 rounded-full border border-slate-700 object-cover"
+                        src={u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'}
+                        alt={u.name}
+                        className="w-10 h-10 rounded-full border border-slate-700 object-cover shrink-0"
                       />
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-white">{user.name}</span>
-                          {user.isOwner ? (
-                            <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-amber-400 text-slate-950">
-                              Owner Permanen
-                            </span>
-                          ) : (
-                            <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-slate-800 text-slate-300">
-                              {user.role}
-                            </span>
-                          )}
+                          <span className="text-sm font-bold text-white">{u.name}</span>
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${
+                            u.isOwner 
+                              ? 'bg-amber-400/20 text-amber-300 border border-amber-400/30' 
+                              : 'bg-slate-800 text-slate-300'
+                          }`}>
+                            {u.role || 'SALES'}
+                          </span>
                         </div>
-                        <div className="text-[11px] text-slate-400 font-mono">{user.email}</div>
+                        <span className="text-xs text-slate-400 font-mono block">{u.email}</span>
+                        <span className="text-[11px] text-slate-500">{u.department || 'Upper West Staff'}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      {user.isOwner ? (
-                        <span className="text-[11px] text-amber-400 font-bold px-3 py-1">
-                          Akses Utama
-                        </span>
-                      ) : (
-                        <button
-                          onClick={() => handleRevoke(user.email)}
-                          disabled={actionLoading === user.email}
-                          className="p-2 rounded-xl text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all cursor-pointer"
-                          title="Cabut Izin Akses"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      )}
-                    </div>
+                    {!u.isOwner && (
+                      <button
+                        onClick={() => handleRevoke(u.email)}
+                        disabled={actionLoading === u.email}
+                        className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all cursor-pointer"
+                        title="Cabut Izin Akses"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* TAB 3: DIRECT INVITE / WHITELIST */}
+          {/* TAB 4: DIRECT INVITE / WHITELIST */}
           {activeTab === 'INVITE' && (
-            <form onSubmit={handleInviteSubmit} className="space-y-4 max-w-lg mx-auto py-2">
-              <div className="text-center space-y-1 mb-4">
-                <h4 className="text-sm font-black text-white">
-                  Beri Akses Langsung Tanpa Antri
+            <form onSubmit={handleInviteSubmit} className="space-y-4 max-w-lg mx-auto bg-slate-950/70 p-5 rounded-2xl border border-slate-800">
+              <div>
+                <h4 className="text-sm font-black text-white mb-1">
+                  Beri Izin Akses Langsung
                 </h4>
                 <p className="text-xs text-slate-400">
-                  Akun Gmail yang didaftarkan di sini dapat langsung masuk ke dashboard tanpa perlu menunggu approval.
+                  Tambahkan email ke daftar yang langsung diizinkan masuk tanpa menunggu permintaan persetujuan.
                 </p>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1 flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Alamat Gmail</span>
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="contoh: rekan.baru@gmail.com"
-                  value={inviteEmail}
-                  onChange={(e) => setInviteEmail(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">
-                  Nama Pengguna
-                </label>
-                <input
-                  type="text"
-                  placeholder="Nama lengkap rekan"
-                  value={inviteName}
-                  onChange={(e) => setInviteName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">
-                    Divisi
+                    Alamat Email
                   </label>
-                  <select
+                  <input
+                    type="email"
+                    required
+                    placeholder="nama@gmail.com"
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.target.value)}
+                    className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Nama Lengkap
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Contoh: Budi Santoso"
+                    value={inviteName}
+                    onChange={(e) => setInviteName(e.target.value)}
+                    className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Departemen / Tim
+                  </label>
+                  <input
+                    type="text"
                     value={inviteDept}
                     onChange={(e) => setInviteDept(e.target.value)}
                     className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400"
-                  >
-                    <option value="Sales Advisor Upper West">Sales Advisor</option>
-                    <option value="Inhouse Sales Senior">Inhouse Sales</option>
-                    <option value="Digital Marketing Team">Digital Marketing</option>
-                    <option value="Management & SPV">Management</option>
-                  </select>
+                  />
                 </div>
 
                 <div>
@@ -432,8 +738,11 @@ export const AccessManagementModal: React.FC<AccessManagementModalProps> = ({ is
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs text-slate-400">
-          <span>Owner: <strong className="text-amber-300 font-mono">maikelindo8@gmail.com</strong></span>
+        <div className="px-6 py-4 border-t border-slate-800 bg-slate-950/70 flex items-center justify-between text-xs text-slate-400">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-amber-400" />
+            <span>Hak Akses Terverifikasi &bull; Super Admin Control Panel</span>
+          </div>
           <button
             onClick={onClose}
             className="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all cursor-pointer"
