@@ -16,15 +16,24 @@ import {
   Eye,
   EyeOff,
   Users,
-  TableProperties
+  TableProperties,
+  X
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface AccessGateScreenProps {
   onSuccessApproved?: () => void;
+  onClose?: () => void;
+  isModal?: boolean;
+  defaultTab?: 'VISITOR' | 'OWNER';
 }
 
-export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApproved }) => {
+export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ 
+  onSuccessApproved,
+  onClose,
+  isModal = false,
+  defaultTab = 'OWNER'
+}) => {
   const { 
     currentUser, 
     visitorLogin,
@@ -34,8 +43,8 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
     isLoading 
   } = useAuth();
 
-  // Active Tab: 'VISITOR' (default for everyone) vs 'OWNER' (confidential login for owner)
-  const [activeTab, setActiveTab] = useState<'VISITOR' | 'OWNER'>('VISITOR');
+  // Active Tab: 'VISITOR' vs 'OWNER'
+  const [activeTab, setActiveTab] = useState<'VISITOR' | 'OWNER'>(defaultTab);
 
   // Visitor Form State
   const [visitorEmail, setVisitorEmail] = useState('');
@@ -177,67 +186,23 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
     }
   };
 
-  return (
-    <div id="access-gate-screen" className="min-h-screen bg-slate-950 flex flex-col justify-between relative overflow-hidden text-slate-100 select-none">
-      
-      {/* Background Lighting & Subtle Pattern */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[850px] h-[500px] bg-gradient-to-b from-amber-500/15 via-indigo-600/10 to-transparent rounded-full blur-3xl opacity-80" />
-        <div className="absolute bottom-[-15%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl" />
-        <div className="absolute top-[30%] right-[-10%] w-[450px] h-[450px] bg-amber-600/10 rounded-full blur-3xl" />
-        
-        <div 
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-            backgroundSize: '32px 32px'
-          }}
-        />
-      </div>
-
-      {/* Floating Toast Notification */}
-      {toastMessage && (
-        <div className="fixed top-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-amber-400/40 flex items-center gap-2.5 text-xs font-bold animate-in fade-in slide-in-from-top-2">
-          <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-          <span>{toastMessage}</span>
-        </div>
+  const cardElement = (
+    <div className="w-full max-w-lg bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-black/80 relative overflow-hidden my-auto">
+      {onClose && (
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer z-20"
+          title="Tutup Modal"
+        >
+          <X className="w-5 h-5" />
+        </button>
       )}
 
-      {/* Header */}
-      <header className="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img
-            src="/logo.png"
-            alt="Upper West Official Logo"
-            className="w-10 h-10 rounded-full object-cover shadow-lg ring-2 ring-amber-400/40 bg-amber-400"
-            referrerPolicy="no-referrer"
-          />
-          <div>
-            <span className="text-sm font-black text-white tracking-wider uppercase block">
-              UPPER WEST
-            </span>
-            <span className="text-[10px] text-amber-400 tracking-widest uppercase font-semibold">
-              BSD City · Property CRM &amp; Lead Intelligence
-            </span>
-          </div>
-        </div>
+      {/* Top Decorative Gold Line */}
+      <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
 
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-900/80 border border-white/10 text-slate-300">
-            <Lock className="w-3 h-3 text-amber-400" />
-            <span>Sistem Terproteksi</span>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-lg bg-slate-900/90 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-black/80 relative overflow-hidden">
-          
-          {/* Top Decorative Gold Line */}
-          <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
-
-          {/* STATE 1: PENDING APPROVAL VIEW (AFTER VISITOR SUBMITS PASSWORD 0123456) */}
+      {/* STATE 1: PENDING APPROVAL VIEW (AFTER VISITOR SUBMITS PASSWORD 0123456) */}
           {currentUser && currentUser.status === 'PENDING' && (
             <div className="space-y-6 text-center">
               
@@ -575,6 +540,78 @@ export const AccessGateScreen: React.FC<AccessGateScreenProps> = ({ onSuccessApp
           )}
 
         </div>
+  );
+
+  if (isModal) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200">
+        {toastMessage && (
+          <div className="fixed top-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-amber-400/40 flex items-center gap-2.5 text-xs font-bold animate-in fade-in slide-in-from-top-2">
+            <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
+        {cardElement}
+      </div>
+    );
+  }
+
+  return (
+    <div id="access-gate-screen" className="min-h-screen bg-slate-950 flex flex-col justify-between relative overflow-hidden text-slate-100 select-none">
+      
+      {/* Background Lighting & Subtle Pattern */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[850px] h-[500px] bg-gradient-to-b from-amber-500/15 via-indigo-600/10 to-transparent rounded-full blur-3xl opacity-80" />
+        <div className="absolute bottom-[-15%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl" />
+        <div className="absolute top-[30%] right-[-10%] w-[450px] h-[450px] bg-amber-600/10 rounded-full blur-3xl" />
+        
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+            backgroundSize: '32px 32px'
+          }}
+        />
+      </div>
+
+      {/* Floating Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-amber-400/40 flex items-center gap-2.5 text-xs font-bold animate-in fade-in slide-in-from-top-2">
+          <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* Header */}
+      <header className="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <img
+            src="/logo.png"
+            alt="Upper West Official Logo"
+            className="w-10 h-10 rounded-full object-cover shadow-lg ring-2 ring-amber-400/40 bg-amber-400"
+            referrerPolicy="no-referrer"
+          />
+          <div>
+            <span className="text-sm font-black text-white tracking-wider uppercase block">
+              UPPER WEST
+            </span>
+            <span className="text-[10px] text-amber-400 tracking-widest uppercase font-semibold">
+              BSD City · Property CRM &amp; Lead Intelligence
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-900/80 border border-white/10 text-slate-300">
+            <Lock className="w-3 h-3 text-amber-400" />
+            <span>Sistem Terproteksi</span>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
+        {cardElement}
       </main>
 
       {/* Footer Minimalist */}

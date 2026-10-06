@@ -173,49 +173,49 @@ export const DEFAULT_DIGITAL_ADS_RESULT_2026: DigitalAdsResultRow[] = [
     no: 8,
     month: 'AGUSTUS',
     monthKey: '2026-08',
-    adBudget: 32606458,
-    meta: 22800000,
-    google: 9806458,
+    adBudget: 48613935,
+    meta: 34726916,
+    google: 13887019,
     tiktok: 0,
-    rawLeads: 514,
-    validLeads: 412,
-    qualifiedLeadsPct: 80.16,
+    rawLeads: 535,
+    validLeads: 422,
+    qualifiedLeadsPct: 78.88,
     sourceFb: 0,
     sourceIg: 1,
     sourceGoogle: 1,
     sourceTiktok: 0,
     sourceYoutube: 0,
-    visited: 17,
+    visited: 11,
     totalSold: 2,
     priceExcPpn: 5785501297,
-    cpl: 63437,
-    percentRate: 0.39,
-    leadsToVisit: 4.13,
-    notes: '514 Leads updated via PDF (2 Units Sold: 1 IG, 1 Google)'
+    cpl: 90867,
+    percentRate: 0.84,
+    leadsToVisit: 2.61,
+    notes: '2 Units Sold: 1 IG, 1 Google'
   },
   {
     no: 9,
     month: 'SEPTEMBER',
     monthKey: '2026-09',
-    adBudget: 17198274,
-    meta: 11775000,
-    google: 5423274,
+    adBudget: 49007395,
+    meta: 37043457,
+    google: 11963938,
     tiktok: 0,
-    rawLeads: 283,
-    validLeads: 226,
-    qualifiedLeadsPct: 79.86,
+    rawLeads: 432,
+    validLeads: 350,
+    qualifiedLeadsPct: 81.02,
     sourceFb: 0,
-    sourceIg: 1,
+    sourceIg: 0,
     sourceGoogle: 0,
-    sourceTiktok: 0,
+    sourceTiktok: 1,
     sourceYoutube: 0,
-    visited: 13,
+    visited: 17,
     totalSold: 1,
-    priceExcPpn: 2850000000,
-    cpl: 60771,
-    percentRate: 0.84,
-    leadsToVisit: 5.75,
-    notes: '283 Leads September (162 Ended by Sales, 108 Qualified Ended, 1 Unit Sold SOHO Type A)'
+    priceExcPpn: 5743787811,
+    cpl: 113443,
+    percentRate: 0.85,
+    leadsToVisit: 4.86,
+    notes: '1 Unit Sold via TikTok Ads (Andrew HaCe)'
   },
   {
     no: 10,
@@ -225,21 +225,21 @@ export const DEFAULT_DIGITAL_ADS_RESULT_2026: DigitalAdsResultRow[] = [
     meta: 0,
     google: 0,
     tiktok: 0,
-    rawLeads: 0,
-    validLeads: 0,
-    qualifiedLeadsPct: 0,
+    rawLeads: 33,
+    validLeads: 26,
+    qualifiedLeadsPct: 78.79,
     sourceFb: 0,
     sourceIg: 0,
     sourceGoogle: 0,
     sourceTiktok: 0,
     sourceYoutube: 0,
-    visited: 0,
+    visited: 2,
     totalSold: 0,
     priceExcPpn: 0,
     cpl: 0,
     percentRate: 0,
-    leadsToVisit: 0,
-    notes: ''
+    leadsToVisit: 6.06,
+    notes: '33 Leads Masuk (26 Valid Leads, 7 Junk, 2 Prospect, 8 Warm, 16 Cold, 2 Show Unit Visited)'
   },
   {
     no: 11,
@@ -300,9 +300,19 @@ export function loadSavedDigitalAdsResult(): DigitalAdsResultRow[] {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length === 12) {
         let updated = false;
-        // Ensure September row (index 8) is synced with latest verified dataset (273 raw leads, 219 valid leads, 13 visited)
-        if (parsed[8] && (parsed[8].visited < 13 || parsed[8].rawLeads < 273)) {
+        // Ensure August row (index 7) matches official report (535 raw leads, budget 48.613.935, visited 11)
+        if (parsed[7] && (parsed[7].rawLeads !== 535 || parsed[7].adBudget !== 48613935 || parsed[7].visited !== 11)) {
+          parsed[7] = { ...DEFAULT_DIGITAL_ADS_RESULT_2026[7] };
+          updated = true;
+        }
+        // Ensure September row (index 8) matches official report (432 raw leads, budget 49.007.395, price 5.743.787.811, tiktok 1)
+        if (parsed[8] && (parsed[8].rawLeads !== 432 || parsed[8].adBudget !== 49007395 || parsed[8].priceExcPpn !== 5743787811 || parsed[8].sourceTiktok !== 1)) {
           parsed[8] = { ...DEFAULT_DIGITAL_ADS_RESULT_2026[8] };
+          updated = true;
+        }
+        // Ensure October row (index 9) is synced with incoming October leads & visited show unit
+        if (parsed[9] && (parsed[9].rawLeads !== 33 || parsed[9].visited !== 2)) {
+          parsed[9] = { ...DEFAULT_DIGITAL_ADS_RESULT_2026[9] };
           updated = true;
         }
         if (updated) {

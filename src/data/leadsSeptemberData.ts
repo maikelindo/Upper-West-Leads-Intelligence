@@ -1,9 +1,2543 @@
-import { ExcelRowInput } from '../types';
+import { ExcelRowInput } from "../types";
 
-// Dataset Leads September 2026 Updated (Total: 283 leads, up to 20 Sept 2026)
+// Dataset Leads September 2026 (Total: 432 leads, 1-30 Sept 2026)
+// Single-Source of Truth: Cleanly synchronized with full dataset (432 leads utuh)
 export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
   {
     "no": 1,
+    "date": "30-Sep-26, 16:42",
+    "contact": "sapira",
+    "phone": "85892017280",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "30-Sep-26, 16:43",
+    "firstResponseTime": "0:01:36",
+    "agentFirstReplyTime": "0:01:36",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, dikirim e-brosur, ditanya luasan yang dibutuhkan, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 2,
+    "date": "30-Sep-26, 14:41",
+    "contact": "Winarto",
+    "phone": "8129777769",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "30-Sep-26, 14:41",
+    "firstResponseTime": "0:00:31",
+    "agentFirstReplyTime": "0:00:31",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, ditanya hunian/office, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 3,
+    "date": "30-Sep-26, 14:03",
+    "contact": "A",
+    "phone": "85166235564",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "30-Sep-26, 14:08",
+    "firstResponseTime": "0:04:54",
+    "agentFirstReplyTime": "0:04:54",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Indikasi penipuan/scam - minta kirim QRIS, bukan calon pembeli genuine",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 4,
+    "date": "30-Sep-26, 8:59",
+    "contact": "Lusi A",
+    "phone": "85781833607",
+    "resolve": "Jualan product",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "30-Sep-26, 9:00",
+    "firstResponseTime": "0:02:12",
+    "agentFirstReplyTime": "0:05:28",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Vendor/broker lain ('Rumah kita properti'), bukan calon pembeli",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 5,
+    "date": "30-Sep-26, 8:36",
+    "contact": "vivian S Sos",
+    "phone": "85773206861",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "30-Sep-26, 8:37",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:03:00",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Dikirim e-brosur PDF, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 6,
+    "date": "30-Sep-26, 7:27",
+    "contact": "ceo tambang🚀",
+    "phone": "89673931342",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "30-Sep-26, 7:27",
+    "firstResponseTime": "0:18:11",
+    "agentFirstReplyTime": "0:21:07",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Ditanya kebutuhan berapa BR, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 7,
+    "date": "30-Sep-26, 6:52",
+    "contact": "Harapenta",
+    "phone": "85288006906",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "30-Sep-26, 6:52",
+    "firstResponseTime": "1:16:49",
+    "agentFirstReplyTime": "1:19:45",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales FU sapa nama, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 8,
+    "date": "30-Sep-26, 6:41",
+    "contact": "Shin",
+    "phone": "81375307093",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "30-Sep-26, 6:42",
+    "firstResponseTime": "3:29:04",
+    "agentFirstReplyTime": "3:31:46",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Minat info, sales FU sapa nama, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 9,
+    "date": "29-Sep-26, 20:06",
+    "contact": "diimoet",
+    "phone": "85814297794",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "29-Sep-26, 20:06",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:18",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Dikirim video, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 10,
+    "date": "29-Sep-26, 19:08",
+    "contact": "Felicia___",
+    "phone": "-",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "29-Sep-26, 19:08",
+    "firstResponseTime": "0:02:20",
+    "agentFirstReplyTime": "0:04:37",
+    "source": "Instagram",
+    "adSource": "DM Instagram",
+    "remarks": "Ditanya kantor atau apartemen, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 11,
+    "date": "29-Sep-26, 18:50",
+    "contact": "Ca",
+    "phone": "82325900137",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "29-Sep-26, 18:51",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:02:47",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minat Loft Living, dikirim video, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 12,
+    "date": "29-Sep-26, 15:04",
+    "contact": "manusia",
+    "phone": "88983460289",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "29-Sep-26, 15:04",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:10",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya kantor atau apartemen, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 13,
+    "date": "29-Sep-26, 14:37",
+    "contact": "elsa",
+    "phone": "81263598891",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "29-Sep-26, 14:37",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:01:07",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Ditanya kebutuhan tipe unit (Apartment/Loft/SOHO), belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 14,
+    "date": "29-Sep-26, 12:28",
+    "contact": "Orio",
+    "phone": "81324691973",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "29-Sep-26, 12:28",
+    "firstResponseTime": "0:00:26",
+    "agentFirstReplyTime": "0:00:26",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Tanya furnish (kitchen set & AC), hitungan KPA, subsidi DP 5%, diskusi bank",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 15,
+    "date": "29-Sep-26, 11:39",
+    "contact": "Tassa Alexandra",
+    "phone": "82285000222",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "29-Sep-26, 11:40",
+    "firstResponseTime": "0:01:13",
+    "agentFirstReplyTime": "0:01:13",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Dikirim pricelist detail Loft Living (1BR 2,68M; 2BR 3,93M; 3BR 4,72-5,93M), belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 16,
+    "date": "29-Sep-26, 11:16",
+    "contact": "Sidiva",
+    "phone": "87787070386",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "29-Sep-26, 11:16",
+    "firstResponseTime": "0:00:28",
+    "agentFirstReplyTime": "0:00:28",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Diarahkan ke IG @lifeatupperwest utk sewa",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 17,
+    "date": "29-Sep-26, 10:57",
+    "contact": "!",
+    "phone": "85150770475",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "29-Sep-26, 11:02",
+    "firstResponseTime": "0:02:09",
+    "agentFirstReplyTime": "0:03:05",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Kerja long-term di BSD cari tempat tinggal, harga AP-B 72sqm 2,3M, diundang lihat show unit",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 18,
+    "date": "29-Sep-26, 9:54",
+    "contact": "Jeannie Flo T",
+    "phone": "81398012824",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "29-Sep-26, 9:54",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:24",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minat Loft Living, sales FU sapa nama, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 19,
+    "date": "29-Sep-26, 5:52",
+    "contact": "S",
+    "phone": "81291646815",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "29-Sep-26, 8:25",
+    "firstResponseTime": "2:32:57",
+    "agentFirstReplyTime": "2:32:57",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Minat info, sales kirim video, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 20,
+    "date": "29-Sep-26, 5:38",
+    "contact": "Abi Assalaam",
+    "phone": "81558260996",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "29-Sep-26, 8:25",
+    "firstResponseTime": "2:44:20",
+    "agentFirstReplyTime": "0:00:25",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales kirim gambar, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 21,
+    "date": "29-Sep-26, 0:26",
+    "contact": "Azizah",
+    "phone": "83872991066",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "29-Sep-26, 0:29",
+    "firstResponseTime": "0:03:19",
+    "agentFirstReplyTime": "0:03:19",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Minat info, sales kirim video, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 22,
+    "date": "29-Sep-26, 0:22",
+    "contact": "Yulia A.",
+    "phone": "8988340787",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "29-Sep-26, 0:22",
+    "firstResponseTime": "0:00:24",
+    "agentFirstReplyTime": "0:00:24",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Tanya sewa service office 25jt/bulan, diarahkan ke divisi sewa",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 23,
+    "date": "28-Sep-26, 21:52",
+    "contact": "𝒐",
+    "phone": "87872613721",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "28-Sep-26, 22:02",
+    "firstResponseTime": "0:06:43",
+    "agentFirstReplyTime": "0:09:18",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, ditanya kapasitas karyawan, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 24,
+    "date": "28-Sep-26, 20:19",
+    "contact": "Rita",
+    "phone": "81398602283",
+    "resolve": "Buyer",
+    "status": "Junk",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "28-Sep-26, 20:22",
+    "firstResponseTime": "0:03:23",
+    "agentFirstReplyTime": "0:03:23",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Tenant SOHO lt.11, konfirmasi update alamat perusahaan",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 25,
+    "date": "28-Sep-26, 19:10",
+    "contact": "AdeliaSdy",
+    "phone": "85810627901",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "28-Sep-26, 19:11",
+    "firstResponseTime": "0:00:55",
+    "agentFirstReplyTime": "0:00:55",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Tanya sewa office 6-8 orang, diarahkan divisi sewa, ditawari juga cicilan primary 13jt",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 26,
+    "date": "28-Sep-26, 19:06",
+    "contact": "RB",
+    "phone": "82277723075",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "28-Sep-26, 19:09",
+    "firstResponseTime": "0:03:03",
+    "agentFirstReplyTime": "0:00:21",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "SOHO 144sqm 5M, cicilan bank tenor 15th, sedang bisnis trip di Kalimantan, balas 'Boleh' utk simulasi",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 27,
+    "date": "28-Sep-26, 17:08",
+    "contact": "Snoop DD",
+    "phone": "2348103831235",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "28-Sep-26, 17:26",
+    "firstResponseTime": "0:17:21",
+    "agentFirstReplyTime": "0:01:08",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minat Loft Living, sales FU lanjut, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 28,
+    "date": "28-Sep-26, 17:03",
+    "contact": "ナジラ",
+    "phone": "83840013044",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "28-Sep-26, 17:03",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:23",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Balas 'aduh punten tadi kepencet' (salah klik)",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 29,
+    "date": "28-Sep-26, 8:10",
+    "contact": "parii",
+    "phone": "89526272150",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "28-Sep-26, 8:10",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:22",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales FU video & tanya ukuran, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 30,
+    "date": "28-Sep-26, 7:35",
+    "contact": "mhdltfi",
+    "phone": "81233554310",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "28-Sep-26, 7:42",
+    "firstResponseTime": "0:04:35",
+    "agentFirstReplyTime": "0:07:06",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Minat info, ditanya apartemen/SOHO, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 31,
+    "date": "28-Sep-26, 4:52",
+    "contact": "Zehan khansa",
+    "phone": "85864480496",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "28-Sep-26, 6:41",
+    "firstResponseTime": "1:46:15",
+    "agentFirstReplyTime": "1:49:43",
+    "source": "Google",
+    "adSource": "Apartemen LP2",
+    "remarks": "Minat info, FU konsep Live Play Earn Money, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 32,
+    "date": "28-Sep-26, 4:40",
+    "contact": "Mal",
+    "phone": "81513984028",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "28-Sep-26, 6:30",
+    "firstResponseTime": "1:47:56",
+    "agentFirstReplyTime": "1:50:43",
+    "source": "Instagram",
+    "adSource": "Apart vs Rumah",
+    "remarks": "Minat info, FU konsep Live Play Earn Money, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 33,
+    "date": "28-Sep-26, 1:29",
+    "contact": "M",
+    "phone": "81257342492",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "28-Sep-26, 1:43",
+    "firstResponseTime": "0:11:38",
+    "agentFirstReplyTime": "0:14:39",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, diundang Marketing Gallery, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 34,
+    "date": "28-Sep-26, 1:17",
+    "contact": "mamachulo",
+    "phone": "895384150676",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "28-Sep-26, 1:33",
+    "firstResponseTime": "0:13:46",
+    "agentFirstReplyTime": "0:16:23",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, diundang Marketing Gallery, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 35,
+    "date": "28-Sep-26, 1:00",
+    "contact": "chieppa",
+    "phone": "881012632110",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "28-Sep-26, 1:09",
+    "firstResponseTime": "0:09:33",
+    "agentFirstReplyTime": "0:10:53",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, diundang Marketing Gallery (termasuk FU percobaan otomasi), belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 36,
+    "date": "27-Sep-26, 22:22",
+    "contact": "azaajaa",
+    "phone": "87769283225",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "27-Sep-26, 22:26",
+    "firstResponseTime": "0:04:38",
+    "agentFirstReplyTime": "0:00:12",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Balas 'aku masi kecil' & 'sory tadi kepencet' (klik tidak sengaja)",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 37,
+    "date": "27-Sep-26, 21:11",
+    "contact": "Widyo",
+    "phone": "8561177487",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "27-Sep-26, 21:20",
+    "firstResponseTime": "0:09:19",
+    "agentFirstReplyTime": "0:00:20",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Kontak lama (Mei, belum ada waktu visit); sesi baru minat SOHO, FU 1x sejauh ini, belum ada respon cust",
+    "sop": "❌",
+    "notes": "SOP sementara - window 24 jam belum selesai saat data ditarik (28-Sep ~10.30 WIB)"
+  },
+  {
+    "no": 38,
+    "date": "27-Sep-26, 20:31",
+    "contact": "AL",
+    "phone": "82392069179",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "27-Sep-26, 20:42",
+    "firstResponseTime": "0:11:03",
+    "agentFirstReplyTime": "0:01:34",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, FU 1x sejauh ini, belum ada respon cust",
+    "sop": "❌",
+    "notes": "SOP sementara - window 24 jam belum selesai saat data ditarik (28-Sep ~10.30 WIB)"
+  },
+  {
+    "no": 39,
+    "date": "27-Sep-26, 19:49",
+    "contact": "Muhammad Feryandiii",
+    "phone": "8132730400",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "27-Sep-26, 19:57",
+    "firstResponseTime": "0:07:50",
+    "agentFirstReplyTime": "0:00:43",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Feryandi: tertarik unit AP-A 69,81m2, minta pricelist; dapat 2BR mulai 2,2M setelah PPN",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 40,
+    "date": "27-Sep-26, 18:16",
+    "contact": "dwipablo",
+    "phone": "82113173515",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "27-Sep-26, 18:19",
+    "firstResponseTime": "0:03:21",
+    "agentFirstReplyTime": "0:00:48",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, FU 1x sejauh ini, belum ada respon cust",
+    "sop": "❌",
+    "notes": "SOP sementara - window 24 jam belum selesai saat data ditarik (28-Sep ~10.30 WIB)"
+  },
+  {
+    "no": 41,
+    "date": "27-Sep-26, 18:03",
+    "contact": "Husein",
+    "phone": "81281904663",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "27-Sep-26, 18:12",
+    "firstResponseTime": "0:09:19",
+    "agentFirstReplyTime": "0:00:19",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, FU 2x sejauh ini, belum ada respon cust",
+    "sop": "❌",
+    "notes": "SOP sementara - window 24 jam belum selesai saat data ditarik (28-Sep ~10.30 WIB)"
+  },
+  {
+    "no": 42,
+    "date": "27-Sep-26, 17:17",
+    "contact": "Muadzin Fajri",
+    "phone": "85391011782",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "27-Sep-26, 17:22",
+    "firstResponseTime": "0:04:34",
+    "agentFirstReplyTime": "0:00:09",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Fajri: tertarik unit AP-A 69,81m2, minta pricelist/promo/ketersediaan; dapat 2,2M (corner, free PPN), belum tau lokasi",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 43,
+    "date": "27-Sep-26, 16:17",
+    "contact": "Kafin Bahfen",
+    "phone": "8170817252",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "27-Sep-26, 16:26",
+    "firstResponseTime": "0:09:23",
+    "agentFirstReplyTime": "0:00:18",
+    "source": "Instagram",
+    "adSource": "Apart & WLB",
+    "remarks": "Kafin: tanya studio (min 2BR 69sqm), 'Harga brp' -> dapat start 2,2M free PPN (69/72/82 sqm), dikirim brosur & video",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 44,
+    "date": "27-Sep-26, 14:32",
+    "contact": "nanabilaaaaauu",
+    "phone": "85773219401",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "27-Sep-26, 14:46",
+    "firstResponseTime": "0:14:11",
+    "agentFirstReplyTime": "0:00:18",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Aurel: kasih nama, tanya 'SOHO itu apa', 'oh gitu'; belum lanjut ke kebutuhan/harga",
+    "sop": "✅",
+    "notes": "[Ended by sales at 28-Sep-26 16:45 WIB]"
+  },
+  {
+    "no": 45,
+    "date": "27-Sep-26, 14:22",
+    "contact": "Felicia Halim",
+    "phone": "81288110557",
+    "resolve": "Follow Up",
+    "status": "Visited",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "27-Sep-26, 14:22",
+    "firstResponseTime": "0:00:25",
+    "agentFirstReplyTime": "0:00:25",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Kontak lama (Feb, cari office); tanya info dari link, survey hari itu jam 5 sore, sudah 'masuk parkiran' & ketemu Rose di lobby North Tower",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 46,
+    "date": "27-Sep-26, 13:48",
+    "contact": "Color Image Indonesia",
+    "phone": "DM Instagram",
+    "resolve": "Jualan product",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "27-Sep-26, 13:48",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Instagram",
+    "adSource": "DM Instagram",
+    "remarks": "Ajakan kolaborasi dari Color Image Indonesia (personal color & style), bukan leads properti",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 47,
+    "date": "27-Sep-26, 13:07",
+    "contact": "knz",
+    "phone": "87848009154",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "27-Sep-26, 13:07",
+    "firstResponseTime": "0:00:18",
+    "agentFirstReplyTime": "0:00:18",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, FU 3x (siang, sore, pagi), belum ada respon cust",
+    "sop": "✅",
+    "notes": "[Ended by sales at 28-Sep-26 15:22 WIB] SOP sementara - cek H+1 di update berikutnya"
+  },
+  {
+    "no": 48,
+    "date": "27-Sep-26, 12:58",
+    "contact": "Mrs.G",
+    "phone": "85796566831",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "27-Sep-26, 13:02",
+    "firstResponseTime": "0:04:31",
+    "agentFirstReplyTime": "0:00:11",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minat Loft Living, dikirim e-brosur & video, FU 3x (siang, sore, pagi), belum ada respon cust",
+    "sop": "✅",
+    "notes": "SOP sementara - cek H+1 di update berikutnya"
+  },
+  {
+    "no": 49,
+    "date": "27-Sep-26, 12:30",
+    "contact": "l",
+    "phone": "83844135997",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "27-Sep-26, 12:34",
+    "firstResponseTime": "0:03:34",
+    "agentFirstReplyTime": "0:01:03",
+    "source": "Instagram",
+    "adSource": "Apart & WLB",
+    "remarks": "Minat apartemen, FU 2x sejauh ini, belum ada respon cust",
+    "sop": "❌",
+    "notes": "SOP sementara - window 24 jam belum selesai saat data ditarik (28-Sep ~10.30 WIB)"
+  },
+  {
+    "no": 50,
+    "date": "27-Sep-26, 7:31",
+    "contact": "Bojan Bogdanovic",
+    "phone": "81197204897",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "27-Sep-26, 7:31",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Do you have apartments for rent?', tidak sempat dijawab (abandoned)",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 51,
+    "date": "27-Sep-26, 4:11",
+    "contact": "PT. Nur Angkasa Abadi",
+    "phone": "82127375408",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "27-Sep-26, 7:27",
+    "firstResponseTime": "3:16:23",
+    "agentFirstReplyTime": "0:00:19",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO utk kantor, dikirim e-brosur & video, FU 2x dlm 24 jam, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 52,
+    "date": "26-Sep-26, 23:20",
+    "contact": "Supriadi Asri",
+    "phone": "82194360017",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "26-Sep-26, 23:27",
+    "firstResponseTime": "0:07:05",
+    "agentFirstReplyTime": "0:00:21",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Supriadi: minta PL & denah 2BR, pilih tipe H; dapat harga 2,8M (2,6M stlh free PPN 220jt), diundang visit",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 53,
+    "date": "26-Sep-26, 19:27",
+    "contact": "Chandra Sekawan",
+    "phone": "81260993821",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "26-Sep-26, 19:27",
+    "firstResponseTime": "0:00:33",
+    "agentFirstReplyTime": "0:00:33",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Kontak lama (Jun, batal krn balkon kecil); sesi baru cari hunian, tanya Loft 2BR (sisa 1 unit), minta video, ditawari private viewing, dipindah ke WA bisnis sales",
+    "sop": "✅",
+    "notes": "[Ended by sales at 27-Sep-26 12:41 WIB]"
+  },
+  {
+    "no": 54,
+    "date": "26-Sep-26, 19:13",
+    "contact": "aon",
+    "phone": "85283318928",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "26-Sep-26, 19:13",
+    "firstResponseTime": "0:00:17",
+    "agentFirstReplyTime": "0:00:17",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Cust hanya copy-paste ulang pesan sales (echo), tidak nyambung, ditutup sales 14 menit",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 55,
+    "date": "26-Sep-26, 19:06",
+    "contact": "iiLeora",
+    "phone": "81928400333",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "26-Sep-26, 19:07",
+    "firstResponseTime": "0:00:16",
+    "agentFirstReplyTime": "0:00:16",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, FU 3x (malam, pagi, sore) + lanjut H+1, belum ada respon cust",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 56,
+    "date": "26-Sep-26, 17:36",
+    "contact": "m",
+    "phone": "881011215282",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "26-Sep-26, 17:43",
+    "firstResponseTime": "0:07:18",
+    "agentFirstReplyTime": "0:00:12",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, tanya cari kantor/apartemen, FU 1x dlm 24 jam, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 57,
+    "date": "26-Sep-26, 17:30",
+    "contact": "Fi",
+    "phone": "895328315861",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "26-Sep-26, 17:38",
+    "firstResponseTime": "0:08:01",
+    "agentFirstReplyTime": "0:01:15",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Minat info, FU 2x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 58,
+    "date": "26-Sep-26, 17:22",
+    "contact": "SISCA🌹🌹🌹",
+    "phone": "8176432738",
+    "resolve": "Jualan product",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "26-Sep-26, 17:22",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Vendor Wisnu Grafika tawarkan jasa advertising/publishing/merchandise, kirim company profile",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 59,
+    "date": "26-Sep-26, 16:10",
+    "contact": "W",
+    "phone": "81239976721",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "26-Sep-26, 16:16",
+    "firstResponseTime": "0:05:50",
+    "agentFirstReplyTime": "0:01:24",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Cari apart, tanya apakah ada yg pet friendly (dijawab max 15kg); belum jawab kebutuhan tipe/kamar",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 60,
+    "date": "26-Sep-26, 15:12",
+    "contact": "8",
+    "phone": "895622415190",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "26-Sep-26, 15:21",
+    "firstResponseTime": "0:09:41",
+    "agentFirstReplyTime": "0:00:31",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Minat info, FU 3x (sore, malam, siang) tapi belum ada respon cust",
+    "sop": "❌",
+    "notes": "FU 3x dlm 24 jam tapi tidak ada FU lanjutan setelahnya"
+  },
+  {
+    "no": 61,
+    "date": "26-Sep-26, 14:05",
+    "contact": "Erni FIT HUB BSD GOLDFINCH",
+    "phone": "DM Instagram",
+    "resolve": "Jualan product",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "26-Sep-26, 14:05",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Instagram",
+    "adSource": "Apart & WLB",
+    "remarks": "Vendor FIT HUB Indonesia tawarkan support event olahraga/free trial gym, bukan leads properti",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 62,
+    "date": "26-Sep-26, 13:11",
+    "contact": "J",
+    "phone": "821083433209",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "26-Sep-26, 13:15",
+    "firstResponseTime": "0:03:53",
+    "agentFirstReplyTime": "0:01:32",
+    "source": "Instagram",
+    "adSource": "DM Instagram",
+    "remarks": "WNA (+82), budget 3-6M, 1-2BR penthouse/unit besar; awalnya via DM Instagram (sales Bayu) lalu pindah ke WA, minta lihat unit & tanya harga (Loft start 2,68M)",
+    "sop": "✅",
+    "notes": "Digabung dgn kontak DM Instagram 'J' (13:10) - orang yg sama"
+  },
+  {
+    "no": 63,
+    "date": "26-Sep-26, 12:26",
+    "contact": "Tokushiki Fukatochimo",
+    "phone": "82171777771",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "26-Sep-26, 12:26",
+    "firstResponseTime": "0:00:15",
+    "agentFirstReplyTime": "0:00:15",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Law Office 10 karyawan, tanya lokasi BSD; direkomendasikan SOHO Signature 144sqm ±4,8M, belum tau lokasi Upper West",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 64,
+    "date": "26-Sep-26, 11:55",
+    "contact": "Riki",
+    "phone": "89643558982",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "26-Sep-26, 11:56",
+    "firstResponseTime": "0:00:19",
+    "agentFirstReplyTime": "0:00:19",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Riki (kontak lama Jun-Jul): cari kantor yg bisa jadi apart, minta detail unit ready, total harga, skema cash & cicilan; dapat SOHO start 2,6M",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 65,
+    "date": "26-Sep-26, 11:52",
+    "contact": "okta",
+    "phone": "85888540174",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "26-Sep-26, 11:54",
+    "firstResponseTime": "0:01:33",
+    "agentFirstReplyTime": "0:01:32",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, e-brosur & tanya kapasitas karyawan, FU 3x (siang, sore, pagi) tapi tidak ada respon cust",
+    "sop": "❌",
+    "notes": "FU 3x dlm 24 jam tapi tidak ada FU lanjutan setelahnya"
+  },
+  {
+    "no": 66,
+    "date": "26-Sep-26, 11:48",
+    "contact": "Chuan Shan",
+    "phone": "87793132379",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "26-Sep-26, 11:48",
+    "firstResponseTime": "0:00:25",
+    "agentFirstReplyTime": "0:00:25",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Langsung tanya sewa tahunan studio, rate mulai 80jt/thn dirasa 'kemahalan', cari 2jt/bulan, lalu 'gk jadi'",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 67,
+    "date": "26-Sep-26, 9:57",
+    "contact": "Ian",
+    "phone": "81285505386",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "26-Sep-26, 9:58",
+    "firstResponseTime": "0:00:34",
+    "agentFirstReplyTime": "0:00:34",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Ian: minat Loft Living, tanya tipe unit & minta list harga per unit; dapat kisaran 2M-5M, detail harga saat visit",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 68,
+    "date": "26-Sep-26, 9:40",
+    "contact": "Dzaky",
+    "phone": "895623810100",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "26-Sep-26, 9:50",
+    "firstResponseTime": "0:09:34",
+    "agentFirstReplyTime": "0:00:22",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Chat tidak jelas ('capis', 'naonsih capis'), tidak menjawab pertanyaan sales; tag JUNK 'Respon tidak jelas'",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 69,
+    "date": "26-Sep-26, 9:35",
+    "contact": "mil",
+    "phone": "89684078826",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "26-Sep-26, 9:38",
+    "firstResponseTime": "0:02:34",
+    "agentFirstReplyTime": "0:00:22",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Minat info, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 70,
+    "date": "26-Sep-26, 9:26",
+    "contact": "r",
+    "phone": "81997851000",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "26-Sep-26, 9:33",
+    "firstResponseTime": "0:06:13",
+    "agentFirstReplyTime": "0:01:19",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Dikirim e-brosur, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 71,
+    "date": "26-Sep-26, 8:36",
+    "contact": "Kai",
+    "phone": "82217540447",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "26-Sep-26, 8:36",
+    "firstResponseTime": "0:00:25",
+    "agentFirstReplyTime": "0:00:25",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Dapat simulasi cicilan 14jt/bln tenor 15th, ditawari lihat unit",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 72,
+    "date": "26-Sep-26, 7:20",
+    "contact": "Christine Mitsubishi Dipo",
+    "phone": "85282121996",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "26-Sep-26, 7:49",
+    "firstResponseTime": "0:29:52",
+    "agentFirstReplyTime": "0:02:30",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya apartemen/kantor, belum ada respon cust",
+    "sop": "❌",
+    "notes": "[Ended by sales at 26-Sep-26 16:16 WIB]"
+  },
+  {
+    "no": 73,
+    "date": "26-Sep-26, 7:02",
+    "contact": "irsyad kurniansyh",
+    "phone": "89656409684",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "26-Sep-26, 7:18",
+    "firstResponseTime": "0:16:32",
+    "agentFirstReplyTime": "0:02:41",
+    "source": "Google",
+    "adSource": "Apartemen LP3",
+    "remarks": "Minat info, sudah dibaca, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 74,
+    "date": "25-Sep-26, 22:24",
+    "contact": "wawaaaa",
+    "phone": "895328960468",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "25-Sep-26, 22:24",
+    "firstResponseTime": "0:00:27",
+    "agentFirstReplyTime": "0:00:27",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya hunian/office, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 75,
+    "date": "25-Sep-26, 18:32",
+    "contact": "ronny",
+    "phone": "85174442567",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "25-Sep-26, 18:35",
+    "firstResponseTime": "0:02:30",
+    "agentFirstReplyTime": "0:02:30",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Studio sold out, dapat alternatif 1+1 (2,4M), 'mungkin dipertimbangkan lagi'",
+    "sop": "✅",
+    "notes": "[Ended by sales at 29-Sep-26 09:32 WIB]"
+  },
+  {
+    "no": 76,
+    "date": "25-Sep-26, 18:09",
+    "contact": "Aldilla",
+    "phone": "89612544478",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "25-Sep-26, 18:10",
+    "firstResponseTime": "0:00:31",
+    "agentFirstReplyTime": "0:00:31",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Tanya sewa (tag JUNK otomatis dari sistem)",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 77,
+    "date": "25-Sep-26, 17:12",
+    "contact": "Furqon",
+    "phone": "87748884893",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "25-Sep-26, 17:15",
+    "firstResponseTime": "0:02:37",
+    "agentFirstReplyTime": "0:02:37",
+    "source": "Instagram",
+    "adSource": "Apart vs Rumah",
+    "remarks": "Minat info, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 78,
+    "date": "25-Sep-26, 16:51",
+    "contact": "Ayudewipl",
+    "phone": "89687319225",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "25-Sep-26, 16:54",
+    "firstResponseTime": "0:03:10",
+    "agentFirstReplyTime": "0:03:10",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Ditanya hunian/office, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 79,
+    "date": "25-Sep-26, 16:29",
+    "contact": "jiayii Tann",
+    "phone": "81239844581",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "25-Sep-26, 16:29",
+    "firstResponseTime": "0:00:24",
+    "agentFirstReplyTime": "0:00:24",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Tanya status legal unit (HGB/SHMSRS), due diligence serius",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 80,
+    "date": "25-Sep-26, 16:28",
+    "contact": "Rizki Galuh Pratama",
+    "phone": "81286197250",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "25-Sep-26, 16:38",
+    "firstResponseTime": "0:09:37",
+    "agentFirstReplyTime": "0:04:41",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Konfirmasi tujuan 'Untuk invest'",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 81,
+    "date": "25-Sep-26, 15:46",
+    "contact": "zacheus",
+    "phone": "8561262351",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "25-Sep-26, 15:46",
+    "firstResponseTime": "0:00:13",
+    "agentFirstReplyTime": "0:00:13",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 82,
+    "date": "25-Sep-26, 15:32",
+    "contact": "Nic",
+    "phone": "81216288490",
+    "resolve": "Follow Up",
+    "status": "Visited",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "25-Sep-26, 15:36",
+    "firstResponseTime": "0:03:45",
+    "agentFirstReplyTime": "0:03:45",
+    "source": "Google",
+    "adSource": "Apart & SOHO LP1",
+    "remarks": "Minat 3 BR, sudah minat LF - A, minta simulasi dan sedang Perbandingan ke Apartemen Sekitar BSD untuk memilih yang cocok sesuai kebutuhan mereka",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 83,
+    "date": "25-Sep-26, 15:08",
+    "contact": "Jenni",
+    "phone": "89698785429",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "25-Sep-26, 15:11",
+    "firstResponseTime": "0:03:01",
+    "agentFirstReplyTime": "0:03:01",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minat Loft Living, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 84,
+    "date": "25-Sep-26, 11:31",
+    "contact": "David Setiawan",
+    "phone": "61450739101",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "25-Sep-26, 11:32",
+    "firstResponseTime": "0:00:55",
+    "agentFirstReplyTime": "0:00:55",
+    "source": "Google",
+    "adSource": "Apartemen LP3",
+    "remarks": "Eksplisit tanya 'sewa selama satu bulan?', ditolak & ditutup",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 85,
+    "date": "25-Sep-26, 11:23",
+    "contact": "bre",
+    "phone": "81385985099",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "25-Sep-26, 11:29",
+    "firstResponseTime": "0:05:36",
+    "agentFirstReplyTime": "0:05:36",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Dikirim e-brosur, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 86,
+    "date": "25-Sep-26, 7:06",
+    "contact": "Jessie Novita Garlick",
+    "phone": "8567515608",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "25-Sep-26, 7:27",
+    "firstResponseTime": "0:20:42",
+    "agentFirstReplyTime": "0:00:32",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Kasih nama, balasan sopan minim, belum ada minat spesifik",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 87,
+    "date": "25-Sep-26, 5:12",
+    "contact": "brl.",
+    "phone": "85869391903",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "25-Sep-26, 6:52",
+    "firstResponseTime": "1:39:44",
+    "agentFirstReplyTime": "0:00:14",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Pak Barrul: ditawari lihat unit sore ini/besok",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 88,
+    "date": "24-Sep-26, 21:14",
+    "contact": "Driian",
+    "phone": "82210752753",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "24-Sep-26, 21:15",
+    "firstResponseTime": "0:00:19",
+    "agentFirstReplyTime": "0:00:19",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Dikirim gambar, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 89,
+    "date": "24-Sep-26, 20:11",
+    "contact": "Kelly",
+    "phone": "8116150610",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "24-Sep-26, 20:15",
+    "firstResponseTime": "0:03:39",
+    "agentFirstReplyTime": "0:01:24",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Diskusi bidang usaha kantor utk SOHO",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 90,
+    "date": "24-Sep-26, 19:33",
+    "contact": "Mohamed",
+    "phone": "81181103406",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "24-Sep-26, 19:34",
+    "firstResponseTime": "0:00:22",
+    "agentFirstReplyTime": "0:00:22",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Mau sewa meeting room, ditolak (khusus tenant)",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 91,
+    "date": "24-Sep-26, 16:50",
+    "contact": "Subianto",
+    "phone": "82111065757",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "24-Sep-26, 16:52",
+    "firstResponseTime": "0:02:25",
+    "agentFirstReplyTime": "0:00:14",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Sales follow up cek pemahaman, respon minim",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 92,
+    "date": "24-Sep-26, 14:03",
+    "contact": "kiaa",
+    "phone": "89668227222",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "24-Sep-26, 14:20",
+    "firstResponseTime": "0:16:55",
+    "agentFirstReplyTime": "0:00:59",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Minat info, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 93,
+    "date": "24-Sep-26, 13:48",
+    "contact": "Faris",
+    "phone": "85156972240",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "24-Sep-26, 13:53",
+    "firstResponseTime": "0:04:53",
+    "agentFirstReplyTime": "0:00:16",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales FU 2x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 94,
+    "date": "24-Sep-26, 13:38",
+    "contact": "rizkiiiy_",
+    "phone": "DM Instagram",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "24-Sep-26, 14:03",
+    "firstResponseTime": "0:25:01",
+    "agentFirstReplyTime": "0:02:10",
+    "source": "Instagram",
+    "adSource": "DM Instagram",
+    "remarks": "Kirim gambar tanpa teks, belum ada respon cust",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 95,
+    "date": "24-Sep-26, 13:10",
+    "contact": "Firmansyah",
+    "phone": "83140504991",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "24-Sep-26, 13:10",
+    "firstResponseTime": "0:00:12",
+    "agentFirstReplyTime": "0:00:12",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, konfirmasi 'Hunian', dikirim video unit",
+    "sop": "✅",
+    "notes": "[Ended by sales at 30-Sep-26 22:48 WIB]"
+  },
+  {
+    "no": 96,
+    "date": "24-Sep-26, 11:31",
+    "contact": "Andi Mario rita",
+    "phone": "8119006994",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "24-Sep-26, 11:35",
+    "firstResponseTime": "0:04:17",
+    "agentFirstReplyTime": "0:01:30",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Dari Google, minta brosur, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 97,
+    "date": "24-Sep-26, 10:03",
+    "contact": "Bonnie Wong ID",
+    "phone": "82353703020",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "24-Sep-26, 10:03",
+    "firstResponseTime": "0:00:12",
+    "agentFirstReplyTime": "0:00:11",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Mau sewa meeting room utk komunitas, bukan beli unit (2 sesi chat)",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 98,
+    "date": "24-Sep-26, 9:45",
+    "contact": "ENESDI SIGNATURE OFFICE",
+    "phone": "85811717717",
+    "resolve": "Buyer",
+    "status": "Junk",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "24-Sep-26, 9:54",
+    "firstResponseTime": "0:09:31",
+    "agentFirstReplyTime": "0:00:28",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Sudah pemilik unit lt.9, tanya IPL & listrik",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 99,
+    "date": "24-Sep-26, 9:24",
+    "contact": "Maria Gunawan",
+    "phone": "85220446617",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "24-Sep-26, 10:30",
+    "firstResponseTime": "0:00:19",
+    "agentFirstReplyTime": "0:00:19",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Tanya tower, serah terima, furnish, harga SOHO 2,6M detail",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 100,
+    "date": "24-Sep-26, 7:35",
+    "contact": "Decull gallagher",
+    "phone": "8895273267",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "24-Sep-26, 7:40",
+    "firstResponseTime": "0:04:59",
+    "agentFirstReplyTime": "0:00:24",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 101,
+    "date": "24-Sep-26, 7:01",
+    "contact": "kuscahyobudiprayogo",
+    "phone": "81259598899",
+    "resolve": "Follow Up",
+    "status": "Prospect",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "24-Sep-26, 9:07",
+    "firstResponseTime": "0:05:59",
+    "agentFirstReplyTime": "0:01:40",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Diskusi cicilan detail & tanya jam kedatangan hari ini, dikirim maps lokasi",
+    "sop": "✅",
+    "notes": "[Ended by sales at 30-Sep-26 14:49 WIB]"
+  },
+  {
+    "no": 102,
+    "date": "24-Sep-26, 4:54",
+    "contact": "HADI SUCIPTO BIN TARNO",
+    "phone": "811184278",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "24-Sep-26, 7:17",
+    "firstResponseTime": "2:22:48",
+    "agentFirstReplyTime": "0:00:19",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 103,
+    "date": "24-Sep-26, 0:40",
+    "contact": "GT",
+    "phone": "82129092330",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "24-Sep-26, 7:07",
+    "firstResponseTime": "2:26:38",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Tanya 'info brp' sebelum sales sempat balas",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 104,
+    "date": "24-Sep-26, 0:22",
+    "contact": "NURAISAH",
+    "phone": "82125510509",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "24-Sep-26, 0:31",
+    "firstResponseTime": "0:09:10",
+    "agentFirstReplyTime": "0:00:20",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Minat info, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 105,
+    "date": "23-Sep-26, 20:54",
+    "contact": "yd",
+    "phone": "81220168616",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "23-Sep-26, 21:04",
+    "firstResponseTime": "0:09:48",
+    "agentFirstReplyTime": "0:00:20",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minat Loft Living, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 106,
+    "date": "23-Sep-26, 19:38",
+    "contact": "Vivi",
+    "phone": "81280803820",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "23-Sep-26, 19:43",
+    "firstResponseTime": "0:05:09",
+    "agentFirstReplyTime": "0:00:16",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Unit 2BR, harga 2,4-2,8M, tanya cicilan dev, akan visit stlh dari luar kota",
+    "sop": "✅",
+    "notes": "[Ended by sales at 28-Sep-26 01:44 WIB]"
+  },
+  {
+    "no": 107,
+    "date": "23-Sep-26, 19:02",
+    "contact": ".",
+    "phone": "89684203635",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "23-Sep-26, 19:06",
+    "firstResponseTime": "0:03:52",
+    "agentFirstReplyTime": "0:01:38",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 108,
+    "date": "23-Sep-26, 18:25",
+    "contact": "Verlyn",
+    "phone": "31640873073",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "23-Sep-26, 18:25",
+    "firstResponseTime": "0:00:21",
+    "agentFirstReplyTime": "0:00:20",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Dari Google, konfirmasi huni & invest, tanya luasan unit apartemen",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 109,
+    "date": "23-Sep-26, 18:10",
+    "contact": "wang",
+    "phone": "85771874500",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "23-Sep-26, 18:13",
+    "firstResponseTime": "0:03:11",
+    "agentFirstReplyTime": "0:00:44",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minat Loft Living, sales FU 1x, belum ada respon cust",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 110,
+    "date": "23-Sep-26, 15:01",
+    "contact": "siwoyo",
+    "phone": "881011430248",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "23-Sep-26, 15:01",
+    "firstResponseTime": "0:00:30",
+    "agentFirstReplyTime": "0:00:29",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Balas 'iya ad yg bisa saya bntu' setelah konfirmasi ulang",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 111,
+    "date": "23-Sep-26, 14:03",
+    "contact": "fhri",
+    "phone": "85691332782",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "23-Sep-26, 14:26",
+    "firstResponseTime": "0:23:20",
+    "agentFirstReplyTime": "0:00:30",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Eksplisit tanya 'ini sewa apartemen kak?'",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 112,
+    "date": "23-Sep-26, 13:09",
+    "contact": "arista.duaribu.export",
+    "phone": "85186651107",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "23-Sep-26, 13:12",
+    "firstResponseTime": "0:03:14",
+    "agentFirstReplyTime": "0:00:39",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya nama, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 113,
+    "date": "23-Sep-26, 12:30",
+    "contact": "wm ilham",
+    "phone": "81280964789",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "23-Sep-26, 12:31",
+    "firstResponseTime": "0:00:31",
+    "agentFirstReplyTime": "0:00:31",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Diminta video unit, sudah dikirim",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 114,
+    "date": "23-Sep-26, 12:19",
+    "contact": "Review by Cal",
+    "phone": "DM Instagram",
+    "resolve": "Jualan Product",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "23-Sep-26, 12:19",
+    "firstResponseTime": "0:04:44",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Instagram",
+    "adSource": "DM Instagram",
+    "remarks": "Jual product endorse",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 115,
+    "date": "23-Sep-26, 11:37",
+    "contact": "MP",
+    "phone": "81282637090",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "23-Sep-26, 11:37",
+    "firstResponseTime": "0:00:20",
+    "agentFirstReplyTime": "0:00:20",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Dikirim gambar unit, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 116,
+    "date": "23-Sep-26, 11:13",
+    "contact": "Aksa",
+    "phone": "81219583899",
+    "resolve": "Follow Up",
+    "status": "Visited",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "23-Sep-26, 11:16",
+    "firstResponseTime": "0:03:38",
+    "agentFirstReplyTime": "0:01:07",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Untuk Kantor dan hunian bidang Coffee, sedang di rundingkan untuk budget cash minat T1 1206",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 117,
+    "date": "23-Sep-26, 8:08",
+    "contact": "Fera",
+    "phone": "81284158868",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "23-Sep-26, 8:18",
+    "firstResponseTime": "0:09:55",
+    "agentFirstReplyTime": "0:00:46",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya kebutuhan unit tipe, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 118,
+    "date": "23-Sep-26, 8:03",
+    "contact": "Ary Nugraha",
+    "phone": "82122461998",
+    "resolve": "Follow Up",
+    "status": "Visited",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "23-Sep-26, 8:08",
+    "firstResponseTime": "0:05:00",
+    "agentFirstReplyTime": "0:00:33",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Soho Kapasitas 10 Karyawan, minat unit Luasan 78 sqm, mau diskusi dengan Partner untuk harga dan cicilan",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 119,
+    "date": "23-Sep-26, 0:44",
+    "contact": "ferdi",
+    "phone": "82114431446",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "23-Sep-26, 0:50",
+    "firstResponseTime": "0:05:32",
+    "agentFirstReplyTime": "0:00:33",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Dikirim video unit, belum ada respon",
+    "sop": "❌",
+    "notes": "[Ended by sales at 29-Sep-26 09:34 WIB]"
+  },
+  {
+    "no": 120,
+    "date": "22-Sep-26, 22:21",
+    "contact": "khirá",
+    "phone": "81389666716",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "22-Sep-26, 22:22",
+    "firstResponseTime": "0:00:22",
+    "agentFirstReplyTime": "0:00:22",
+    "source": "Google",
+    "adSource": "Apartemen LP2",
+    "remarks": "Diskusi preferensi lantai (tinggi/tengah)",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 121,
+    "date": "22-Sep-26, 20:30",
+    "contact": "RM",
+    "phone": "85385286188",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "22-Sep-26, 20:31",
+    "firstResponseTime": "0:00:17",
+    "agentFirstReplyTime": "0:00:17",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya familiar lokasi, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 122,
+    "date": "22-Sep-26, 20:04",
+    "contact": "spiderman baiq",
+    "phone": "81511447871",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "22-Sep-26, 20:09",
+    "firstResponseTime": "0:05:04",
+    "agentFirstReplyTime": "0:00:29",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Ditanya nama, belum ada respon",
+    "sop": "❌",
+    "notes": "[Ended by sales at 27-Sep-26 11:47 WIB]"
+  },
+  {
+    "no": 123,
+    "date": "22-Sep-26, 17:52",
+    "contact": "nsa",
+    "phone": "82114066442",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "22-Sep-26, 17:53",
+    "firstResponseTime": "0:00:21",
+    "agentFirstReplyTime": "0:00:21",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya huni/invest, belum ada respon",
+    "sop": "❌",
+    "notes": "[Ended by sales at 29-Sep-26 09:35 WIB]"
+  },
+  {
+    "no": 124,
+    "date": "22-Sep-26, 16:10",
+    "contact": "Dwiputri",
+    "phone": "8158077587",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "22-Sep-26, 16:11",
+    "firstResponseTime": "0:00:27",
+    "agentFirstReplyTime": "0:00:27",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Balas emoji pray hands, minim respon lanjutan",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 125,
+    "date": "22-Sep-26, 15:56",
+    "contact": "Richard",
+    "phone": "82117901987",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "22-Sep-26, 15:57",
+    "firstResponseTime": "0:00:51",
+    "agentFirstReplyTime": "0:00:51",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya kebutuhan unit tipe, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 126,
+    "date": "22-Sep-26, 15:17",
+    "contact": ".",
+    "phone": "85811713917",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "22-Sep-26, 15:17",
+    "firstResponseTime": "0:00:25",
+    "agentFirstReplyTime": "0:00:25",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya hunian/office, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 127,
+    "date": "22-Sep-26, 14:58",
+    "contact": "iqqisss",
+    "phone": "8568769313",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "22-Sep-26, 14:59",
+    "firstResponseTime": "0:01:11",
+    "agentFirstReplyTime": "0:01:11",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Dikirim gambar unit, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 128,
+    "date": "22-Sep-26, 14:09",
+    "contact": "ra",
+    "phone": "85157694472",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "22-Sep-26, 14:12",
+    "firstResponseTime": "0:03:05",
+    "agentFirstReplyTime": "0:00:29",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Ditanya office/apartemen, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 129,
+    "date": "22-Sep-26, 14:08",
+    "contact": "Karinatasya",
+    "phone": "8978178886",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "22-Sep-26, 14:13",
+    "firstResponseTime": "0:05:25",
+    "agentFirstReplyTime": "0:00:45",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Cari sewa untuk fotoshoot",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 130,
+    "date": "22-Sep-26, 12:28",
+    "contact": "Fungdyawan Sulianto",
+    "phone": "81936535392",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "22-Sep-26, 12:28",
+    "firstResponseTime": "0:00:14",
+    "agentFirstReplyTime": "0:00:14",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Ditanya huni/invest, belum ada respon",
+    "sop": "❌",
+    "notes": "[Ended by sales at 29-Sep-26 09:35 WIB]"
+  },
+  {
+    "no": 131,
+    "date": "22-Sep-26, 11:22",
+    "contact": "Nisha",
+    "phone": "81285958456",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "22-Sep-26, 11:22",
+    "firstResponseTime": "0:00:40",
+    "agentFirstReplyTime": "0:00:40",
+    "source": "Instagram",
+    "adSource": "2Br Fully Furnsihed",
+    "remarks": "Buat bos-nya: tanya detail 2BR (harga 2,2M, DP 5%, IPL 33,8rb/m2, KPA), diundang survey weekend ini",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 132,
+    "date": "22-Sep-26, 10:25",
+    "contact": "eTHa",
+    "phone": "81911206008",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "22-Sep-26, 10:26",
+    "firstResponseTime": "0:01:16",
+    "agentFirstReplyTime": "0:01:15",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Ibu Margaretha, dijelaskan konsep Live Play Earn Money",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 133,
+    "date": "22-Sep-26, 9:46",
+    "contact": "Putra",
+    "phone": "818812939",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "22-Sep-26, 9:51",
+    "firstResponseTime": "0:04:55",
+    "agentFirstReplyTime": "0:00:18",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Diskusi angsuran, disarankan lihat unit dulu",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 134,
+    "date": "22-Sep-26, 8:01",
+    "contact": "Humble",
+    "phone": "81211700705",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "22-Sep-26, 8:28",
+    "firstResponseTime": "0:26:20",
+    "agentFirstReplyTime": "0:01:06",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Ditanya nama, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 135,
+    "date": "22-Sep-26, 7:25",
+    "contact": "nico",
+    "phone": "8987058170",
+    "resolve": "Strangers",
+    "status": "Junk",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "22-Sep-26, 7:25",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Mahasiswa Binus minta izin survei akademik, bukan leads",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 136,
+    "date": "22-Sep-26, 7:21",
+    "contact": "Albert",
+    "phone": "81290979927",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "22-Sep-26, 8:13",
+    "firstResponseTime": "0:52:00",
+    "agentFirstReplyTime": "0:00:24",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Ditanya lokasi, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 137,
+    "date": "22-Sep-26, 5:34",
+    "contact": "Anna",
+    "phone": "81317877789",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "22-Sep-26, 7:11",
+    "firstResponseTime": "1:37:19",
+    "agentFirstReplyTime": "0:00:14",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Dikirim e-brosur, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 138,
+    "date": "22-Sep-26, 0:52",
+    "contact": "Suwanto",
+    "phone": "8985527887",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "22-Sep-26, 1:02",
+    "firstResponseTime": "0:09:51",
+    "agentFirstReplyTime": "0:00:21",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Diskusi budget unit, masih berlangsung",
+    "sop": "✅",
+    "notes": "[Ended by sales at 29-Sep-26 09:35 WIB]"
+  },
+  {
+    "no": 139,
+    "date": "21-Sep-26, 23:29",
+    "contact": "Ci",
+    "phone": "87731304343",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "21-Sep-26, 23:30",
+    "firstResponseTime": "0:00:32",
+    "agentFirstReplyTime": "0:00:32",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Ditanya nama, belum ada respon",
+    "sop": "❌",
+    "notes": "[Ended by sales at 29-Sep-26 09:36 WIB]"
+  },
+  {
+    "no": 140,
+    "date": "21-Sep-26, 22:33",
+    "contact": "DIAN",
+    "phone": "85931077617",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "21-Sep-26, 22:35",
+    "firstResponseTime": "0:02:29",
+    "agentFirstReplyTime": "0:00:12",
+    "source": "Instagram",
+    "adSource": "SOHO Signature",
+    "remarks": "Bisnis pakaian, diskusi ukuran kantor sesuai jml karyawan",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 141,
+    "date": "21-Sep-26, 20:57",
+    "contact": "Dewi J",
+    "phone": "816871671",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Ira Rosdiana",
+    "answeredAt": "21-Sep-26, 21:00",
+    "firstResponseTime": "0:03:08",
+    "agentFirstReplyTime": "0:00:27",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Tanya harga 3BR spesifik",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 142,
+    "date": "21-Sep-26, 18:35",
+    "contact": "Gatra",
+    "phone": "8115708744",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "21-Sep-26, 18:35",
+    "firstResponseTime": "0:00:31",
+    "agentFirstReplyTime": "0:00:30",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minat Loft Living, tapi akhirnya minta ganti sales lain ('Tolong kasih saya sales lain ya') - tanda kurang puas, bukan pindah ke WA pribadi",
+    "sop": "✅",
+    "notes": "[Ended by sales at 23-Sep-26 03:39 WIB]"
+  },
+  {
+    "no": 143,
+    "date": "21-Sep-26, 17:35",
+    "contact": "Daniella Elora",
+    "phone": "8112773304",
+    "resolve": "Cari Sewa",
+    "status": "Junk",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "21-Sep-26, 17:35",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:00",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Tanya sewa bulanan/tahunan",
+    "sop": "",
+    "notes": null
+  },
+  {
+    "no": 144,
+    "date": "21-Sep-26, 17:30",
+    "contact": "Anton L",
+    "phone": "811928022",
+    "resolve": "Follow Up",
+    "status": "Warm",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "21-Sep-26, 17:35",
+    "firstResponseTime": "0:04:57",
+    "agentFirstReplyTime": "0:00:30",
+    "source": "Instagram",
+    "adSource": "Loft Living View",
+    "remarks": "Minta share brosur",
+    "sop": "✅",
+    "notes": null
+  },
+  {
+    "no": 145,
+    "date": "21-Sep-26, 14:52",
+    "contact": "Tinafang",
+    "phone": "87882248230",
+    "resolve": "Follow Up",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "21-Sep-26, 14:52",
+    "firstResponseTime": "0:00:14",
+    "agentFirstReplyTime": "0:00:14",
+    "source": "Not Detected",
+    "adSource": "Not Detected",
+    "remarks": "Balas 'Oh baik' singkat",
+    "sop": "✅",
+    "notes": "[Ended by sales at 21-Sep-26 22:00 WIB]"
+  },
+  {
+    "no": 146,
+    "date": "21-Sep-26, 14:41",
+    "contact": "Nad",
+    "phone": "81295181731",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Ditto Zulfikar Junaedi",
+    "answeredAt": "21-Sep-26, 14:41",
+    "firstResponseTime": "0:00:23",
+    "agentFirstReplyTime": "0:00:23",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Dikirim e-brosur, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 147,
+    "date": "21-Sep-26, 13:42",
+    "contact": "Daniel",
+    "phone": "81287458494",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Yulia Eunike",
+    "answeredAt": "21-Sep-26, 13:46",
+    "firstResponseTime": "0:03:48",
+    "agentFirstReplyTime": "0:01:03",
+    "source": "Google",
+    "adSource": "Website",
+    "remarks": "Ditanya kebutuhan unit tipe, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 148,
+    "date": "21-Sep-26, 13:40",
+    "contact": "Vinn",
+    "phone": "89626026448",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Fitriyani Dewi",
+    "answeredAt": "21-Sep-26, 13:41",
+    "firstResponseTime": "0:00:31",
+    "agentFirstReplyTime": "0:00:31",
+    "source": "Instagram",
+    "adSource": "Apart Kampus",
+    "remarks": "Pak Gilbert: ditanya sudah tau lokasi, belum ada respon",
+    "sop": "❌",
+    "notes": null
+  },
+  {
+    "no": 149,
+    "date": "21-Sep-26, 11:05",
+    "contact": "Santa",
+    "phone": "81212253899",
+    "resolve": "First Contact",
+    "status": "Cold",
+    "assigned": "Kadek Bayu Permana Putra",
+    "answeredAt": "21-Sep-26, 11:13",
+    "firstResponseTime": "0:07:13",
+    "agentFirstReplyTime": "0:00:17",
+    "source": "Google",
+    "adSource": "Apartemen LP2",
+    "remarks": "Ditanya kebutuhan hunian/investasi, belum ada respon",
+    "sop": "❌",
+    "notes": "[Ended by sales at 29-Sep-26 09:35 WIB]"
+  },
+  {
+    "no": 150,
     "date": "20-Sep-26, 22:21",
     "contact": "Angelina",
     "phone": "85161303050",
@@ -11,8 +2545,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Warm",
     "assigned": "Ira Rosdiana",
     "answeredAt": "20-Sep-26, 22:24",
-    "firstResponseTime": "0:00:00",
-    "agentFirstReplyTime": "0:02:55",
+    "firstResponseTime": "0:02:55",
+    "agentFirstReplyTime": "0:00:28",
     "source": "Google",
     "adSource": "Apartemen LP2",
     "remarks": "Sales tanya hari untuk private viewing, tunggu jawaban",
@@ -20,7 +2554,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 2,
+    "no": 151,
     "date": "20-Sep-26, 17:04",
     "contact": "Arina Renata",
     "phone": "87887181555",
@@ -28,8 +2562,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Warm",
     "assigned": "Ira Rosdiana",
     "answeredAt": "20-Sep-26, 17:05",
-    "firstResponseTime": "0:00:00",
-    "agentFirstReplyTime": "0:00:39",
+    "firstResponseTime": "0:00:39",
+    "agentFirstReplyTime": "0:00:38",
     "source": "Google",
     "adSource": "Website",
     "remarks": "Dapat harga 2BR mulai 2M, ditawari jadwal private viewing",
@@ -37,7 +2571,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 3,
+    "no": 152,
     "date": "20-Sep-26, 14:46",
     "contact": ".",
     "phone": "85129869075",
@@ -45,16 +2579,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Warm",
     "assigned": "Fitriyani Dewi",
     "answeredAt": "20-Sep-26, 14:48",
-    "firstResponseTime": "0:00:00",
+    "firstResponseTime": "0:01:41",
     "agentFirstReplyTime": "0:01:41",
     "source": "Google",
     "adSource": "Website",
     "remarks": "Ibu Nada: aktif, ditanya area aktivitas",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 01-Oct-26 08:12 WIB]"
   },
   {
-    "no": 4,
+    "no": 153,
     "date": "20-Sep-26, 7:33",
     "contact": "--i",
     "phone": "89676130952",
@@ -63,15 +2597,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "20-Sep-26, 8:08",
     "firstResponseTime": "0:35:48",
-    "agentFirstReplyTime": "0:35:48",
+    "agentFirstReplyTime": "0:00:00",
     "source": "Google",
     "adSource": "Apartemen LP3",
     "remarks": "Balas 'hunian', kasih tau tujuan pembelian",
-    "sop": "❌",
-    "notes": null
+    "sop": "✅",
+    "notes": "[Ended by sales at 26-Sep-26 11:14 WIB]"
   },
   {
-    "no": 5,
+    "no": 154,
     "date": "20-Sep-26, 5:44",
     "contact": "P",
     "phone": "89509685143",
@@ -79,16 +2613,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Junk",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "20-Sep-26, 5:44",
-    "firstResponseTime": "1:34:39",
+    "firstResponseTime": "0:00:00",
     "agentFirstReplyTime": "0:00:00",
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Chat 'Bisa transit ya' tidak relevan, ditutup sales",
-    "sop": "✅",
+    "sop": "",
     "notes": null
   },
   {
-    "no": 6,
+    "no": 155,
     "date": "19-Sep-26, 17:19",
     "contact": "kerbawww",
     "phone": "85697124296",
@@ -96,16 +2630,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Fitriyani Dewi",
     "answeredAt": "19-Sep-26, 17:20",
-    "firstResponseTime": "0:00:00",
+    "firstResponseTime": "0:01:08",
     "agentFirstReplyTime": "0:01:08",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
-    "sop": "✅",
+    "sop": "❌",
     "notes": null
   },
   {
-    "no": 7,
+    "no": 156,
     "date": "19-Sep-26, 14:18",
     "contact": "Eliza Janalis",
     "phone": "89637502074",
@@ -113,16 +2647,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Junk",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "19-Sep-26, 14:18",
-    "firstResponseTime": "0:02:45",
+    "firstResponseTime": "0:00:00",
     "agentFirstReplyTime": "0:00:00",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Chat 'Ini siapa', tidak relevan, ditutup sales",
-    "sop": "✅",
-    "notes": "[Ended by sales at 19-Sep-26 14:23 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 8,
+    "no": 157,
     "date": "19-Sep-26, 12:30",
     "contact": "ASYA NUR UTAŞ",
     "phone": "905337738574",
@@ -130,16 +2664,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Prospect",
     "assigned": "Ira Rosdiana",
     "answeredAt": "19-Sep-26, 12:31",
-    "firstResponseTime": "0:00:00",
+    "firstResponseTime": "0:00:39",
     "agentFirstReplyTime": "0:00:39",
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "WNA Turki, diundang private viewing minggu ini, balas 'Ok'",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 27-Sep-26 12:31 WIB]"
   },
   {
-    "no": 9,
+    "no": 158,
     "date": "19-Sep-26, 12:19",
     "contact": ".",
     "phone": "85891010161",
@@ -147,7 +2681,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Fitriyani Dewi",
     "answeredAt": "19-Sep-26, 12:19",
-    "firstResponseTime": "0:00:00",
+    "firstResponseTime": "0:00:10",
     "agentFirstReplyTime": "0:00:10",
     "source": "Google",
     "adSource": "Apartemen LP2",
@@ -156,7 +2690,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 10,
+    "no": 159,
     "date": "18-Sep-26, 20:37",
     "contact": "Nini Febriani",
     "phone": "81319440878",
@@ -164,16 +2698,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Junk",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "18-Sep-26, 20:42",
-    "firstResponseTime": "0:02:02",
-    "agentFirstReplyTime": "0:04:47",
+    "firstResponseTime": "0:04:47",
+    "agentFirstReplyTime": "0:00:29",
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Salah nomor, kira nomor reservasi (diarahkan cek google maps)",
-    "sop": "✅",
-    "notes": "[Ended by sales at 19-Sep-26 13:17 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 11,
+    "no": 160,
     "date": "18-Sep-26, 8:21",
     "contact": "Billy",
     "phone": "816626000",
@@ -182,15 +2716,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Ditto Zulfikar Junaedi",
     "answeredAt": "18-Sep-26, 8:26",
     "firstResponseTime": "0:05:11",
-    "agentFirstReplyTime": "0:05:11",
+    "agentFirstReplyTime": "0:00:26",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 22-Sep-26 19:44 WIB]"
   },
   {
-    "no": 12,
+    "no": 161,
     "date": "18-Sep-26, 5:23",
     "contact": "i",
     "phone": "895711453636",
@@ -199,7 +2733,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Ditto Zulfikar Junaedi",
     "answeredAt": "18-Sep-26, 7:13",
     "firstResponseTime": "1:50:13",
-    "agentFirstReplyTime": "1:50:13",
+    "agentFirstReplyTime": "0:00:00",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
@@ -207,7 +2741,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 13,
+    "no": 162,
     "date": "17-Sep-26, 22:30",
     "contact": "Mel",
     "phone": "81364137577",
@@ -216,15 +2750,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Ditto Zulfikar Junaedi",
     "answeredAt": "17-Sep-26, 22:37",
     "firstResponseTime": "0:07:23",
-    "agentFirstReplyTime": "0:01:11",
+    "agentFirstReplyTime": "0:00:15",
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Meli: minat apart, tanya harga, dapat 2,2M",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 22-Sep-26 13:48 WIB]"
   },
   {
-    "no": 14,
+    "no": 163,
     "date": "17-Sep-26, 20:51",
     "contact": "bl",
     "phone": "8984935366",
@@ -233,15 +2767,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "17-Sep-26, 21:02",
     "firstResponseTime": "0:10:07",
-    "agentFirstReplyTime": "0:10:07",
+    "agentFirstReplyTime": "0:00:34",
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 23-Sep-26 03:37 WIB]"
   },
   {
-    "no": 15,
+    "no": 164,
     "date": "17-Sep-26, 19:47",
     "contact": "b",
     "phone": "83135488173",
@@ -250,15 +2784,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "17-Sep-26, 19:50",
     "firstResponseTime": "0:02:59",
-    "agentFirstReplyTime": "0:02:59",
+    "agentFirstReplyTime": "0:00:30",
     "source": "Google",
     "adSource": "Apartemen",
     "remarks": "Tanya sewa, diarahkan ke IG rental @lifeatupperwest",
-    "sop": null,
-    "notes": "[Ended by sales at 18-Sep-26 11:06 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 16,
+    "no": 165,
     "date": "17-Sep-26, 19:11",
     "contact": "EK",
     "phone": "8111759123",
@@ -275,7 +2809,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 17,
+    "no": 166,
     "date": "17-Sep-26, 17:51",
     "contact": "Jonathan",
     "phone": "37064353730",
@@ -289,10 +2823,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Masih compare dengan apart lain di BSD, karna baru tinggal 6 bln di BSD, Suka sama APF cara bayar masih dipikirkan",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 21:54 WIB]"
   },
   {
-    "no": 18,
+    "no": 167,
     "date": "17-Sep-26, 17:44",
     "contact": "Nabila",
     "phone": "85647177164",
@@ -301,15 +2835,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Ira Rosdiana",
     "answeredAt": "17-Sep-26, 17:54",
     "firstResponseTime": "0:09:38",
-    "agentFirstReplyTime": "0:09:38",
+    "agentFirstReplyTime": "0:00:36",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Chat mengancam/troll ('viralin ke TikTok'), ditutup sales",
-    "sop": null,
-    "notes": "[Ended by sales at 17-Sep-26 18:11 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 19,
+    "no": 168,
     "date": "17-Sep-26, 15:22",
     "contact": "ayaa",
     "phone": "895410926744",
@@ -318,15 +2852,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Fitriyani Dewi",
     "answeredAt": "17-Sep-26, 15:22",
     "firstResponseTime": "0:00:19",
-    "agentFirstReplyTime": "0:00:19",
+    "agentFirstReplyTime": "0:00:18",
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
-    "sop": "✅",
-    "notes": null
+    "sop": "❌",
+    "notes": "[Ended by sales at 26-Sep-26 15:16 WIB]"
   },
   {
-    "no": 20,
+    "no": 169,
     "date": "17-Sep-26, 13:49",
     "contact": "clarissa",
     "phone": "85601342005",
@@ -335,15 +2869,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "17-Sep-26, 13:54",
     "firstResponseTime": "0:04:42",
-    "agentFirstReplyTime": "0:04:42",
+    "agentFirstReplyTime": "0:00:14",
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 23-Sep-26 03:37 WIB]"
   },
   {
-    "no": 21,
+    "no": 170,
     "date": "17-Sep-26, 12:56",
     "contact": "Ferry",
     "phone": "81293479291",
@@ -352,15 +2886,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Ira Rosdiana",
     "answeredAt": "17-Sep-26, 12:58",
     "firstResponseTime": "0:02:27",
-    "agentFirstReplyTime": "0:02:27",
+    "agentFirstReplyTime": "0:00:22",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Tanya produk lain (di luar SOHO/hunian), balas 'Ok' setelah diklarifikasi",
-    "sop": "❌",
-    "notes": null
+    "sop": "✅",
+    "notes": "[Ended by sales at 25-Sep-26 01:03 WIB]"
   },
   {
-    "no": 22,
+    "no": 171,
     "date": "17-Sep-26, 12:09",
     "contact": "G.Arifah",
     "phone": "82393489548",
@@ -369,15 +2903,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "17-Sep-26, 12:16",
     "firstResponseTime": "0:07:26",
-    "agentFirstReplyTime": "0:07:26",
+    "agentFirstReplyTime": "0:00:13",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 23-Sep-26 03:36 WIB]"
   },
   {
-    "no": 23,
+    "no": 172,
     "date": "17-Sep-26, 8:02",
     "contact": "J",
     "phone": "81218116856",
@@ -394,7 +2928,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 24,
+    "no": 173,
     "date": "17-Sep-26, 7:49",
     "contact": "Bantuan Aan",
     "phone": "85263574074",
@@ -407,11 +2941,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
-    "sop": "✅",
-    "notes": null
+    "sop": "❌",
+    "notes": "[Ended by sales at 22-Sep-26 04:50 WIB]"
   },
   {
-    "no": 25,
+    "no": 174,
     "date": "17-Sep-26, 6:48",
     "contact": "LEGAL STATION CENTER",
     "phone": "87878580668",
@@ -424,11 +2958,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x tanya lokasi, belum ada respon cust",
-    "sop": "✅",
+    "sop": "❌",
     "notes": null
   },
   {
-    "no": 26,
+    "no": 175,
     "date": "17-Sep-26, 6:37",
     "contact": "Ibu Eri",
     "phone": "81385161312",
@@ -441,11 +2975,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Apartemen LP3",
     "remarks": "Mau sewa studio 1-2 bulan, diarahkan minimal 1 tahun",
-    "sop": null,
-    "notes": "[Ended by sales at 18-Sep-26 10:22 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 27,
+    "no": 176,
     "date": "17-Sep-26, 0:44",
     "contact": "Jikri",
     "phone": "89687982405",
@@ -454,15 +2988,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "17-Sep-26, 0:45",
     "firstResponseTime": "0:05:22",
-    "agentFirstReplyTime": "0:05:22",
+    "agentFirstReplyTime": "0:00:50",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 24-Sep-26 22:37 WIB]"
   },
   {
-    "no": 28,
+    "no": 177,
     "date": "16-Sep-26, 22:58",
     "contact": "Charles Tinangon",
     "phone": "81344585993",
@@ -471,7 +3005,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Ira Rosdiana",
     "answeredAt": "16-Sep-26, 22:58",
     "firstResponseTime": "0:02:39",
-    "agentFirstReplyTime": "0:02:39",
+    "agentFirstReplyTime": "0:00:29",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x tanya office/hunian, belum ada respon cust",
@@ -479,7 +3013,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 29,
+    "no": 178,
     "date": "16-Sep-26, 19:32",
     "contact": "La",
     "phone": "83866047185",
@@ -488,15 +3022,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "16-Sep-26, 19:32",
     "firstResponseTime": "0:05:19",
-    "agentFirstReplyTime": "0:05:19",
+    "agentFirstReplyTime": "0:00:21",
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Wila: kasih nama, belum lanjut respon detail",
-    "sop": "❌",
+    "sop": "✅",
     "notes": "[Ended by sales at 17-Sep-26 15:20 WIB]"
   },
   {
-    "no": 30,
+    "no": 179,
     "date": "16-Sep-26, 19:26",
     "contact": "Galuh",
     "phone": "88989959208",
@@ -505,15 +3039,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Ira Rosdiana",
     "answeredAt": "16-Sep-26, 19:27",
     "firstResponseTime": "0:03:06",
-    "agentFirstReplyTime": "0:03:06",
+    "agentFirstReplyTime": "0:00:41",
     "source": "Instagram",
     "adSource": "Loft Living View",
     "remarks": "Dari Surabaya, ditanya invest/huni pribadi",
-    "sop": "❌",
-    "notes": null
+    "sop": "✅",
+    "notes": "[Ended by sales at 24-Sep-26 13:01 WIB]"
   },
   {
-    "no": 31,
+    "no": 180,
     "date": "16-Sep-26, 14:32",
     "contact": "Jayro18",
     "phone": "59176325236",
@@ -522,7 +3056,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Yulia Eunike",
     "answeredAt": "16-Sep-26, 14:33",
     "firstResponseTime": "0:00:47",
-    "agentFirstReplyTime": "0:00:47",
+    "agentFirstReplyTime": "0:01:42",
     "source": "Google",
     "adSource": "Apartemen LP3",
     "remarks": "Expat yang mau huni, tidak menetap lama, jadi mau sewa, pemain bola",
@@ -530,7 +3064,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 32,
+    "no": 181,
     "date": "16-Sep-26, 13:11",
     "contact": "Felica",
     "phone": "61422958182",
@@ -543,11 +3077,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Kak Feli: minat info, sales FU 2x, belum ada respon cust",
-    "sop": "✅",
-    "notes": null
+    "sop": "❌",
+    "notes": "[Ended by sales at 23-Sep-26 03:37 WIB]"
   },
   {
-    "no": 33,
+    "no": 182,
     "date": "16-Sep-26, 13:01",
     "contact": "Reni",
     "phone": "82231767458",
@@ -560,11 +3094,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Salah nomor, kira nomor resto Ta Hwa Yuan",
-    "sop": null,
-    "notes": "[Ended by sales at 16-Sep-26 13:01 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 34,
+    "no": 183,
     "date": "16-Sep-26, 12:18",
     "contact": "Michael Pasaribu",
     "phone": "82112924434",
@@ -573,15 +3107,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "assigned": "Ira Rosdiana",
     "answeredAt": "16-Sep-26, 12:19",
     "firstResponseTime": "0:02:39",
-    "agentFirstReplyTime": "0:02:39",
+    "agentFirstReplyTime": "0:00:36",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 20:48 WIB]"
   },
   {
-    "no": 35,
+    "no": 184,
     "date": "16-Sep-26, 8:09",
     "contact": "Right Translation Service",
     "phone": "85692526395",
@@ -594,13 +3128,13 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 2x, belum ada respon cust",
-    "sop": "✅",
-    "notes": null
+    "sop": "❌",
+    "notes": "[Ended by sales at 22-Sep-26 04:52 WIB]"
   },
   {
-    "no": 36,
+    "no": 185,
     "date": "16-Sep-26, 7:59",
-    "contact": "DVMYN DM Instagram",
+    "contact": "DVMYN",
     "phone": "DM Instagram",
     "resolve": "First Contact",
     "status": "Cold",
@@ -608,14 +3142,14 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "answeredAt": "16-Sep-26, 8:00",
     "firstResponseTime": "0:07:59",
     "agentFirstReplyTime": "0:00:41",
-    "source": "Instagram DM",
+    "source": "Instagram",
     "adSource": "DM Instagram",
     "remarks": "Kirim video gagal upload, belum ada respon cust",
-    "sop": "✅",
-    "notes": null
+    "sop": "❌",
+    "notes": "[Ended by sales at 18-Sep-26 18:34 WIB]"
   },
   {
-    "no": 37,
+    "no": 186,
     "date": "16-Sep-26, 7:55",
     "contact": "Devi",
     "phone": "89662149996",
@@ -623,16 +3157,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Junk",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "16-Sep-26, 7:55",
-    "firstResponseTime": "0:40:51",
+    "firstResponseTime": "0:00:00",
     "agentFirstReplyTime": "0:00:00",
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Chat tidak relevan mau rsvd Ta Hwa Yuan",
-    "sop": null,
-    "notes": "[Ended by sales at 16-Sep-26 08:38 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 38,
+    "no": 187,
     "date": "16-Sep-26, 7:47",
     "contact": "I'm Possible",
     "phone": "85883842234",
@@ -649,7 +3183,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 39,
+    "no": 188,
     "date": "15-Sep-26, 16:19",
     "contact": "beloved",
     "phone": "85697810875",
@@ -663,10 +3197,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 24-Sep-26 16:14 WIB]"
   },
   {
-    "no": 40,
+    "no": 189,
     "date": "15-Sep-26, 15:29",
     "contact": "Hw",
     "phone": "87785670007",
@@ -680,10 +3214,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 26-Sep-26 18:09 WIB]"
   },
   {
-    "no": 41,
+    "no": 190,
     "date": "15-Sep-26, 15:03",
     "contact": ".",
     "phone": "85697156692",
@@ -697,10 +3231,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 23-Sep-26 03:37 WIB]"
   },
   {
-    "no": 42,
+    "no": 191,
     "date": "15-Sep-26, 14:21",
     "contact": "Tin",
     "phone": "89501255015",
@@ -717,7 +3251,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 43,
+    "no": 192,
     "date": "15-Sep-26, 12:45",
     "contact": "Inzaghi",
     "phone": "81211143498",
@@ -731,10 +3265,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 19:43 WIB]"
   },
   {
-    "no": 44,
+    "no": 193,
     "date": "15-Sep-26, 12:23",
     "contact": "Imrann",
     "phone": "85721678812",
@@ -748,10 +3282,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 22-Sep-26 04:50 WIB]"
   },
   {
-    "no": 45,
+    "no": 194,
     "date": "15-Sep-26, 11:43",
     "contact": "nada",
     "phone": "85117173166",
@@ -768,7 +3302,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 46,
+    "no": 195,
     "date": "15-Sep-26, 11:34",
     "contact": "reznrr",
     "phone": "82110802302",
@@ -781,11 +3315,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Mahasiswa UMN, cari lokasi shooting film, minta PL sewa & minta visit",
-    "sop": null,
-    "notes": "[Ended by sales at 15-Sep-26 11:35 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 47,
+    "no": 196,
     "date": "15-Sep-26, 10:58",
     "contact": "Babydut",
     "phone": "83189242343",
@@ -799,10 +3333,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 28-Sep-26 16:55 WIB]"
   },
   {
-    "no": 48,
+    "no": 197,
     "date": "15-Sep-26, 9:51",
     "contact": "Huda",
     "phone": "887437050560",
@@ -816,15 +3350,15 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 19:44 WIB]"
   },
   {
-    "no": 49,
+    "no": 198,
     "date": "15-Sep-26, 0:58",
     "contact": "Alfredi",
     "phone": "81372855990",
     "resolve": "Follow Up",
-    "status": "Visited",
+    "status": " Visited",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "15-Sep-26, 2:20",
     "firstResponseTime": "0:07:35",
@@ -833,10 +3367,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Minat SHG cicilan oke, tapi perlu disksui dengan direksi lain karna mau RUPS dlu akhir oktober",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 21:54 WIB]"
   },
   {
-    "no": 50,
+    "no": 199,
     "date": "15-Sep-26, 0:10",
     "contact": "Jessie",
     "phone": "82128231348",
@@ -853,7 +3387,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 18:18 WIB]"
   },
   {
-    "no": 51,
+    "no": 200,
     "date": "15-Sep-26, 0:07",
     "contact": "Jack スノト",
     "phone": "8125612700",
@@ -870,7 +3404,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 52,
+    "no": 201,
     "date": "14-Sep-26, 22:36",
     "contact": "Berli",
     "phone": "87878740395",
@@ -883,11 +3417,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Salah nomor, kira nomor resto Ta Hwa Yuan",
-    "sop": null,
-    "notes": "[Ended by sales at 15-Sep-26 12:48 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 53,
+    "no": 202,
     "date": "14-Sep-26, 22:22",
     "contact": "ayusita",
     "phone": "85971707619",
@@ -901,10 +3435,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 28-Sep-26 16:54 WIB]"
   },
   {
-    "no": 54,
+    "no": 203,
     "date": "14-Sep-26, 17:10",
     "contact": "Jovanie Lim",
     "phone": "81266167700",
@@ -921,7 +3455,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 55,
+    "no": 204,
     "date": "14-Sep-26, 16:48",
     "contact": "Dhiyaul Haq",
     "phone": "85719035967",
@@ -935,10 +3469,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 4x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 19:43 WIB]"
   },
   {
-    "no": 56,
+    "no": 205,
     "date": "14-Sep-26, 16:20",
     "contact": "Kenny Adinugroho",
     "phone": "8118303024",
@@ -952,10 +3486,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 22-Sep-26 04:52 WIB]"
   },
   {
-    "no": 57,
+    "no": 206,
     "date": "14-Sep-26, 16:12",
     "contact": "Della Adhiani",
     "phone": "89696046380",
@@ -972,7 +3506,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 58,
+    "no": 207,
     "date": "14-Sep-26, 16:02",
     "contact": "MasHadi Primatam4",
     "phone": "8111110028",
@@ -986,10 +3520,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 4x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 29-Sep-26 11:13 WIB]"
   },
   {
-    "no": 59,
+    "no": 208,
     "date": "14-Sep-26, 15:31",
     "contact": "bagas.",
     "phone": "85775301259",
@@ -1006,7 +3540,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 19:08 WIB]"
   },
   {
-    "no": 60,
+    "no": 209,
     "date": "14-Sep-26, 12:58",
     "contact": "Claudius B",
     "phone": "82111392084",
@@ -1023,7 +3557,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 61,
+    "no": 210,
     "date": "14-Sep-26, 12:57",
     "contact": "Lusia Djong",
     "phone": "87771599225",
@@ -1036,11 +3570,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Salah nomor, kira nomor resto Ta Hwa Yuan",
-    "sop": null,
-    "notes": "[Ended by sales at 14-Sep-26 13:06 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 62,
+    "no": 211,
     "date": "14-Sep-26, 12:36",
     "contact": "MufiStore Kaos Custom",
     "phone": "82327803457",
@@ -1054,10 +3588,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 29-Sep-26 11:13 WIB]"
   },
   {
-    "no": 63,
+    "no": 212,
     "date": "14-Sep-26, 12:31",
     "contact": "Cia Ardiansyah",
     "phone": "82236325905",
@@ -1070,11 +3604,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Minta PL sewa bulanan/tahunan 1BR",
-    "sop": null,
-    "notes": "[Ended by sales at 15-Sep-26 12:50 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 64,
+    "no": 213,
     "date": "14-Sep-26, 12:07",
     "contact": "Winna",
     "phone": "81288960815",
@@ -1087,11 +3621,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Salah nomor, kira nomor resto (soft opening, jam buka, diskon)",
-    "sop": null,
-    "notes": "[Ended by sales at 15-Sep-26 12:50 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 65,
+    "no": 214,
     "date": "14-Sep-26, 11:22",
     "contact": "Jenny Theng",
     "phone": "81994852768",
@@ -1099,16 +3633,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Junk",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "14-Sep-26, 11:22",
-    "firstResponseTime": "0:00:00",
-    "agentFirstReplyTime": "0:00:00",
+    "firstResponseTime": "0:14:12",
+    "agentFirstReplyTime": "0:00:20",
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Salah nomor, tanya lokasi resto (sesi 1 dari 2)",
-    "sop": null,
-    "notes": "[Ended by sales at 14-Sep-26 11:22 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 66,
+    "no": 215,
     "date": "14-Sep-26, 10:56",
     "contact": "MasyaAllah",
     "phone": "87771229771",
@@ -1125,7 +3659,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 67,
+    "no": 216,
     "date": "14-Sep-26, 9:36",
     "contact": "AG",
     "phone": "87790063666",
@@ -1139,10 +3673,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 4x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by system at 28-Sep-26 08:34 WIB]"
   },
   {
-    "no": 68,
+    "no": 217,
     "date": "14-Sep-26, 9:33",
     "contact": "ALEX HAN",
     "phone": "81380778077",
@@ -1155,11 +3689,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Minta PL apartemen, dapat harga, lalu 'sorry pak budget nya gak masuk'",
-    "sop": null,
+    "sop": "",
     "notes": null
   },
   {
-    "no": 69,
+    "no": 218,
     "date": "14-Sep-26, 8:15",
     "contact": "Dimas SamidunZ",
     "phone": "81808081821",
@@ -1176,7 +3710,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 19:08 WIB]"
   },
   {
-    "no": 70,
+    "no": 219,
     "date": "14-Sep-26, 2:00",
     "contact": "canpi",
     "phone": "87821956628",
@@ -1193,7 +3727,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 71,
+    "no": 220,
     "date": "13-Sep-26, 22:28",
     "contact": "hazel",
     "phone": "83135066376",
@@ -1207,10 +3741,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by system at 25-Sep-26 13:49 WIB]"
   },
   {
-    "no": 72,
+    "no": 221,
     "date": "13-Sep-26, 21:26",
     "contact": "Zoma by.U",
     "phone": "85196482397",
@@ -1227,7 +3761,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 15:13 WIB]"
   },
   {
-    "no": 73,
+    "no": 222,
     "date": "13-Sep-26, 21:26",
     "contact": "Novia - 23",
     "phone": "85770240858",
@@ -1244,7 +3778,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 20-Sep-26 21:39 WIB]"
   },
   {
-    "no": 74,
+    "no": 223,
     "date": "13-Sep-26, 20:10",
     "contact": "DVJ",
     "phone": "82111386831",
@@ -1261,7 +3795,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 75,
+    "no": 224,
     "date": "13-Sep-26, 19:31",
     "contact": "Pay",
     "phone": "895365141738",
@@ -1278,7 +3812,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 18-Sep-26 14:24 WIB]"
   },
   {
-    "no": 76,
+    "no": 225,
     "date": "13-Sep-26, 19:04",
     "contact": "feliks adhitama",
     "phone": "81338724661",
@@ -1295,7 +3829,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 77,
+    "no": 226,
     "date": "13-Sep-26, 17:35",
     "contact": "sal",
     "phone": "83815405233",
@@ -1312,7 +3846,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 21-Sep-26 08:31 WIB]"
   },
   {
-    "no": 78,
+    "no": 227,
     "date": "13-Sep-26, 17:23",
     "contact": "Alda",
     "phone": "81546866442",
@@ -1329,7 +3863,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 79,
+    "no": 228,
     "date": "13-Sep-26, 16:59",
     "contact": "Faisal Nugraha",
     "phone": "81324580117",
@@ -1346,7 +3880,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 18:20 WIB]"
   },
   {
-    "no": 80,
+    "no": 229,
     "date": "13-Sep-26, 16:35",
     "contact": "Ryan",
     "phone": "81282794013",
@@ -1363,7 +3897,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 19:11 WIB]"
   },
   {
-    "no": 81,
+    "no": 230,
     "date": "13-Sep-26, 13:46",
     "contact": "Evita Febriyanti",
     "phone": "85966466216",
@@ -1380,7 +3914,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 82,
+    "no": 231,
     "date": "13-Sep-26, 12:39",
     "contact": "Jun 郭",
     "phone": "85121178717",
@@ -1393,11 +3927,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Booking resto, sadar 'salah chat', tidak relevan",
-    "sop": null,
-    "notes": "[Ended by sales at 16-Sep-26 15:34 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 83,
+    "no": 232,
     "date": "13-Sep-26, 12:15",
     "contact": "Natalia Vanessa",
     "phone": "811821996",
@@ -1410,11 +3944,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Tanya reservasi resto Ta Hwa Yuan, tidak relevan dgn properti",
-    "sop": null,
-    "notes": "[Ended by sales at 14-Sep-26 11:21 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 84,
+    "no": 233,
     "date": "13-Sep-26, 11:33",
     "contact": "Kaleb",
     "phone": "81806087602",
@@ -1427,11 +3961,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Tanya jam buka resto, tidak relevan dgn properti",
-    "sop": null,
-    "notes": "[Ended by sales at 13-Sep-26 11:54 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 85,
+    "no": 234,
     "date": "13-Sep-26, 11:00",
     "contact": "Leny Mudiarti",
     "phone": "81289857308",
@@ -1444,11 +3978,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Tanya reservasi resto Tah Wa Yuan, tidak relevan dgn properti",
-    "sop": null,
-    "notes": "[Ended by sales at 13-Sep-26 11:07 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 86,
+    "no": 235,
     "date": "13-Sep-26, 10:55",
     "contact": "Charlie",
     "phone": "89520001349",
@@ -1465,7 +3999,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 87,
+    "no": 236,
     "date": "13-Sep-26, 10:01",
     "contact": "ARIL",
     "phone": "89668726269",
@@ -1479,10 +4013,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 22:14 WIB]"
   },
   {
-    "no": 88,
+    "no": 237,
     "date": "13-Sep-26, 7:10",
     "contact": "xxnzm",
     "phone": "83192631729",
@@ -1499,7 +4033,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 11:54 WIB]"
   },
   {
-    "no": 89,
+    "no": 238,
     "date": "13-Sep-26, 6:50",
     "contact": "JR",
     "phone": "81398617739",
@@ -1513,10 +4047,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 3x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 12:37 WIB]"
   },
   {
-    "no": 90,
+    "no": 239,
     "date": "13-Sep-26, 4:07",
     "contact": "jeniamalia44",
     "phone": "89653840009",
@@ -1533,7 +4067,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 22:20 WIB]"
   },
   {
-    "no": 91,
+    "no": 240,
     "date": "13-Sep-26, 4:04",
     "contact": "kuk",
     "phone": "895621548368",
@@ -1547,10 +4081,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Minta info dari Google, sales FU 3x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 15:28 WIB]"
   },
   {
-    "no": 92,
+    "no": 241,
     "date": "13-Sep-26, 1:55",
     "contact": "Pdd",
     "phone": "81281238889",
@@ -1564,10 +4098,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Minta PL loft apt, dapat harga mulai 2M",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 19:01 WIB]"
   },
   {
-    "no": 93,
+    "no": 242,
     "date": "13-Sep-26, 0:28",
     "contact": "OSIS//elmira aklidisa",
     "phone": "82111924354",
@@ -1581,10 +4115,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 3x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 15:27 WIB]"
   },
   {
-    "no": 94,
+    "no": 243,
     "date": "12-Sep-26, 18:34",
     "contact": "vy",
     "phone": "8984309696",
@@ -1598,10 +4132,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 22:14 WIB]"
   },
   {
-    "no": 95,
+    "no": 244,
     "date": "12-Sep-26, 17:51",
     "contact": "Natni",
     "phone": "85821717487",
@@ -1618,7 +4152,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 96,
+    "no": 245,
     "date": "12-Sep-26, 14:08",
     "contact": "Stenly Steven",
     "phone": "87730578488",
@@ -1631,11 +4165,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Handover unit milik ayahnya, tanya proses serah terima (2 sesi chat lanjutan tgl 13)",
-    "sop": null,
-    "notes": "[Ended by sales at 15-Sep-26 12:53 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 97,
+    "no": 246,
     "date": "12-Sep-26, 13:28",
     "contact": "bismillah",
     "phone": "85781257684",
@@ -1648,11 +4182,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Trolling bahasa ('ga ngerti Indo' lalu 'gabisa Inggris')",
-    "sop": null,
-    "notes": "[Ended by sales at 13-Sep-26 07:47 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 98,
+    "no": 247,
     "date": "12-Sep-26, 12:06",
     "contact": "Lilye",
     "phone": "895393340200",
@@ -1669,7 +4203,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 99,
+    "no": 248,
     "date": "12-Sep-26, 11:20",
     "contact": "Dira",
     "phone": "81229967078",
@@ -1683,10 +4217,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 4x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 15:26 WIB]"
   },
   {
-    "no": 100,
+    "no": 249,
     "date": "12-Sep-26, 9:34",
     "contact": "Gde B",
     "phone": "81808803808",
@@ -1703,7 +4237,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 101,
+    "no": 250,
     "date": "12-Sep-26, 6:29",
     "contact": "Joyce",
     "phone": "81289721377",
@@ -1717,10 +4251,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 4x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 15:24 WIB]"
   },
   {
-    "no": 102,
+    "no": 251,
     "date": "12-Sep-26, 4:35",
     "contact": "19",
     "phone": "85191435080",
@@ -1734,10 +4268,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Balas 'Ohh ok' singkat, tidak lanjut jawab kebutuhan huni/invest",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 15:25 WIB]"
   },
   {
-    "no": 103,
+    "no": 252,
     "date": "11-Sep-26, 23:10",
     "contact": "kok",
     "phone": "8211979252",
@@ -1751,10 +4285,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Aku coba liat2 dulu yah kak'",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 28-Sep-26 16:58 WIB]"
   },
   {
-    "no": 104,
+    "no": 253,
     "date": "11-Sep-26, 23:01",
     "contact": "Penn",
     "phone": "87896542404",
@@ -1767,11 +4301,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Tanya tipe studio & sewa perbulan, belum ada respon sales",
-    "sop": null,
-    "notes": "[Ended by sales at 12-Sep-26 10:45 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 105,
+    "no": 254,
     "date": "11-Sep-26, 21:56",
     "contact": "JSBRdisa",
     "phone": "81285132727",
@@ -1788,7 +4322,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 106,
+    "no": 255,
     "date": "11-Sep-26, 19:38",
     "contact": "tdkdkthui",
     "phone": "88215923510",
@@ -1805,7 +4339,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:17 WIB]"
   },
   {
-    "no": 107,
+    "no": 256,
     "date": "11-Sep-26, 19:34",
     "contact": "E",
     "phone": "82289427392",
@@ -1818,11 +4352,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Kirim spam DP motor, tidak relevan",
-    "sop": null,
-    "notes": "[Ended by sales at 11-Sep-26 19:39 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 108,
+    "no": 257,
     "date": "11-Sep-26, 18:48",
     "contact": "Andrie Riomalen",
     "phone": "82319592880",
@@ -1836,27 +4370,27 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Minta pricelist dari Google, sales FU 4x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 15:23 WIB]"
   },
   {
-    "no": 109,
+    "no": 258,
     "date": "11-Sep-26, 18:01",
     "contact": "Eko Eks Sungai Penuh",
     "phone": "81287533143",
     "resolve": "Follow Up",
-    "status": "Warm",
+    "status": "Cold",
     "assigned": "Kadek Bayu Permana Putra",
     "answeredAt": "11-Sep-26, 18:06",
     "firstResponseTime": "0:05:34",
     "agentFirstReplyTime": "0:00:48",
     "source": "Google",
     "adSource": "Website",
-    "remarks": "Unit AP-A 69,81sqm, tanya harga, dapat 2M cicilan 10jt",
+    "remarks": "Unit AP-A 69,81sqm, harga 2M cicilan 10jt - cust TIDAK LANJUT respon setelahnya, sales kirim penutup",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 15-Sep-26 17:08 WIB]"
   },
   {
-    "no": 110,
+    "no": 259,
     "date": "11-Sep-26, 16:50",
     "contact": "Sonya Stevana",
     "phone": "81219893286",
@@ -1873,7 +4407,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 111,
+    "no": 260,
     "date": "11-Sep-26, 16:35",
     "contact": "elyn",
     "phone": "85894088450",
@@ -1881,16 +4415,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Junk",
     "assigned": "Sarah Safira Firdais",
     "answeredAt": "11-Sep-26, 16:35",
-    "firstResponseTime": "0:00:25",
-    "agentFirstReplyTime": "0:00:24",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:00:00",
     "source": "Google",
     "adSource": "Website",
     "remarks": "Mau sewa 2BR utk kuliah",
-    "sop": null,
-    "notes": "[Ended by sales at 13-Sep-26 10:22 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 112,
+    "no": 261,
     "date": "11-Sep-26, 14:53",
     "contact": "Yanto LUCAS",
     "phone": "81514360191",
@@ -1903,11 +4437,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Cuma nanya nomor telfon resto dimsum, bukan soal properti",
-    "sop": null,
-    "notes": "[Ended by sales at 11-Sep-26 15:49 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 113,
+    "no": 262,
     "date": "11-Sep-26, 14:21",
     "contact": "Hari Bowo",
     "phone": "87871544509",
@@ -1924,7 +4458,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 114,
+    "no": 263,
     "date": "11-Sep-26, 14:05",
     "contact": "Sri Mulyaningsih",
     "phone": "8111704121",
@@ -1937,11 +4471,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Mau sewa harian, ditolak (min 1 tahun), 'belum mb terimakasih'",
-    "sop": null,
-    "notes": "[Ended by sales at 14-Sep-26 17:06 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 115,
+    "no": 264,
     "date": "11-Sep-26, 13:04",
     "contact": "😘💕🥰🤎",
     "phone": "85893070356",
@@ -1958,7 +4492,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:21 WIB]"
   },
   {
-    "no": 116,
+    "no": 265,
     "date": "11-Sep-26, 10:55",
     "contact": "fiorentinaskr",
     "phone": "88291015538",
@@ -1972,10 +4506,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 16:59 WIB]"
   },
   {
-    "no": 117,
+    "no": 266,
     "date": "11-Sep-26, 10:11",
     "contact": "Sylvia Agustina",
     "phone": "8159138446",
@@ -1989,10 +4523,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Invest aja', dapat harga hunian 2,2M / office 2,8M & brosur",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 09:28 WIB]"
   },
   {
-    "no": 118,
+    "no": 267,
     "date": "11-Sep-26, 7:48",
     "contact": "Val",
     "phone": "82140630156",
@@ -2006,27 +4540,27 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Valentina: tanya start price & minta katalog, dapat harga 2-10M",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 16:31 WIB]"
   },
   {
-    "no": 119,
+    "no": 268,
     "date": "11-Sep-26, 6:57",
     "contact": ".",
     "phone": "87889509458",
     "resolve": "Follow Up",
-    "status": "Warm",
+    "status": "Cold",
     "assigned": "Sarah Safira Firdais",
     "answeredAt": "11-Sep-26, 6:59",
-    "firstResponseTime": "3:03:13",
-    "agentFirstReplyTime": "0:00:00",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "23:34:04",
     "source": "Google",
     "adSource": "Website",
-    "remarks": "Evan: tanya tipe (1BR), minta brosur, diskusi tinggal/invest",
+    "remarks": "Evan: minta brosur & ukuran, tapi TIDAK LANJUT respon setelah ditanya huni/invest",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 08:50 WIB]"
   },
   {
-    "no": 120,
+    "no": 269,
     "date": "10-Sep-26, 23:03",
     "contact": "Remina_Papua_Jayapura",
     "phone": "8215095064",
@@ -2040,10 +4574,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 16-Sep-26 16:57 WIB]"
   },
   {
-    "no": 121,
+    "no": 270,
     "date": "10-Sep-26, 16:38",
     "contact": "𝒱𝒶𝒶",
     "phone": "82199546134",
@@ -2057,10 +4591,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 28-Sep-26 16:58 WIB]"
   },
   {
-    "no": 122,
+    "no": 271,
     "date": "10-Sep-26, 14:37",
     "contact": "AffitrianyR",
     "phone": "81323910616",
@@ -2077,7 +4611,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 123,
+    "no": 272,
     "date": "10-Sep-26, 14:08",
     "contact": "Kevin 🇮🇩",
     "phone": "81541277051",
@@ -2094,7 +4628,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 16-Sep-26 10:01 WIB]"
   },
   {
-    "no": 124,
+    "no": 273,
     "date": "10-Sep-26, 12:54",
     "contact": "Eric Irawan",
     "phone": "8128566308",
@@ -2108,10 +4642,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Minta brosur SOHO dari Google, sales FU 1x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 08:38 WIB]"
   },
   {
-    "no": 125,
+    "no": 274,
     "date": "10-Sep-26, 11:55",
     "contact": "SIM2",
     "phone": "82211037926",
@@ -2119,8 +4653,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Warm",
     "assigned": "Sarah Safira Firdais",
     "answeredAt": "10-Sep-26, 11:56",
-    "firstResponseTime": "0:00:32",
-    "agentFirstReplyTime": "0:00:31",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "0:51:18",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Pak Halim, tanya kapasitas, ukuran, harga (2-10M) & layout SOHO",
@@ -2128,7 +4662,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 10:44 WIB]"
   },
   {
-    "no": 126,
+    "no": 275,
     "date": "10-Sep-26, 10:41",
     "contact": "Yus",
     "phone": "82115590154",
@@ -2145,7 +4679,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:09 WIB]"
   },
   {
-    "no": 127,
+    "no": 276,
     "date": "10-Sep-26, 10:40",
     "contact": "Chen",
     "phone": "81991999059",
@@ -2162,7 +4696,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 15:49 WIB]"
   },
   {
-    "no": 128,
+    "no": 277,
     "date": "10-Sep-26, 9:25",
     "contact": "Zaed",
     "phone": "818712456",
@@ -2179,7 +4713,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 129,
+    "no": 278,
     "date": "10-Sep-26, 9:09",
     "contact": "Deriandra Shifani Latifa",
     "phone": "81221685575",
@@ -2192,11 +4726,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Cari sewa apartemen full furnish 2 kamar, diarahkan ke info pembelian saja",
-    "sop": null,
-    "notes": "[Ended by sales at 12-Sep-26 14:11 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 130,
+    "no": 279,
     "date": "10-Sep-26, 6:50",
     "contact": "Ariel W",
     "phone": "811224844",
@@ -2213,7 +4747,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 131,
+    "no": 280,
     "date": "10-Sep-26, 6:44",
     "contact": "F",
     "phone": "8118799689",
@@ -2230,7 +4764,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 08:55 WIB]"
   },
   {
-    "no": 132,
+    "no": 281,
     "date": "09-Sep-26, 20:32",
     "contact": "yanto",
     "phone": "85893013118",
@@ -2243,11 +4777,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Chat tidak jelas",
-    "sop": null,
-    "notes": "[Ended by sales at 09-Sep-26 21:49 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 133,
+    "no": 282,
     "date": "09-Sep-26, 17:40",
     "contact": "a",
     "phone": "85710715941",
@@ -2260,11 +4794,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "Apart & WLB",
     "remarks": "Chat 'Gada' doang, belum ada respon sales",
-    "sop": null,
-    "notes": "[Ended by sales at 09-Sep-26 18:01 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 134,
+    "no": 283,
     "date": "09-Sep-26, 14:34",
     "contact": "Bashar Wannous",
     "phone": "85212106558",
@@ -2277,11 +4811,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Cari studio utk disewa, diarahkan ke IG rental",
-    "sop": null,
-    "notes": "[Ended by sales at 09-Sep-26 14:43 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 135,
+    "no": 284,
     "date": "09-Sep-26, 13:53",
     "contact": "Dayang Melati - Dynamic",
     "phone": "81196911531",
@@ -2295,10 +4829,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 16:01 WIB]"
   },
   {
-    "no": 136,
+    "no": 285,
     "date": "09-Sep-26, 13:43",
     "contact": "Yessycharlotte",
     "phone": "8176976038",
@@ -2311,11 +4845,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "Loft Living View",
     "remarks": "Tanya apakah bisa sewa unit",
-    "sop": null,
-    "notes": "[Ended by sales at 18-Sep-26 18:27 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 137,
+    "no": 286,
     "date": "09-Sep-26, 8:52",
     "contact": "Gema Ilham",
     "phone": "81524661111",
@@ -2329,10 +4863,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living 3+1 kamar (169sqm, 5,9M, sisa 2 unit), tanya pet policy & minta PL",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 28-Sep-26 16:59 WIB]"
   },
   {
-    "no": 138,
+    "no": 287,
     "date": "09-Sep-26, 6:09",
     "contact": "Contact 2104",
     "phone": "85704135213",
@@ -2349,7 +4883,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:14 WIB]"
   },
   {
-    "no": 139,
+    "no": 288,
     "date": "08-Sep-26, 23:46",
     "contact": "Wanda",
     "phone": "8118499513",
@@ -2366,7 +4900,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Jul-26 12:02 WIB]"
   },
   {
-    "no": 140,
+    "no": 289,
     "date": "08-Sep-26, 21:29",
     "contact": "RM Meiza",
     "phone": "87885611878",
@@ -2383,7 +4917,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 11:36 WIB]"
   },
   {
-    "no": 141,
+    "no": 290,
     "date": "08-Sep-26, 20:23",
     "contact": "Arin Ramadhanty Alfaizah",
     "phone": "83854531460",
@@ -2400,7 +4934,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 11:30 WIB]"
   },
   {
-    "no": 142,
+    "no": 291,
     "date": "08-Sep-26, 20:03",
     "contact": "bandarr",
     "phone": "89699273489",
@@ -2417,7 +4951,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:16 WIB]"
   },
   {
-    "no": 143,
+    "no": 292,
     "date": "08-Sep-26, 17:37",
     "contact": "tmyyjfri",
     "phone": "83177566408",
@@ -2434,7 +4968,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 17:50 WIB]"
   },
   {
-    "no": 144,
+    "no": 293,
     "date": "08-Sep-26, 17:35",
     "contact": "Surya",
     "phone": "87761527160",
@@ -2448,10 +4982,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Minat info, sales FU 4x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 16:01 WIB]"
   },
   {
-    "no": 145,
+    "no": 294,
     "date": "08-Sep-26, 17:23",
     "contact": ".",
     "phone": "88973618502",
@@ -2464,11 +4998,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Kirim foto random, belum ada respon sales sama sekali",
-    "sop": null,
-    "notes": "[Ended by sales at 08-Sep-26 17:55 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 146,
+    "no": 295,
     "date": "08-Sep-26, 16:04",
     "contact": "laila",
     "phone": "81932356281",
@@ -2485,7 +5019,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 08:55 WIB]"
   },
   {
-    "no": 147,
+    "no": 296,
     "date": "08-Sep-26, 11:36",
     "contact": "Linda Ang",
     "phone": "81515008838",
@@ -2498,11 +5032,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Sudah beli unit, minta kontak admin utk BAST (serah terima)",
-    "sop": null,
-    "notes": "[Ended by sales at 08-Sep-26 11:50 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 148,
+    "no": 297,
     "date": "08-Sep-26, 11:30",
     "contact": "Cryogas",
     "phone": "82111347777",
@@ -2512,14 +5046,14 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "answeredAt": "08-Sep-26, 11:37",
     "firstResponseTime": "0:00:22",
     "agentFirstReplyTime": "0:00:22",
-    "source": "Not Detected",
-    "adSource": "Not Detected",
+    "source": "instagram",
+    "adSource": "SOHO Signature",
     "remarks": "Rey: tanya harga SOHO 2,4M, cicilan KPA 15th DP10%, IPL - masih planning",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 27-Sep-26 11:58 WIB]"
   },
   {
-    "no": 149,
+    "no": 298,
     "date": "08-Sep-26, 10:24",
     "contact": "nadine",
     "phone": "82282892469",
@@ -2533,10 +5067,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Broadcast: tanya harga 2BR & availability Loft Living, aktif nanya",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 24-Sep-26 08:48 WIB]"
   },
   {
-    "no": 150,
+    "no": 299,
     "date": "07-Sep-26, 20:31",
     "contact": "~",
     "phone": "87780020930",
@@ -2553,7 +5087,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 19:24 WIB]"
   },
   {
-    "no": 151,
+    "no": 300,
     "date": "07-Sep-26, 19:00",
     "contact": "Allll",
     "phone": "81220711365",
@@ -2570,7 +5104,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 15:04 WIB]"
   },
   {
-    "no": 152,
+    "no": 301,
     "date": "07-Sep-26, 18:18",
     "contact": "secret~~~",
     "phone": "895389050102",
@@ -2584,10 +5118,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 1x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 16:01 WIB]"
   },
   {
-    "no": 153,
+    "no": 302,
     "date": "07-Sep-26, 18:00",
     "contact": "liaa¹³",
     "phone": "81383380613",
@@ -2604,7 +5138,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 13:12 WIB]"
   },
   {
-    "no": 154,
+    "no": 303,
     "date": "07-Sep-26, 11:47",
     "contact": "dhina",
     "phone": "8561937372",
@@ -2617,11 +5151,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Vendor tawarkan interior moss wall ke sales, bukan leads properti",
-    "sop": null,
-    "notes": "[Ended by sales at 07-Sep-26 12:00 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 155,
+    "no": 304,
     "date": "07-Sep-26, 11:40",
     "contact": "Sonny",
     "phone": "81310202040",
@@ -2635,10 +5169,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Broadcast, cust balas 'Ya', dapat info Loft Living, belum lanjut detail",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 16:02 WIB]"
   },
   {
-    "no": 156,
+    "no": 305,
     "date": "07-Sep-26, 10:08",
     "contact": "Ady",
     "phone": "8114199923",
@@ -2652,10 +5186,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Broadcast: butuh SOHO 15-20 karyawan, rekomendasi unit SHS-M 144sqm 4,8M, tanya pricelist",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 20-Sep-26 08:42 WIB]"
   },
   {
-    "no": 157,
+    "no": 306,
     "date": "07-Sep-26, 9:39",
     "contact": "Pratama",
     "phone": "85878733881",
@@ -2669,10 +5203,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Broadcast dari sales, belum ada respon cust sama sekali",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 11:09 WIB]"
   },
   {
-    "no": 158,
+    "no": 307,
     "date": "07-Sep-26, 9:19",
     "contact": "Akif Azmi",
     "phone": "82111157782",
@@ -2686,10 +5220,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 4x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:46 WIB]"
   },
   {
-    "no": 159,
+    "no": 308,
     "date": "07-Sep-26, 7:17",
     "contact": "RP",
     "phone": "8118889790",
@@ -2706,7 +5240,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 160,
+    "no": 309,
     "date": "07-Sep-26, 7:16",
     "contact": "Yona",
     "phone": "81910170929",
@@ -2720,10 +5254,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Tanya info, sales FU 3x (sempat glitch kirim ganda), belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:46 WIB]"
   },
   {
-    "no": 161,
+    "no": 310,
     "date": "07-Sep-26, 7:05",
     "contact": "Benedictus Egan",
     "phone": "82124204244",
@@ -2737,10 +5271,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 3x, belum ada respon cust",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 17-Sep-26 08:46 WIB]"
   },
   {
-    "no": 162,
+    "no": 311,
     "date": "07-Sep-26, 1:54",
     "contact": "daviiia",
     "phone": "881012404435",
@@ -2757,7 +5291,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 14:25 WIB]"
   },
   {
-    "no": 163,
+    "no": 312,
     "date": "07-Sep-26, 0:14",
     "contact": "🍉🍉🍑 / Sri",
     "phone": "85771622602",
@@ -2774,7 +5308,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 164,
+    "no": 313,
     "date": "07-Sep-26, 0:05",
     "contact": "Ahmed Yousef Saeed Khalifa",
     "phone": "81210020646",
@@ -2787,11 +5321,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "Loft Living View",
     "remarks": "Tanya 'is it for rent?', diarahkan ke IG rental (@lifeatupperwest)",
-    "sop": null,
-    "notes": "[Ended by sales at 07-Sep-26 00:20 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 165,
+    "no": 314,
     "date": "06-Sep-26, 21:46",
     "contact": "Ridha Setya Lestari",
     "phone": "81932854787",
@@ -2808,7 +5342,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 15-Sep-26 11:36 WIB]"
   },
   {
-    "no": 166,
+    "no": 315,
     "date": "06-Sep-26, 21:22",
     "contact": "Ailina Huang",
     "phone": "DM Instagram",
@@ -2821,11 +5355,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "DM Instagram",
     "remarks": "Kirim video random tanpa teks/konteks, tanpa nomor telfon",
-    "sop": null,
+    "sop": "",
     "notes": null
   },
   {
-    "no": 167,
+    "no": 316,
     "date": "06-Sep-26, 21:01",
     "contact": "dindoy",
     "phone": "82174432366",
@@ -2842,7 +5376,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:16 WIB]"
   },
   {
-    "no": 168,
+    "no": 317,
     "date": "06-Sep-26, 20:48",
     "contact": "Yanti Dimaja",
     "phone": "82156736254",
@@ -2859,7 +5393,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 16-Sep-26 10:06 WIB]"
   },
   {
-    "no": 169,
+    "no": 318,
     "date": "06-Sep-26, 20:41",
     "contact": "Welly",
     "phone": "87878363422",
@@ -2876,7 +5410,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 14:23 WIB]"
   },
   {
-    "no": 170,
+    "no": 319,
     "date": "06-Sep-26, 20:23",
     "contact": "akselken",
     "phone": "8981231032",
@@ -2893,7 +5427,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:14 WIB]"
   },
   {
-    "no": 171,
+    "no": 320,
     "date": "06-Sep-26, 20:12",
     "contact": "RALLZZ😝🤪",
     "phone": "82363093686",
@@ -2906,11 +5440,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Chat 'p' doang, belum ada respon sales",
-    "sop": null,
-    "notes": "[Ended by sales at 06-Sep-26 21:18 WIB, tanpa respon]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 172,
+    "no": 321,
     "date": "06-Sep-26, 19:56",
     "contact": "Sulthon",
     "phone": "895365140963",
@@ -2927,7 +5461,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 11:10 WIB]"
   },
   {
-    "no": 173,
+    "no": 322,
     "date": "06-Sep-26, 19:50",
     "contact": ".",
     "phone": "85882476730",
@@ -2944,7 +5478,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 08:41 WIB]"
   },
   {
-    "no": 174,
+    "no": 323,
     "date": "06-Sep-26, 17:48",
     "contact": "Luqman",
     "phone": "81396500200",
@@ -2958,10 +5492,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Tanya harga 2BR (2M, KPA 13jt), sales ajak ketemu di lokasi",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 26-Sep-26 18:06 WIB]"
   },
   {
-    "no": 175,
+    "no": 324,
     "date": "06-Sep-26, 17:46",
     "contact": "noname",
     "phone": "89689504520",
@@ -2975,10 +5509,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart & WLB",
     "remarks": "Aktif tanya harga apartemen (2,2M) & loft living (2,4M)",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 16:01 WIB]"
   },
   {
-    "no": 176,
+    "no": 325,
     "date": "06-Sep-26, 17:13",
     "contact": "🅰️",
     "phone": "83187547303",
@@ -2995,7 +5529,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:27 WIB]"
   },
   {
-    "no": 177,
+    "no": 326,
     "date": "06-Sep-26, 16:48",
     "contact": "VheVhe",
     "phone": "82219787878",
@@ -3009,10 +5543,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Balas minat Apartment, dapat e-brosur, belum lanjut detail",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 28-Sep-26 15:19 WIB]"
   },
   {
-    "no": 178,
+    "no": 327,
     "date": "06-Sep-26, 16:08",
     "contact": "Tedd",
     "phone": "83897318494",
@@ -3025,11 +5559,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Cari hunian buat sewa semalam, tidak tersedia harian",
-    "sop": null,
-    "notes": "[Ended by sales at 07-Sep-26 08:19 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 179,
+    "no": 328,
     "date": "06-Sep-26, 15:29",
     "contact": "Yosua",
     "phone": "85888815770",
@@ -3046,7 +5580,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 08:39 WIB]"
   },
   {
-    "no": 180,
+    "no": 329,
     "date": "06-Sep-26, 15:26",
     "contact": "bakekok",
     "phone": "882006850262",
@@ -3054,8 +5588,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Regina Junita",
     "answeredAt": "06-Sep-26, 15:29",
-    "firstResponseTime": "0:02:36",
-    "agentFirstReplyTime": "0:00:12",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "8:21:13",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 2x, belum ada respon cust",
@@ -3063,7 +5597,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 20-Sep-26 12:27 WIB]"
   },
   {
-    "no": 181,
+    "no": 330,
     "date": "06-Sep-26, 15:24",
     "contact": "em",
     "phone": "81517100919",
@@ -3076,11 +5610,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Sudah jadi penghuni (maura), tanya jam operasional gym",
-    "sop": null,
-    "notes": "[Ended by sales at 07-Sep-26 12:01 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 182,
+    "no": 331,
     "date": "06-Sep-26, 15:13",
     "contact": "yhes",
     "phone": "85319108202",
@@ -3097,7 +5631,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:13 WIB]"
   },
   {
-    "no": 183,
+    "no": 332,
     "date": "06-Sep-26, 15:11",
     "contact": "mia",
     "phone": "83875509493",
@@ -3105,8 +5639,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Regina Junita",
     "answeredAt": "06-Sep-26, 15:12",
-    "firstResponseTime": "0:00:15",
-    "agentFirstReplyTime": "0:00:15",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "1:38:04",
     "source": "Instagram",
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 1x, belum ada respon cust",
@@ -3114,7 +5648,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 18:19 WIB]"
   },
   {
-    "no": 184,
+    "no": 333,
     "date": "06-Sep-26, 14:06",
     "contact": "Ginaro",
     "phone": "89520249800",
@@ -3127,11 +5661,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "Loft Living View",
     "remarks": "Tanya sewa & unit di bawah 1M, tidak tersedia",
-    "sop": null,
-    "notes": "[Ended by sales at 07-Sep-26 19:07 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 185,
+    "no": 334,
     "date": "06-Sep-26, 13:29",
     "contact": "A",
     "phone": "81517011645",
@@ -3148,7 +5682,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 20-Sep-26 08:36 WIB]"
   },
   {
-    "no": 186,
+    "no": 335,
     "date": "06-Sep-26, 13:11",
     "contact": "BoBì",
     "phone": "81273918822",
@@ -3165,7 +5699,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 11:20 WIB]"
   },
   {
-    "no": 187,
+    "no": 336,
     "date": "06-Sep-26, 12:20",
     "contact": "m",
     "phone": "85759272657",
@@ -3178,11 +5712,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Awalnya tanya harga, akhirnya tanya sewa tahunan",
-    "sop": null,
-    "notes": "[Ended by sales at 17-Sep-26 17:55 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 188,
+    "no": 337,
     "date": "06-Sep-26, 11:17",
     "contact": "Sy",
     "phone": "81317078441",
@@ -3195,11 +5729,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Tanya SOHO sewa atau jual, ternyata mau sewa",
-    "sop": null,
-    "notes": "[Ended by sales at 07-Sep-26 13:53 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 189,
+    "no": 338,
     "date": "06-Sep-26, 10:37",
     "contact": "J🌻🌿",
     "phone": "8986152554",
@@ -3216,7 +5750,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 20-Sep-26 12:25 WIB]"
   },
   {
-    "no": 190,
+    "no": 339,
     "date": "06-Sep-26, 9:15",
     "contact": "Varisha Anindita",
     "phone": "81316049080",
@@ -3233,7 +5767,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 13:08 WIB]"
   },
   {
-    "no": 191,
+    "no": 340,
     "date": "06-Sep-26, 4:41",
     "contact": "Bismillah",
     "phone": "81112001226",
@@ -3247,10 +5781,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Aktif tanya 1BR Loft, dapat harga 2,4M & tanya lokasi",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 21-Sep-26 12:10 WIB]"
   },
   {
-    "no": 192,
+    "no": 341,
     "date": "06-Sep-26, 4:27",
     "contact": "rillzy",
     "phone": "882019076455",
@@ -3267,7 +5801,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:12 WIB]"
   },
   {
-    "no": 193,
+    "no": 342,
     "date": "06-Sep-26, 2:03",
     "contact": "gen",
     "phone": "8111199672",
@@ -3281,10 +5815,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 2x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 11:47 WIB]"
   },
   {
-    "no": 194,
+    "no": 343,
     "date": "06-Sep-26, 0:35",
     "contact": "anunkicaumania",
     "phone": "85773951194",
@@ -3301,7 +5835,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 06-Sep-26 09:29 WIB]"
   },
   {
-    "no": 195,
+    "no": 344,
     "date": "05-Sep-26, 22:26",
     "contact": ".",
     "phone": "8161474648",
@@ -3318,7 +5852,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 196,
+    "no": 345,
     "date": "05-Sep-26, 21:25",
     "contact": "Alkes",
     "phone": "81188095018",
@@ -3331,11 +5865,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Tanya sewa office & apartemen, diarahkan ke tim sewa (Ibu Mei)",
-    "sop": null,
-    "notes": "[Ended by sales at 08-Sep-26 15:46 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 197,
+    "no": 346,
     "date": "05-Sep-26, 21:24",
     "contact": "~Sun",
     "phone": "82111890157",
@@ -3352,7 +5886,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:12 WIB]"
   },
   {
-    "no": 198,
+    "no": 347,
     "date": "05-Sep-26, 20:46",
     "contact": "mll",
     "phone": "85148276198",
@@ -3369,7 +5903,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 19:12 WIB]"
   },
   {
-    "no": 199,
+    "no": 348,
     "date": "05-Sep-26, 19:06",
     "contact": "Siti Nurhasanah",
     "phone": "85882644504",
@@ -3386,7 +5920,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:12 WIB]"
   },
   {
-    "no": 200,
+    "no": 349,
     "date": "05-Sep-26, 18:52",
     "contact": "Ricko",
     "phone": "85777779525",
@@ -3400,10 +5934,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "SOHO Signature",
     "remarks": "Tanya IPL, virtual office, sewa meeting; setuju jadwal private viewing lusa",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 23-Sep-26 15:39 WIB]"
   },
   {
-    "no": 201,
+    "no": 350,
     "date": "05-Sep-26, 17:13",
     "contact": "A,an_Adv indoraya lawfirm",
     "phone": "87828870937",
@@ -3416,11 +5950,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Tanya cicilan SOHO (14jt/bln), merasa berat, minta yg 5-6jt/bln",
-    "sop": null,
-    "notes": "[Ended by sales at 07-Sep-26 19:09 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 202,
+    "no": 351,
     "date": "05-Sep-26, 16:55",
     "contact": "Santi",
     "phone": "81231376088",
@@ -3437,7 +5971,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 06-Sep-26 11:21 WIB]"
   },
   {
-    "no": 203,
+    "no": 352,
     "date": "05-Sep-26, 16:47",
     "contact": "Rais",
     "phone": "81384942325",
@@ -3454,7 +5988,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 18-Sep-26 14:26 WIB]"
   },
   {
-    "no": 204,
+    "no": 353,
     "date": "05-Sep-26, 16:28",
     "contact": "Vendi",
     "phone": "8174765893",
@@ -3471,7 +6005,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 16:37 WIB]"
   },
   {
-    "no": 205,
+    "no": 354,
     "date": "05-Sep-26, 16:10",
     "contact": "d",
     "phone": "82298709863",
@@ -3488,7 +6022,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 19:14 WIB]"
   },
   {
-    "no": 206,
+    "no": 355,
     "date": "05-Sep-26, 14:44",
     "contact": "tanzz suka Spiderman",
     "phone": "85719478155",
@@ -3505,7 +6039,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 11-Sep-26 19:15 WIB]"
   },
   {
-    "no": 207,
+    "no": 356,
     "date": "05-Sep-26, 13:20",
     "contact": "Fen",
     "phone": "817879900",
@@ -3519,10 +6053,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Nego intensif 1BR vs 2BR utk investasi, minta pricelist, cara bayar, service charge & sinking fund",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 11:16 WIB]"
   },
   {
-    "no": 208,
+    "no": 357,
     "date": "05-Sep-26, 12:59",
     "contact": "Deidy",
     "phone": "89697985670",
@@ -3539,7 +6073,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 17:42 WIB]"
   },
   {
-    "no": 209,
+    "no": 358,
     "date": "05-Sep-26, 10:55",
     "contact": "Mutiara Proehoeman",
     "phone": "81311509252",
@@ -3556,7 +6090,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:11 WIB]"
   },
   {
-    "no": 210,
+    "no": 359,
     "date": "05-Sep-26, 9:58",
     "contact": "Regina",
     "phone": "89632108887",
@@ -3564,8 +6098,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Regina Junita",
     "answeredAt": "05-Sep-26, 10:07",
-    "firstResponseTime": "0:08:47",
-    "agentFirstReplyTime": "0:02:03",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "8:19:08",
     "source": "Instagram",
     "adSource": "SOHO Signature",
     "remarks": "Basa-basi nama sama, belum bahas detail produk",
@@ -3573,7 +6107,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 211,
+    "no": 360,
     "date": "05-Sep-26, 8:37",
     "contact": "🦚",
     "phone": "85776254908",
@@ -3590,7 +6124,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 08:36 WIB]"
   },
   {
-    "no": 212,
+    "no": 361,
     "date": "04-Sep-26, 20:53",
     "contact": "Naufal Ahmad RR",
     "phone": "81218160322",
@@ -3607,7 +6141,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 213,
+    "no": 362,
     "date": "04-Sep-26, 20:50",
     "contact": "Zril",
     "phone": "85710903389",
@@ -3624,7 +6158,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 07-Sep-26 19:39 WIB]"
   },
   {
-    "no": 214,
+    "no": 363,
     "date": "04-Sep-26, 20:43",
     "contact": "awaaa",
     "phone": "85693460378",
@@ -3641,7 +6175,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 08:46 WIB]"
   },
   {
-    "no": 215,
+    "no": 364,
     "date": "04-Sep-26, 18:11",
     "contact": "nawraa",
     "phone": "81268508310",
@@ -3658,7 +6192,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 17:42 WIB]"
   },
   {
-    "no": 216,
+    "no": 365,
     "date": "04-Sep-26, 18:07",
     "contact": "Bagus Adrianto",
     "phone": "85697969439",
@@ -3671,11 +6205,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Production house tanya sewa office utk shooting, bukan minat beli",
-    "sop": null,
-    "notes": "[Ended by sales at 04-Sep-26 18:35 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 217,
+    "no": 366,
     "date": "04-Sep-26, 17:39",
     "contact": "DW",
     "phone": "817888647",
@@ -3692,7 +6226,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 218,
+    "no": 367,
     "date": "04-Sep-26, 14:42",
     "contact": "Margo",
     "phone": "81387680361",
@@ -3709,7 +6243,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 13:00 WIB]"
   },
   {
-    "no": 219,
+    "no": 368,
     "date": "04-Sep-26, 14:21",
     "contact": "Clara Regina",
     "phone": "81212222096",
@@ -3726,7 +6260,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 17:41 WIB]"
   },
   {
-    "no": 220,
+    "no": 369,
     "date": "04-Sep-26, 11:35",
     "contact": "VL",
     "phone": "81519801995",
@@ -3739,11 +6273,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Dari Google, eksplisit cari SEWA SOHO per tahun, bukan beli",
-    "sop": null,
-    "notes": "[Ended by sales at 05-Sep-26 10:08 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 221,
+    "no": 370,
     "date": "04-Sep-26, 11:09",
     "contact": "za",
     "phone": "881024183584",
@@ -3760,7 +6294,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 20:41 WIB]"
   },
   {
-    "no": 222,
+    "no": 371,
     "date": "04-Sep-26, 10:34",
     "contact": "Abdul Barkah",
     "phone": "87733754130",
@@ -3777,7 +6311,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 17:41 WIB]"
   },
   {
-    "no": 223,
+    "no": 372,
     "date": "04-Sep-26, 10:03",
     "contact": "aaron",
     "phone": "89510205665",
@@ -3794,7 +6328,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:11 WIB]"
   },
   {
-    "no": 224,
+    "no": 373,
     "date": "04-Sep-26, 9:55",
     "contact": "Aliska",
     "phone": "82114187262",
@@ -3808,10 +6342,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Loft Living View",
     "remarks": "Minat Loft Living, sales FU 4x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by system at 25-Sep-26 13:51 WIB]"
   },
   {
-    "no": 225,
+    "no": 374,
     "date": "04-Sep-26, 9:34",
     "contact": "Alif",
     "phone": "85811082706",
@@ -3824,11 +6358,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Instagram",
     "adSource": "Loft Living View",
     "remarks": "Chat tidak jelas",
-    "sop": null,
-    "notes": "[Ended by sales at 05-Sep-26 15:47 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 226,
+    "no": 375,
     "date": "04-Sep-26, 9:13",
     "contact": "Adrian Johan Turangan",
     "phone": "811919988",
@@ -3845,7 +6379,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 12:52 WIB]"
   },
   {
-    "no": 227,
+    "no": 376,
     "date": "04-Sep-26, 9:02",
     "contact": "Arya",
     "phone": "87877182007",
@@ -3862,7 +6396,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:10 WIB]"
   },
   {
-    "no": 228,
+    "no": 377,
     "date": "04-Sep-26, 7:08",
     "contact": "OK",
     "phone": "811926805",
@@ -3879,7 +6413,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 16-Sep-26 16:08 WIB]"
   },
   {
-    "no": 229,
+    "no": 378,
     "date": "04-Sep-26, 6:48",
     "contact": "EKA 🇯6",
     "phone": "818800006",
@@ -3896,7 +6430,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": null
   },
   {
-    "no": 230,
+    "no": 379,
     "date": "04-Sep-26, 6:35",
     "contact": "(-_-)",
     "phone": "85781380524",
@@ -3913,7 +6447,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 17:41 WIB]"
   },
   {
-    "no": 231,
+    "no": 380,
     "date": "03-Sep-26, 18:20",
     "contact": "salsafira larasati",
     "phone": "85778861734",
@@ -3930,7 +6464,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 17:41 WIB]"
   },
   {
-    "no": 232,
+    "no": 381,
     "date": "03-Sep-26, 17:27",
     "contact": "Anam",
     "phone": "85876016745",
@@ -3944,10 +6478,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 4x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by system at 26-Sep-26 18:08 WIB]"
   },
   {
-    "no": 233,
+    "no": 382,
     "date": "03-Sep-26, 16:49",
     "contact": "Evelyn",
     "phone": "85210059400",
@@ -3964,7 +6498,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 14:47 WIB]"
   },
   {
-    "no": 234,
+    "no": 383,
     "date": "03-Sep-26, 16:48",
     "contact": "~idoo",
     "phone": "85975459118",
@@ -3981,7 +6515,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 08:46 WIB]"
   },
   {
-    "no": 235,
+    "no": 384,
     "date": "03-Sep-26, 14:58",
     "contact": "iqbal",
     "phone": "85718447018",
@@ -3998,7 +6532,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 10:08 WIB]"
   },
   {
-    "no": 236,
+    "no": 385,
     "date": "03-Sep-26, 14:54",
     "contact": "....",
     "phone": "85894711509",
@@ -4011,11 +6545,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Google",
     "adSource": "Website",
     "remarks": "Arif (Learnext) mau sewa meeting room per jam, bukan minat beli unit",
-    "sop": null,
-    "notes": "[Ended by sales at 04-Sep-26 09:07 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 237,
+    "no": 386,
     "date": "03-Sep-26, 14:16",
     "contact": "bim",
     "phone": "83142399291",
@@ -4023,8 +6557,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Fitriyani Dewi",
     "answeredAt": "03-Sep-26, 14:16",
-    "firstResponseTime": "0:00:35",
-    "agentFirstReplyTime": "0:00:35",
+    "firstResponseTime": "1:46:35",
+    "agentFirstReplyTime": "0:00:26",
     "source": "Instagram",
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 10x, belum ada respon cust",
@@ -4032,7 +6566,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 16:07 WIB]"
   },
   {
-    "no": 238,
+    "no": 387,
     "date": "03-Sep-26, 13:53",
     "contact": "AdniL",
     "phone": "81213670791",
@@ -4049,7 +6583,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:32 WIB]"
   },
   {
-    "no": 239,
+    "no": 388,
     "date": "03-Sep-26, 13:46",
     "contact": "~",
     "phone": "89662566862",
@@ -4066,7 +6600,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 14-Sep-26 16:24 WIB]"
   },
   {
-    "no": 240,
+    "no": 389,
     "date": "03-Sep-26, 13:34",
     "contact": "Komdko",
     "phone": "83892375416",
@@ -4083,7 +6617,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:32 WIB]"
   },
   {
-    "no": 241,
+    "no": 390,
     "date": "03-Sep-26, 10:01",
     "contact": "olifaaa oliff",
     "phone": "85881802553",
@@ -4100,7 +6634,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 11:24 WIB]"
   },
   {
-    "no": 242,
+    "no": 391,
     "date": "03-Sep-26, 9:35",
     "contact": "Ara",
     "phone": "85695322641",
@@ -4113,11 +6647,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Tanya swimming pool terbuka utk umum & harganya, belum ada respon sales",
-    "sop": null,
-    "notes": "[Ended by sales at 03-Sep-26 09:45 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 243,
+    "no": 392,
     "date": "03-Sep-26, 9:33",
     "contact": "dito",
     "phone": "85781044163",
@@ -4134,7 +6668,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 12-Sep-26 11:23 WIB]"
   },
   {
-    "no": 244,
+    "no": 393,
     "date": "03-Sep-26, 7:49",
     "contact": "Capt. Chris",
     "phone": "81213777529",
@@ -4151,7 +6685,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 11:24 WIB]"
   },
   {
-    "no": 245,
+    "no": 394,
     "date": "03-Sep-26, 6:08",
     "contact": "pnde",
     "phone": "85692376126",
@@ -4168,7 +6702,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:32 WIB]"
   },
   {
-    "no": 246,
+    "no": 395,
     "date": "03-Sep-26, 6:05",
     "contact": "z",
     "phone": "83854512767",
@@ -4185,7 +6719,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 20:41 WIB]"
   },
   {
-    "no": 247,
+    "no": 396,
     "date": "03-Sep-26, 5:19",
     "contact": "Hudri",
     "phone": "81617435195",
@@ -4202,7 +6736,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 09:09 WIB]"
   },
   {
-    "no": 248,
+    "no": 397,
     "date": "03-Sep-26, 4:56",
     "contact": "Aca",
     "phone": "81572011344",
@@ -4215,11 +6749,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Tanya fasilitas gym/renang & PL, belum ada respon dari sales",
-    "sop": null,
-    "notes": "[Ended by sales at 03-Sep-26 08:13 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 249,
+    "no": 398,
     "date": "02-Sep-26, 21:58",
     "contact": "isaac",
     "phone": "85718930594",
@@ -4236,7 +6770,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 13:26 WIB]"
   },
   {
-    "no": 250,
+    "no": 399,
     "date": "02-Sep-26, 20:08",
     "contact": "Wahyu",
     "phone": "81804301782",
@@ -4250,10 +6784,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Tanya info, sales FU 3x, belum ada respon cust",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by system at 25-Sep-26 15:00 WIB]"
   },
   {
-    "no": 251,
+    "no": 400,
     "date": "02-Sep-26, 20:07",
     "contact": "Apid",
     "phone": "85778089834",
@@ -4270,7 +6804,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:32 WIB]"
   },
   {
-    "no": 252,
+    "no": 401,
     "date": "02-Sep-26, 18:56",
     "contact": "rehanabdiw",
     "phone": "85381084349",
@@ -4287,7 +6821,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 14:29 WIB]"
   },
   {
-    "no": 253,
+    "no": 402,
     "date": "02-Sep-26, 18:40",
     "contact": "rapli",
     "phone": "85714553525",
@@ -4295,8 +6829,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Regina Junita",
     "answeredAt": "02-Sep-26, 18:45",
-    "firstResponseTime": "0:05:07",
-    "agentFirstReplyTime": "0:00:18",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "8:20:02",
     "source": "Instagram",
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 2x, belum ada respon cust",
@@ -4304,7 +6838,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 13:26 WIB]"
   },
   {
-    "no": 254,
+    "no": 403,
     "date": "02-Sep-26, 18:37",
     "contact": "Axel",
     "phone": "89679152641",
@@ -4321,7 +6855,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 17:55 WIB]"
   },
   {
-    "no": 255,
+    "no": 404,
     "date": "02-Sep-26, 18:36",
     "contact": "Ghibran sH",
     "phone": "85110511160",
@@ -4335,10 +6869,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Website",
     "remarks": "Cust tanya lokasi lalu bilang 'saya mau sewa kak untuk 1 tahun'",
     "sop": "❌",
-    "notes": "[Ended by sales at 12-Sep-26 14:11 WIB]"
+    "notes": null
   },
   {
-    "no": 256,
+    "no": 405,
     "date": "02-Sep-26, 15:09",
     "contact": "Haris N Toro",
     "phone": "87771110666",
@@ -4351,11 +6885,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Vendor Balifiber tawarkan jasa internet ke sales, bukan leads properti",
-    "sop": null,
-    "notes": "[Ended by sales at 02-Sep-26 15:23 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 257,
+    "no": 406,
     "date": "02-Sep-26, 14:38",
     "contact": "Succesfull",
     "phone": "87711010707",
@@ -4372,7 +6906,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 16-Sep-26 08:26 WIB]"
   },
   {
-    "no": 258,
+    "no": 407,
     "date": "02-Sep-26, 14:06",
     "contact": "6",
     "phone": "85899022258",
@@ -4386,10 +6920,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Apart Kampus",
     "remarks": "Cust bilang 'soalnya aku mau survei', minta diarahkan datang ke lokasi",
     "sop": "❌",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 15:48 WIB]"
   },
   {
-    "no": 259,
+    "no": 408,
     "date": "02-Sep-26, 13:18",
     "contact": "Bhaskara",
     "phone": "81286131921",
@@ -4399,14 +6933,14 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "answeredAt": "02-Sep-26, 13:18",
     "firstResponseTime": "0:00:34",
     "agentFirstReplyTime": "0:00:34",
-    "source": "Not Detected",
-    "adSource": "Not Detected",
+    "source": "instagram",
+    "adSource": "SOHO Signature",
     "remarks": "Tanya harga(2.4M),cicilan,diskon; sales tawarkan jadwal private viewing",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 26-Sep-26 18:07 WIB]"
   },
   {
-    "no": 260,
+    "no": 409,
     "date": "02-Sep-26, 12:40",
     "contact": "....",
     "phone": "89675617704",
@@ -4423,7 +6957,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 18-Sep-26 21:28 WIB]"
   },
   {
-    "no": 261,
+    "no": 410,
     "date": "02-Sep-26, 12:01",
     "contact": "Lusiana",
     "phone": "81319081000",
@@ -4440,7 +6974,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:31 WIB]"
   },
   {
-    "no": 262,
+    "no": 411,
     "date": "02-Sep-26, 9:15",
     "contact": "william",
     "phone": "88293103400",
@@ -4448,8 +6982,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Regina Junita",
     "answeredAt": "02-Sep-26, 9:24",
-    "firstResponseTime": "0:09:22",
-    "agentFirstReplyTime": "0:00:32",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "1:49:07",
     "source": "Instagram",
     "adSource": "Apart & WLB",
     "remarks": "Minat apartemen, sales FU 5x, belum ada respon cust",
@@ -4457,10 +6991,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 15:17 WIB]"
   },
   {
-    "no": 263,
+    "no": 412,
     "date": "02-Sep-26, 8:25",
     "contact": "Jcfeen",
-    "phone": "DM Instagram",
+    "phone": "DM instagram",
     "resolve": "Follow Up",
     "status": "Warm",
     "assigned": "Kadek Bayu Permana Putra",
@@ -4471,10 +7005,10 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "adSource": "Not Detected",
     "remarks": "Tanya PL, IPL (33rb), size 112sqm & budget; masih tanya-tanya lanjut",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 08-Sep-26 10:38 WIB]"
   },
   {
-    "no": 264,
+    "no": 413,
     "date": "02-Sep-26, 7:33",
     "contact": "🤏",
     "phone": "6287887804672",
@@ -4487,11 +7021,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "instagram",
     "adSource": "Apart Kampus",
     "remarks": "Cust balas 'cipto', lalu bilang 'ga' & 'kepencet' (salah pencet, tidak minat)",
-    "sop": null,
-    "notes": "[Ended by sales at 02-Sep-26 14:51 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 265,
+    "no": 414,
     "date": "02-Sep-26, 6:50",
     "contact": "Yudia/Dd",
     "phone": "62818812266",
@@ -4504,11 +7038,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "instagram",
     "adSource": "Apart & WLB",
     "remarks": "Over Budget",
-    "sop": null,
-    "notes": "[Ended by sales at 03-Sep-26 13:23 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 266,
+    "no": 415,
     "date": "02-Sep-26, 6:07",
     "contact": "Teddy",
     "phone": "6281317976617",
@@ -4525,7 +7059,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 16-Sep-26 08:28 WIB]"
   },
   {
-    "no": 267,
+    "no": 416,
     "date": "02-Sep-26, 5:31",
     "contact": "ell",
     "phone": "6285766866658",
@@ -4538,11 +7072,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Kirim 5 foto random tanpa teks (bukan foto properti), sales tidak pernah membalas sama sekali",
-    "sop": null,
-    "notes": "[Ended by sales at 04-Sep-26 09:07 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 268,
+    "no": 417,
     "date": "02-Sep-26, 5:11",
     "contact": "Anita Amanda",
     "phone": "6285782449591",
@@ -4550,8 +7084,8 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Cold",
     "assigned": "Regina Junita",
     "answeredAt": "02-Sep-26, 6:50",
-    "firstResponseTime": "1:39:19",
-    "agentFirstReplyTime": "0:00:00",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "8:20:25",
     "source": "instagram",
     "adSource": "SOHO Signature",
     "remarks": "Minat SOHO, sales FU 3x, belum ada respon cust",
@@ -4559,7 +7093,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 19-Sep-26 13:27 WIB]"
   },
   {
-    "no": 269,
+    "no": 418,
     "date": "02-Sep-26, 5:10",
     "contact": "Stasya IG @anastassyaspr",
     "phone": "6281319957898",
@@ -4576,7 +7110,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 16-Sep-26 08:28 WIB]"
   },
   {
-    "no": 270,
+    "no": 419,
     "date": "01-Sep-26, 21:48",
     "contact": ".",
     "phone": "6287796643554",
@@ -4593,7 +7127,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:30 WIB]"
   },
   {
-    "no": 271,
+    "no": 420,
     "date": "01-Sep-26, 21:05",
     "contact": "mumtaz",
     "phone": "6281917013853",
@@ -4610,7 +7144,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 16:03 WIB]"
   },
   {
-    "no": 272,
+    "no": 421,
     "date": "01-Sep-26, 20:53",
     "contact": "Rosaline Paramita",
     "phone": "6281311578699",
@@ -4618,16 +7152,16 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "status": "Prospect",
     "assigned": "Regina Junita",
     "answeredAt": "01-Sep-26, 20:53",
-    "firstResponseTime": "0:00:25",
-    "agentFirstReplyTime": "0:00:25",
+    "firstResponseTime": "0:00:00",
+    "agentFirstReplyTime": "8:20:40",
     "source": "Google",
     "adSource": "Apartemen LP 3",
     "remarks": "Diskusi detail: harga 2.4M, IPL 33rb, sinking fund, furnished, domisili; bahas jadwal private showing weekend (blm fix)",
     "sop": "✅",
-    "notes": null
+    "notes": "[Ended by sales at 25-Sep-26 12:47 WIB]"
   },
   {
-    "no": 273,
+    "no": 422,
     "date": "01-Sep-26, 19:49",
     "contact": "BG _to",
     "phone": "6281901251106",
@@ -4644,7 +7178,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 12:03 WIB]"
   },
   {
-    "no": 274,
+    "no": 423,
     "date": "01-Sep-26, 17:03",
     "contact": "kiaaa",
     "phone": "6285381958571",
@@ -4661,7 +7195,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 13-Sep-26 08:30 WIB]"
   },
   {
-    "no": 275,
+    "no": 424,
     "date": "01-Sep-26, 15:51",
     "contact": "D3",
     "phone": "6281294940707",
@@ -4674,11 +7208,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "Not Detected",
     "adSource": "Not Detected",
     "remarks": "Salah sambung, cust kira ini nomor BCA KCU Gading Serpong",
-    "sop": null,
-    "notes": "[Ended by sales at 04-Sep-26 11:32 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 276,
+    "no": 425,
     "date": "01-Sep-26, 13:46",
     "contact": "fah",
     "phone": "6285755120037",
@@ -4695,7 +7229,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 08-Sep-26 10:57 WIB]"
   },
   {
-    "no": 277,
+    "no": 426,
     "date": "01-Sep-26, 13:40",
     "contact": "Habib",
     "phone": "6281282260717",
@@ -4712,7 +7246,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 16:02 WIB]"
   },
   {
-    "no": 278,
+    "no": 427,
     "date": "01-Sep-26, 13:34",
     "contact": "Na'tona Eet",
     "phone": "62811125656",
@@ -4729,7 +7263,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 17-Sep-26 15:17 WIB]"
   },
   {
-    "no": 279,
+    "no": 428,
     "date": "01-Sep-26, 13:19",
     "contact": "achaimupf_",
     "phone": "62895627133202",
@@ -4742,11 +7276,11 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "source": "instagram",
     "adSource": "Apart Kampus",
     "remarks": "Kirim link grup WhatsApp tidak relevan (spam)",
-    "sop": null,
-    "notes": "[Ended by sales at 01-Sep-26 13:28 WIB]"
+    "sop": "",
+    "notes": null
   },
   {
-    "no": 280,
+    "no": 429,
     "date": "01-Sep-26, 11:21",
     "contact": "Rana Syarifah",
     "phone": "6285156133177",
@@ -4763,7 +7297,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 18-Sep-26 18:25 WIB]"
   },
   {
-    "no": 281,
+    "no": 430,
     "date": "01-Sep-26, 10:12",
     "contact": "Sera S Notoraharjo",
     "phone": "6282114700552",
@@ -4780,7 +7314,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 09-Sep-26 14:36 WIB]"
   },
   {
-    "no": 282,
+    "no": 431,
     "date": "01-Sep-26, 6:25",
     "contact": "BUN",
     "phone": "6285876657720",
@@ -4797,7 +7331,7 @@ export const EXCEL_LEADS_SEPTEMBER: ExcelRowInput[] = [
     "notes": "[Ended by sales at 10-Sep-26 09:35 WIB]"
   },
   {
-    "no": 283,
+    "no": 432,
     "date": "01-Sep-26, 5:49",
     "contact": "adsta",
     "phone": "62895386240458",

@@ -76,10 +76,10 @@ export const CategorySummaryDashboard: React.FC<CategorySummaryDashboardProps> =
   };
 
   // Internal Month state if not passed from parent
-  const [internalMonth, setInternalMonth] = useState<string>('2026-08');
+  const [internalMonth, setInternalMonth] = useState<string>('2026-10');
   const [internalWeekId, setInternalWeekId] = useState<string>('ALL');
-  const [internalStart, setInternalStart] = useState<string>('2026-08-01');
-  const [internalEnd, setInternalEnd] = useState<string>('2026-08-16');
+  const [internalStart, setInternalStart] = useState<string>('2026-10-01');
+  const [internalEnd, setInternalEnd] = useState<string>('2026-10-31');
 
   const selectedMonth = propMonth !== undefined ? propMonth : internalMonth;
   const selectedWeekId = propWeekId !== undefined ? propWeekId : internalWeekId;
@@ -89,6 +89,7 @@ export const CategorySummaryDashboard: React.FC<CategorySummaryDashboardProps> =
   // Available Months
   const availableMonths = useMemo(() => {
     const monthSet = new Set<string>();
+    monthSet.add('2026-10');
     monthSet.add('2026-09');
     monthSet.add('2026-08');
     monthSet.add('2026-07');
@@ -145,9 +146,12 @@ export const CategorySummaryDashboard: React.FC<CategorySummaryDashboardProps> =
     } else if (m === '2026-09') {
       if (onCustomDateChange) onCustomDateChange('2026-09-01', '2026-09-30');
       else { setInternalStart('2026-09-01'); setInternalEnd('2026-09-30'); }
+    } else if (m === '2026-10') {
+      if (onCustomDateChange) onCustomDateChange('2026-10-01', '2026-10-31');
+      else { setInternalStart('2026-10-01'); setInternalEnd('2026-10-31'); }
     } else if (m === 'ALL') {
-      if (onCustomDateChange) onCustomDateChange('2026-07-01', '2026-09-30');
-      else { setInternalStart('2026-07-01'); setInternalEnd('2026-09-30'); }
+      if (onCustomDateChange) onCustomDateChange('2026-07-01', '2026-10-31');
+      else { setInternalStart('2026-07-01'); setInternalEnd('2026-10-31'); }
     }
   };
 
@@ -308,7 +312,7 @@ export const CategorySummaryDashboard: React.FC<CategorySummaryDashboardProps> =
               startDate={customStartDate}
               endDate={customEndDate}
               isAllTime={selectedMonth === 'ALL' && selectedWeekId === 'ALL'}
-              currentMonthHint={selectedMonth !== 'ALL' ? selectedMonth : '2026-09'}
+              currentMonthHint={selectedMonth !== 'ALL' ? selectedMonth : '2026-10'}
               onApply={handleDateRangeApply}
             />
 

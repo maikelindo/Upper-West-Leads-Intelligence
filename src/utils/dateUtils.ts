@@ -162,7 +162,7 @@ export const SEPTEMBER_2026_WEEKS: WeekRange[] = [
     startDate: '2026-09-14',
     endDate: '2026-09-20',
     displayRange: '14 Sep - 20 Sep 2026 (Senin - Minggu)',
-    isCurrentOrLatest: true,
+    isCurrentOrLatest: false,
   },
   {
     id: 'WEEK_4',
@@ -171,7 +171,7 @@ export const SEPTEMBER_2026_WEEKS: WeekRange[] = [
     startDate: '2026-09-21',
     endDate: '2026-09-27',
     displayRange: '21 Sep - 27 Sep 2026 (Senin - Minggu)',
-    isCurrentOrLatest: false,
+    isCurrentOrLatest: true,
   },
   {
     id: 'WEEK_5',
@@ -184,9 +184,68 @@ export const SEPTEMBER_2026_WEEKS: WeekRange[] = [
   },
 ];
 
+// Predefined weekly ranges covering October 2026 data
+export const OCTOBER_2026_WEEKS: WeekRange[] = [
+  {
+    id: 'ALL',
+    label: 'Semua Periode Oktober (01 - 31 Okt 2026)',
+    shortLabel: 'Semua',
+    startDate: '2026-10-01',
+    endDate: '2026-10-31',
+    displayRange: '01 Okt - 31 Okt 2026',
+    isCurrentOrLatest: true,
+  },
+  {
+    id: 'WEEK_1',
+    label: 'Minggu 1 (01 Okt - 04 Okt 2026)',
+    shortLabel: 'W1 (01-04 Okt)',
+    startDate: '2026-10-01',
+    endDate: '2026-10-04',
+    displayRange: '01 Okt - 04 Okt 2026 (Kamis - Minggu)',
+    isCurrentOrLatest: false,
+  },
+  {
+    id: 'WEEK_2',
+    label: 'Minggu 2 (05 Okt - 11 Okt 2026)',
+    shortLabel: 'W2 (05-11 Okt)',
+    startDate: '2026-10-05',
+    endDate: '2026-10-11',
+    displayRange: '05 Okt - 11 Okt 2026 (Senin - Minggu)',
+    isCurrentOrLatest: true,
+  },
+  {
+    id: 'WEEK_3',
+    label: 'Minggu 3 (12 Okt - 18 Okt 2026)',
+    shortLabel: 'W3 (12-18 Okt)',
+    startDate: '2026-10-12',
+    endDate: '2026-10-18',
+    displayRange: '12 Okt - 18 Okt 2026 (Senin - Minggu)',
+    isCurrentOrLatest: false,
+  },
+  {
+    id: 'WEEK_4',
+    label: 'Minggu 4 (19 Okt - 25 Okt 2026)',
+    shortLabel: 'W4 (19-25 Okt)',
+    startDate: '2026-10-19',
+    endDate: '2026-10-25',
+    displayRange: '19 Okt - 25 Okt 2026 (Senin - Minggu)',
+    isCurrentOrLatest: false,
+  },
+  {
+    id: 'WEEK_5',
+    label: 'Minggu 5 (26 Okt - 31 Okt 2026)',
+    shortLabel: 'W5 (26-31 Okt)',
+    startDate: '2026-10-26',
+    endDate: '2026-10-31',
+    displayRange: '26 Okt - 31 Okt 2026 (Senin - Sabtu)',
+    isCurrentOrLatest: false,
+  },
+];
+
 export function getWeeksForMonth(monthKey: string): WeekRange[] {
   if (monthKey === '2026-07') return JULY_2026_WEEKS;
   if (monthKey === '2026-09') return SEPTEMBER_2026_WEEKS;
+  if (monthKey === '2026-10') return OCTOBER_2026_WEEKS;
   return AUGUST_2026_WEEKS;
 }
 
@@ -299,7 +358,7 @@ export function filterLeadsByWeek(
 
   // If specific week preset (e.g. 'WEEK_1', 'WEEK_2', 'sep-w1', etc.)
   if (selectedWeekId && selectedWeekId !== 'ALL' && selectedWeekId !== 'CUSTOM') {
-    const weeksList = monthKey ? getWeeksForMonth(monthKey) : [...SEPTEMBER_2026_WEEKS, ...AUGUST_2026_WEEKS, ...JULY_2026_WEEKS];
+    const weeksList = monthKey ? getWeeksForMonth(monthKey) : [...OCTOBER_2026_WEEKS, ...SEPTEMBER_2026_WEEKS, ...AUGUST_2026_WEEKS, ...JULY_2026_WEEKS];
     const matched = weeksList.find((w) => w.id === selectedWeekId);
     if (matched) {
       const s = matched.startDate;
@@ -322,7 +381,7 @@ export function filterLeadsByWeek(
   }
 
   // Fallback: If custom dates are explicitly provided (not all-time span)
-  if (customStartDate && customEndDate && (customStartDate !== '2026-07-01' || customEndDate !== '2026-09-30')) {
+  if (customStartDate && customEndDate && (customStartDate !== '2026-07-01' || customEndDate !== '2026-10-31')) {
     const s = customStartDate <= customEndDate ? customStartDate : customEndDate;
     const e = customStartDate <= customEndDate ? customEndDate : customStartDate;
     return leads.filter((lead) => {

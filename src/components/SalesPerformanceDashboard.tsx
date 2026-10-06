@@ -25,7 +25,7 @@ import {
   getCategoryMeta, 
   getResolveStatusMeta 
 } from '../services/leadScoring';
-import { isLeadAssignedToAgent } from '../data/mockData';
+import { isLeadAssignedToAgent, isResignedAgent } from '../data/mockData';
 import { DetailedDateRangePicker } from './DetailedDateRangePicker';
 import { DigitalSalesPerformanceSummary } from './DigitalSalesPerformanceSummary';
 import { 
@@ -138,6 +138,9 @@ export interface AgentPerformanceMetric {
   endedFromQualifiedRate: number; // percentage of qualified leads
   endedTotalRate: number;
 
+  // Status
+  isResigned?: boolean;
+
   // Lead List
   assignedLeadsList: Lead[];
 }
@@ -150,6 +153,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
   // Available Months
   const availableMonths = useMemo(() => {
     const monthSet = new Set<string>();
+    monthSet.add('2026-10');
     monthSet.add('2026-09');
     monthSet.add('2026-08');
     monthSet.add('2026-07');
@@ -186,15 +190,16 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
     );
 
   // Period & Filter States
-  const [selectedMonth, setSelectedMonth] = useState<string>('2026-09');
+  const [selectedMonth, setSelectedMonth] = useState<string>('2026-10');
   const [selectedWeekId, setSelectedWeekId] = useState<string>('ALL');
-  const [customStartDate, setCustomStartDate] = useState<string>('2026-09-01');
-  const [customEndDate, setCustomEndDate] = useState<string>('2026-09-30');
+  const [customStartDate, setCustomStartDate] = useState<string>('2026-10-01');
+  const [customEndDate, setCustomEndDate] = useState<string>('2026-10-31');
   const [categoryFilter, setCategoryFilter] = useState<LeadCategory | 'QUALIFIED_ONLY' | 'ALL'>('ALL');
   const [slaFilter, setSlaFilter] = useState<'ALL' | 'MET' | 'BREACHED'>('ALL');
   const [sopFilter, setSopFilter] = useState<'ALL' | 'MET' | 'BREACHED'>('ALL');
   const [replySpeedFilter, setReplySpeedFilter] = useState<'ALL' | 'FAST' | 'MODERATE' | 'SLOW' | 'ABOVE_AVERAGE'>('ALL');
   const [selectedAgentFilter, setSelectedAgentFilter] = useState<string>('ALL');
+  const [hideResigned, setHideResigned] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Summary Tab State: 'OVERVIEW' | 'SLA' | 'SOP' | 'REPLY_TIME'
@@ -229,9 +234,12 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
     } else if (newMonth === '2026-09') {
       setCustomStartDate('2026-09-01');
       setCustomEndDate('2026-09-30');
+    } else if (newMonth === '2026-10') {
+      setCustomStartDate('2026-10-01');
+      setCustomEndDate('2026-10-31');
     } else if (newMonth === 'ALL') {
       setCustomStartDate('2026-07-01');
-      setCustomEndDate('2026-09-30');
+      setCustomEndDate('2026-10-31');
     }
   };
 
@@ -317,7 +325,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
 
   // 2. Discover all Sales Agents (both mock + dynamically found in leads)
   const allAgentsList = useMemo(() => {
-    const agentMap = new Map<string, { id: string; name: string; role: string; avatar: string; email: string; phone: string }>();
+    const agentMap = new Map<string, { id: string; name: string; role: string; avatar: string; email: string; phone: string; isResigned?: boolean }>();
 
     // Add predefined mock agents
     salesAgents.forEach((sa) => {
@@ -328,6 +336,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
         avatar: sa.avatar,
         email: sa.email,
         phone: sa.phone,
+        isResigned: Boolean(sa.isResigned || isResignedAgent(sa.name) || isResignedAgent(sa.id)),
       });
     });
 
@@ -344,6 +353,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=0F172A&color=F59E0B&bold=true`,
             email: `${key.replace(/\s+/g, '.')}@upperwest-bsd.com`,
             phone: '+62 812-0000-0000',
+            isResigned: isResignedAgent(cleanName),
           });
         }
       }
@@ -388,19 +398,25 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
       const sopBreachedCount = qualifiedLeads - sopMetCount;
       const sopComplianceRate = qualifiedLeads > 0 ? (sopMetCount / qualifiedLeads) * 100 : 0;
 
-      // Average Response Time on Qualified Leads
-      const validRespLeads = agentQualifiedLeads.filter((l) => l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes > 0);
+      // Average Response Time on Qualified Leads (calculated from Agent First Reply Time)
+      const validRespLeads = agentQualifiedLeads.filter((l) => {
+        const replyTime = l.agentFirstReplyTimeMinutes !== undefined ? l.agentFirstReplyTimeMinutes : l.firstResponseTimeMinutes;
+        return replyTime !== undefined && replyTime > 0;
+      });
       const avgResponseTimeMinutes = validRespLeads.length > 0
-        ? validRespLeads.reduce((sum, l) => sum + (l.firstResponseTimeMinutes || 0), 0) / validRespLeads.length
+        ? validRespLeads.reduce((sum, l) => {
+            const replyTime = l.agentFirstReplyTimeMinutes !== undefined ? l.agentFirstReplyTimeMinutes : (l.firstResponseTimeMinutes || 0);
+            return sum + replyTime;
+          }, 0) / validRespLeads.length
         : 0;
 
       const mins = Math.floor(avgResponseTimeMinutes);
       const secs = Math.round((avgResponseTimeMinutes - mins) * 60);
       const avgResponseTimeFormatted = totalLeads > 0 && validRespLeads.length > 0 ? `${mins}m ${secs.toString().padStart(2, '0')}s` : '-';
 
-      // Max Response Time for this agent
+      // Max Response Time for this agent (using Agent First Reply Time)
       const maxResponseTimeMinutes = validRespLeads.length > 0
-        ? Math.max(...validRespLeads.map((l) => l.firstResponseTimeMinutes || 0))
+        ? Math.max(...validRespLeads.map((l) => (l.agentFirstReplyTimeMinutes !== undefined ? l.agentFirstReplyTimeMinutes : (l.firstResponseTimeMinutes || 0))))
         : 0;
       const maxMins = Math.floor(maxResponseTimeMinutes);
       const maxSecs = Math.round((maxResponseTimeMinutes - maxMins) * 60);
@@ -410,13 +426,15 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             : `${maxMins}m ${maxSecs.toString().padStart(2, '0')}s`)
         : '-';
 
-      // Leads with delayed responses
-      const slowLeadsCount = agentQualifiedLeads.filter(
-        (l) => l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes > 2
-      ).length;
-      const slowLeadsAbove5mCount = agentQualifiedLeads.filter(
-        (l) => l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes > 5
-      ).length;
+      // Leads with delayed responses (using Agent First Reply Time)
+      const slowLeadsCount = agentQualifiedLeads.filter((l) => {
+        const replyTime = l.agentFirstReplyTimeMinutes !== undefined ? l.agentFirstReplyTimeMinutes : l.firstResponseTimeMinutes;
+        return replyTime !== undefined && replyTime > 2;
+      }).length;
+      const slowLeadsAbove5mCount = agentQualifiedLeads.filter((l) => {
+        const replyTime = l.agentFirstReplyTimeMinutes !== undefined ? l.agentFirstReplyTimeMinutes : l.firstResponseTimeMinutes;
+        return replyTime !== undefined && replyTime > 5;
+      }).length;
 
       // Speed Category: FAST (<=2m), MODERATE (2-5m), SLOW (5-20m), VERY_SLOW (>20m)
       let replySpeedCategory: 'FAST' | 'MODERATE' | 'SLOW' | 'VERY_SLOW' = 'FAST';
@@ -486,17 +504,23 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
         endedJunkLeads,
         endedFromQualifiedRate,
         endedTotalRate,
+        isResigned: Boolean(agent.isResigned || isResignedAgent(agent.name) || isResignedAgent(agent.id)),
         assignedLeadsList: agentLeads,
       };
     });
   }, [allAgentsList, timeFilteredLeads, overallTotalLeadsInPeriod, currentPeriodOverallCost]);
 
-  // Team-wide Average First Response Time on Qualified / Valid Leads
-  const validTeamRespLeads = timeFilteredLeads.filter(
-    (l) => l.category !== 'JUNK' && l.firstResponseTimeMinutes !== undefined && l.firstResponseTimeMinutes > 0
-  );
+  // Team-wide Average First Response Time on Qualified / Valid Leads (from Agent First Reply Time)
+  const validTeamRespLeads = timeFilteredLeads.filter((l) => {
+    if (l.category === 'JUNK') return false;
+    const replyTime = l.agentFirstReplyTimeMinutes !== undefined ? l.agentFirstReplyTimeMinutes : l.firstResponseTimeMinutes;
+    return replyTime !== undefined && replyTime > 0;
+  });
   const teamAvgResponseMinutes = validTeamRespLeads.length > 0
-    ? validTeamRespLeads.reduce((sum, l) => sum + (l.firstResponseTimeMinutes || 0), 0) / validTeamRespLeads.length
+    ? validTeamRespLeads.reduce((sum, l) => {
+        const replyTime = l.agentFirstReplyTimeMinutes !== undefined ? l.agentFirstReplyTimeMinutes : (l.firstResponseTimeMinutes || 0);
+        return sum + replyTime;
+      }, 0) / validTeamRespLeads.length
     : 0;
   const teamAvgMins = Math.floor(teamAvgResponseMinutes);
   const teamAvgSecs = Math.round((teamAvgResponseMinutes - teamAvgMins) * 60);
@@ -514,6 +538,11 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
           a.agentName.toLowerCase().trim() === selectedAgentFilter.toLowerCase().trim() ||
           a.agentId === selectedAgentFilter
       );
+    }
+
+    // Hide Resigned Sales Filter
+    if (hideResigned) {
+      result = result.filter((a) => !a.isResigned);
     }
 
     // Search Filter
@@ -609,15 +638,16 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
         if (lead.category === 'JUNK' || isSopMet) return false;
       }
 
-      // Reply Speed Filter (Waktu Respon)
+      // Reply Speed Filter (Waktu Balas Agent)
+      const leadReplyTime = lead.agentFirstReplyTimeMinutes !== undefined ? lead.agentFirstReplyTimeMinutes : lead.firstResponseTimeMinutes;
       if (replySpeedFilter === 'FAST') {
-        if (lead.category === 'JUNK' || lead.firstResponseTimeMinutes === undefined || lead.firstResponseTimeMinutes > 2) return false;
+        if (lead.category === 'JUNK' || leadReplyTime === undefined || leadReplyTime > 2) return false;
       } else if (replySpeedFilter === 'MODERATE') {
-        if (lead.category === 'JUNK' || lead.firstResponseTimeMinutes === undefined || lead.firstResponseTimeMinutes <= 2 || lead.firstResponseTimeMinutes > 5) return false;
+        if (lead.category === 'JUNK' || leadReplyTime === undefined || leadReplyTime <= 2 || leadReplyTime > 5) return false;
       } else if (replySpeedFilter === 'SLOW') {
-        if (lead.category === 'JUNK' || lead.firstResponseTimeMinutes === undefined || lead.firstResponseTimeMinutes <= 5) return false;
+        if (lead.category === 'JUNK' || leadReplyTime === undefined || leadReplyTime <= 5) return false;
       } else if (replySpeedFilter === 'ABOVE_AVERAGE') {
-        if (lead.category === 'JUNK' || lead.firstResponseTimeMinutes === undefined || lead.firstResponseTimeMinutes <= teamAvgResponseMinutes) return false;
+        if (lead.category === 'JUNK' || leadReplyTime === undefined || leadReplyTime <= teamAvgResponseMinutes) return false;
       }
 
       // Search query
@@ -678,33 +708,39 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
   const teamCpql = teamQualifiedLeads > 0 && currentPeriodOverallCost > 0 ? Math.round(currentPeriodOverallCost / teamQualifiedLeads) : 0;
   const teamCostPerVisited = teamVisitedLeads > 0 && currentPeriodOverallCost > 0 ? Math.round(currentPeriodOverallCost / teamVisitedLeads) : 0;
 
-  // Best Performers & Slowest Responder Highlights
-  const topIncomingAgent = useMemo(() => {
-    return [...agentMetrics].sort((a, b) => b.totalLeads - a.totalLeads)[0] || agentMetrics[0];
+  // Active sales agents only for Top KPI Highlight Cards (resigned sales like Sarah Safira & Regina are excluded)
+  const activeAgentMetrics = useMemo(() => {
+    const active = agentMetrics.filter((a) => !a.isResigned);
+    return active.length > 0 ? active : agentMetrics;
   }, [agentMetrics]);
+
+  // Best Performers & Slowest Responder Highlights (Only Active Sales Agents)
+  const topIncomingAgent = useMemo(() => {
+    return [...activeAgentMetrics].sort((a, b) => b.totalLeads - a.totalLeads)[0] || activeAgentMetrics[0];
+  }, [activeAgentMetrics]);
 
   const topSlaFastestAgent = useMemo(() => {
-    return [...agentMetrics]
+    return [...activeAgentMetrics]
       .filter((a) => a.totalLeads > 0 && a.avgResponseTimeMinutes > 0)
-      .sort((a, b) => a.avgResponseTimeMinutes - b.avgResponseTimeMinutes)[0] || agentMetrics[0];
-  }, [agentMetrics]);
+      .sort((a, b) => a.avgResponseTimeMinutes - b.avgResponseTimeMinutes)[0] || activeAgentMetrics[0];
+  }, [activeAgentMetrics]);
 
-  // Sales PIC dengan Rata-rata Waktu Balas Paling Lama (Perlu Evaluasi)
+  // Sales PIC Aktif dengan Rata-rata Waktu Balas Paling Lama (Perlu Evaluasi)
   const topSlowestReplyAgent = useMemo(() => {
-    return [...agentMetrics]
+    return [...activeAgentMetrics]
       .filter((a) => a.totalLeads > 0 && a.avgResponseTimeMinutes > 0)
       .sort((a, b) => b.avgResponseTimeMinutes - a.avgResponseTimeMinutes)[0] || null;
-  }, [agentMetrics]);
+  }, [activeAgentMetrics]);
 
   const topSopAgent = useMemo(() => {
-    return [...agentMetrics]
+    return [...activeAgentMetrics]
       .filter((a) => a.totalLeads >= 5)
-      .sort((a, b) => b.sopComplianceRate - a.sopComplianceRate || b.sopMetCount - a.sopMetCount)[0] || agentMetrics[0];
-  }, [agentMetrics]);
+      .sort((a, b) => b.sopComplianceRate - a.sopComplianceRate || b.sopMetCount - a.sopMetCount)[0] || activeAgentMetrics[0];
+  }, [activeAgentMetrics]);
 
   const topVisitedAgent = useMemo(() => {
-    return [...agentMetrics].sort((a, b) => b.visitedLeads - a.visitedLeads || b.prospectLeads - a.prospectLeads)[0] || agentMetrics[0];
-  }, [agentMetrics]);
+    return [...activeAgentMetrics].sort((a, b) => b.visitedLeads - a.visitedLeads || b.prospectLeads - a.prospectLeads)[0] || activeAgentMetrics[0];
+  }, [activeAgentMetrics]);
 
   // Peringkat Seluruh Sales dari Waktu Balas Terlama ke Tercepat (Slowest to Fastest)
   const slowReplyRankedAgents = useMemo(() => {
@@ -773,7 +809,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
               startDate={customStartDate}
               endDate={customEndDate}
               isAllTime={selectedMonth === 'ALL' && selectedWeekId === 'ALL'}
-              currentMonthHint={selectedMonth !== 'ALL' ? selectedMonth : '2026-09'}
+              currentMonthHint={selectedMonth !== 'ALL' ? selectedMonth : '2026-10'}
               onApply={handleDateRangeApply}
             />
 
@@ -1016,7 +1052,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] font-black uppercase tracking-wider bg-rose-600 text-white px-2 py-0.5 rounded-sm flex items-center gap-1">
-                  <Hourglass className="w-3 h-3" /> Reply Terlama
+                  <Hourglass className="w-3 h-3" /> Reply Terlama (Aktif)
                 </span>
                 <span className="text-[10px] font-bold text-rose-700 font-mono">
                   Perlu Evaluasi
@@ -1153,6 +1189,20 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             Junk Leads
           </button>
 
+          {/* Toggle Sembunyikan Sales Resign */}
+          <button
+            onClick={() => setHideResigned(!hideResigned)}
+            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+              hideResigned
+                ? 'bg-amber-400 text-slate-950 font-black shadow-2xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+            title="Filter hanya menampilkan sales aktif"
+          >
+            <UserCheck className="w-3.5 h-3.5" />
+            <span>{hideResigned ? 'Hanya Sales Aktif' : 'Semua Termasuk Resign'}</span>
+          </button>
+
           {/* Sales PIC Filter Dropdown */}
           <select
             value={selectedAgentFilter}
@@ -1162,7 +1212,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
             <option value="ALL">Sales PIC: Semua ({allAgentsList.length})</option>
             {allAgentsList.map((agent) => (
               <option key={agent.id} value={agent.name}>
-                Sales: {agent.name}
+                Sales: {agent.name} {agent.isResigned ? '(Resign)' : ''}
               </option>
             ))}
           </select>
@@ -1283,6 +1333,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                     <span>AVG RESPON</span>
                     {getSortIcon('avgResponseTimeMinutes')}
                   </div>
+                  <span className="block text-[8px] font-semibold text-slate-500 normal-case tracking-normal">Agent 1st Reply</span>
                 </th>
                 <th className="py-3 px-3 text-right cursor-pointer hover:bg-slate-200/70" onClick={() => handleSort('allocatedCost')}>
                   <div className="flex items-center justify-end gap-1">
@@ -1320,11 +1371,16 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                         className="w-7 h-7 rounded-full object-cover border border-slate-200 shrink-0" 
                       />
                       <div className="truncate">
-                        <div className="font-black text-slate-900 text-xs truncate group-hover:text-amber-800 transition-colors">
-                          {agent.agentName}
+                        <div className="font-black text-slate-900 text-xs truncate group-hover:text-amber-800 transition-colors flex items-center gap-1.5">
+                          <span>{agent.agentName}</span>
+                          {agent.isResigned && (
+                            <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded-full bg-slate-200 text-slate-700 border border-slate-300 shrink-0">
+                              Resign
+                            </span>
+                          )}
                         </div>
                         <div className="text-[10px] text-slate-400 font-medium truncate">
-                          {agent.agentRole}
+                          {agent.agentRole} {agent.isResigned && <span className="text-slate-500 font-semibold">• Non-Aktif</span>}
                         </div>
                       </div>
                     </div>
@@ -1567,7 +1623,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
               <option value="ALL">Semua Sales PIC ({allAgentsList.length})</option>
               {allAgentsList.map((agent) => (
                 <option key={agent.id} value={agent.name}>
-                  {agent.name}
+                  {agent.name} {agent.isResigned ? '(Resign)' : ''}
                 </option>
               ))}
             </select>
@@ -1649,7 +1705,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                 <th className="py-2.5 px-3">SALES PIC</th>
                 <th className="py-2.5 px-3 text-center">KATEGORI</th>
                 <th className="py-2.5 px-3 text-center">STATUS RESOLVE</th>
-                <th className="py-2.5 px-3 text-center">1ST RESPON</th>
+                <th className="py-2.5 px-3 text-center">AGENT REPLY</th>
                 <th className="py-2.5 px-3 text-center">SLA (&le;2M)</th>
                 <th className="py-2.5 px-3 text-center">SOP SALES (PDF/EXCEL)</th>
                 <th className="py-2.5 px-3">SOURCE IKLAN</th>
@@ -1684,9 +1740,16 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                         <div className="font-mono text-[10px] text-slate-400">{l.phone}</div>
                       </td>
                       <td className="py-2.5 px-3">
-                        <span className="font-bold text-slate-800 text-xs">
-                          {l.assignedToName || '-'}
-                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-slate-800 text-xs">
+                            {l.assignedToName || '-'}
+                          </span>
+                          {isResignedAgent(l.assignedToName) && (
+                            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 border border-slate-300 shrink-0">
+                              Resign
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="py-2.5 px-3 text-center">
                         <span className={`px-2 py-0.5 rounded-sm text-[10px] font-black uppercase ${
@@ -1703,7 +1766,10 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                         {l.resolveStatus}
                       </td>
                       <td className="py-2.5 px-3 text-center font-mono text-[11px] font-bold text-slate-700">
-                        {l.firstResponseTimeFormatted || (l.firstResponseTimeMinutes !== undefined ? `${l.firstResponseTimeMinutes}m` : '-')}
+                        <div className="text-slate-900">{l.agentFirstReplyTime || l.firstResponseTimeFormatted || '-'}</div>
+                        {l.firstResponseTimeFormatted && l.agentFirstReplyTime && l.firstResponseTimeFormatted !== l.agentFirstReplyTime && (
+                          <div className="text-[9px] text-slate-400 font-normal">1st: {l.firstResponseTimeFormatted}</div>
+                        )}
                       </td>
                       <td className="py-2.5 px-3 text-center">
                         {l.category === 'JUNK' ? (
@@ -1768,6 +1834,11 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950">
                       {inspectingAgent.agentRole}
                     </span>
+                    {inspectingAgent.isResigned && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-slate-700 text-slate-200 border border-slate-600">
+                        Resign
+                      </span>
+                    )}
                   </div>
                   <p className="text-xs text-slate-300 mt-0.5">
                     Total: {inspectingAgent.totalLeads} Leads ({inspectingAgent.qualifiedLeads} Qualified, {inspectingAgent.junkLeads} Junk) | Ended: {inspectingAgent.endedQualifiedLeads} Qualified ({inspectingAgent.endedFromQualifiedRate.toFixed(1)}%) | SOP Met: {inspectingAgent.sopComplianceRate.toFixed(0)}%
@@ -1829,7 +1900,7 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                     <th className="py-2.5 px-3">PROSPEK &amp; WA</th>
                     <th className="py-2.5 px-3 text-center">KATEGORI</th>
                     <th className="py-2.5 px-3 text-center">STATUS RESOLVE</th>
-                    <th className="py-2.5 px-3 text-center">1ST RESPON</th>
+                    <th className="py-2.5 px-3 text-center">AGENT REPLY</th>
                     <th className="py-2.5 px-3 text-center">SLA (&le;2M)</th>
                     <th className="py-2.5 px-3 text-center">SOP CHECKLIST</th>
                     <th className="py-2.5 px-3">SOURCE IKLAN</th>
@@ -1882,7 +1953,10 @@ export const SalesPerformanceDashboard: React.FC<SalesPerformanceDashboardProps>
                             )}
                           </td>
                           <td className="py-2.5 px-3 text-center font-mono text-[11px] font-bold text-slate-700">
-                            {l.firstResponseTimeFormatted || (l.firstResponseTimeMinutes !== undefined ? `${l.firstResponseTimeMinutes}m` : '-')}
+                            <div className="text-slate-900">{l.agentFirstReplyTime || l.firstResponseTimeFormatted || '-'}</div>
+                            {l.firstResponseTimeFormatted && l.agentFirstReplyTime && l.firstResponseTimeFormatted !== l.agentFirstReplyTime && (
+                              <div className="text-[9px] text-slate-400 font-normal">1st: {l.firstResponseTimeFormatted}</div>
+                            )}
                           </td>
                           <td className="py-2.5 px-3 text-center">
                             {l.category === 'JUNK' ? (

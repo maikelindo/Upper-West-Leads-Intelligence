@@ -45,10 +45,11 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
       if (searchTerm.trim() !== '') {
         const query = searchTerm.toLowerCase();
         const matchesSales = t.namaSales.toLowerCase().includes(query) || t.salesFullName.toLowerCase().includes(query);
-        const matchesUnit = t.unitInfo.toLowerCase().includes(query);
+        const matchesConsumer = t.namaKonsumen?.toLowerCase().includes(query);
+        const matchesUnit = t.unitInfo.toLowerCase().includes(query) || t.tipeUnit?.toLowerCase().includes(query);
         const matchesSource = t.sourceAds.toLowerCase().includes(query);
         const matchesCaraBayar = t.caraBayar.toLowerCase().includes(query);
-        if (!matchesSales && !matchesUnit && !matchesSource && !matchesCaraBayar) return false;
+        if (!matchesSales && !matchesConsumer && !matchesUnit && !matchesSource && !matchesCaraBayar) return false;
       }
       return true;
     });
@@ -58,35 +59,46 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
     return Array.from(new Set(DIGITAL_SALES_TRANSACTIONS.map(t => t.namaSales)));
   }, []);
 
-  const totalFilteredRevenue = useMemo(() => {
-    return filteredTransactions
-      .filter(t => t.status === 'closing')
-      .reduce((sum, t) => sum + t.hargaExclPPN, 0);
-  }, [filteredTransactions]);
-
   const handleExportCsv = () => {
-    const headers = ['No', 'Harga Pengikatan (Excl PPN)', 'Nilai Numerik', 'Nama Sales', 'Nama Lengkap', 'Cara Bayar', 'Source Ads', 'Status', 'Ref Unit'];
+    const headers = [
+      'No',
+      'Nama Konsumen',
+      'Date Visit',
+      'Date UTJ',
+      'Date Closing',
+      'Tipe Unit',
+      'Size SG',
+      'Harga Pengikatan (Incl PPN)',
+      'Harga Pengikatan (Excl PPN)',
+      'Nama Sales',
+      'Cara Bayar',
+      'Source Ads',
+      'Status'
+    ];
     const rows = filteredTransactions.map(t => [
       t.no,
-      `"${t.hargaFormatted}"`,
-      t.hargaExclPPN,
+      `"${t.namaKonsumen}"`,
+      `"${t.dateVisit}"`,
+      `"${t.dateUtj}"`,
+      `"${t.dateClosing}"`,
+      `"${t.tipeUnit}"`,
+      `"${t.sizeSg}"`,
+      t.hargaPengikatanInclPPN,
+      t.hargaPengikatanExclPPN,
       `"${t.namaSales}"`,
-      `"${t.salesFullName}"`,
       `"${t.caraBayar}"`,
       `"${t.sourceAds}"`,
-      `"${t.status.toUpperCase()}"`,
-      `"${t.unitInfo}"`
+      `"${t.status.toUpperCase()}"`
     ]);
-
     const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `Penjualan_Source_Digital_UpperWest_2026.csv`);
+    link.setAttribute('download', `Rincian_Transaksi_Penjualan_Digital_UpperWest_2026.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    triggerToast('📥 Data penjualan digital berhasil diexport!');
+    triggerToast('📥 Data rincian penjualan digital berhasil diexport!');
   };
 
   const triggerToast = (msg: string) => {
@@ -115,7 +127,7 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
         <div className="bg-gradient-to-br from-slate-950 via-[#0f172a] to-slate-900 text-white p-6 sm:p-7 relative">
           {/* Subtle ambient lighting accent */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-
+          
           <div className="relative z-10 space-y-6">
             {/* Top Bar: Badges + Title + Quick Status Pills */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -139,24 +151,29 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                   <span>{summary.totalClosingUnits} Closing Sah</span>
                 </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-400/30 text-rose-300 font-bold">
+                  <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                  <span>{summary.totalCancelledUnits} Batal ({formatRupiah(summary.totalCancelledRevenue)})</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/15 border border-indigo-400/30 text-indigo-300 font-bold">
+                  <TrendingUp className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>{summary.totalOverallUnits} Overall ({formatRupiah(summary.totalOverallRevenue)})</span>
+                </div>
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/15 border border-amber-400/30 text-amber-300 font-bold">
                   <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
                   <span>{summary.totalReservationUnits} Reservasi</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-400/30 text-rose-300 font-bold">
-                  <XCircle className="w-3.5 h-3.5 text-rose-400" />
-                  <span>{summary.totalCancelledUnits} Batal</span>
-                </div>
                 <div className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-300 font-semibold font-mono">
-                  12 Deals Inbound
+                  {DIGITAL_SALES_TRANSACTIONS.length} Deals Inbound
                 </div>
               </div>
             </div>
 
-            {/* 4 Clean Metric Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-1">
+            {/* 5 Clean Metric Cards including Batal & Overall */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5 pt-1">
+              
               {/* Card 1: Total Omset Closing */}
-              <div className="bg-white/5 hover:bg-white/[0.08] backdrop-blur-md border border-white/10 rounded-xl p-4 transition-all duration-200">
+              <div className="bg-white/5 hover:bg-white/[0.08] backdrop-blur-md border border-emerald-500/20 rounded-xl p-4 transition-all duration-200">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
                     Total Closing Sah
@@ -165,15 +182,52 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                     <CheckCircle2 className="w-4 h-4" />
                   </span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black font-mono text-white mt-2 tracking-tight">
+                <div className="text-lg sm:text-xl xl:text-[21px] font-black font-mono text-white mt-2 tracking-tight">
                   {formatRupiah(summary.totalNetRevenue)}
                 </div>
                 <div className="text-[11px] text-emerald-400 font-semibold mt-1 flex items-center gap-1">
-                  <span>9 Unit Pengikatan · Excl. PPN</span>
+                  <span>{summary.totalClosingUnits} Unit Pengikatan · Excl. PPN</span>
                 </div>
               </div>
 
-              {/* Card 2: Rata-rata Nilai Unit */}
+              {/* Card 2: Total Transaksi Batal */}
+              <div className="bg-white/5 hover:bg-white/[0.08] backdrop-blur-md border border-rose-500/20 rounded-xl p-4 transition-all duration-200">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                    Total Nilai Batal
+                  </span>
+                  <span className="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30">
+                    <XCircle className="w-4 h-4" />
+                  </span>
+                </div>
+                <div className="text-lg sm:text-xl xl:text-[21px] font-black font-mono text-rose-200 mt-2 tracking-tight">
+                  {formatRupiah(summary.totalCancelledRevenue)}
+                </div>
+                <div className="text-[11px] text-rose-400 font-semibold mt-1 flex items-center gap-1">
+                  <span>{summary.totalCancelledUnits} Unit Batal (Merah) · Excl. PPN</span>
+                </div>
+              </div>
+
+              {/* Card 3: Total Overall (Closing Sah + Batal) */}
+              <div className="bg-gradient-to-br from-indigo-950/40 to-slate-900/40 hover:bg-white/[0.08] backdrop-blur-md border border-indigo-400/30 rounded-xl p-4 transition-all duration-200 relative overflow-hidden">
+                <div className="absolute -right-3 -bottom-3 w-16 h-16 bg-indigo-500/10 rounded-full blur-xl pointer-events-none" />
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase font-bold text-indigo-300 tracking-wider flex items-center gap-1">
+                    Overall (Closing + Batal)
+                  </span>
+                  <span className="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center border border-indigo-400/40">
+                    <TrendingUp className="w-4 h-4" />
+                  </span>
+                </div>
+                <div className="text-lg sm:text-xl xl:text-[21px] font-black font-mono text-indigo-100 mt-2 tracking-tight">
+                  {formatRupiah(summary.totalOverallRevenue)}
+                </div>
+                <div className="text-[11px] text-indigo-300 font-semibold mt-1 flex items-center gap-1">
+                  <span>{summary.totalOverallUnits} Unit Total Transaksi · Excl. PPN</span>
+                </div>
+              </div>
+
+              {/* Card 4: Rata-rata Nilai Unit */}
               <div className="bg-white/5 hover:bg-white/[0.08] backdrop-blur-md border border-white/10 rounded-xl p-4 transition-all duration-200">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
@@ -183,15 +237,15 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                     <Building2 className="w-4 h-4" />
                   </span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black font-mono text-amber-200 mt-2 tracking-tight">
+                <div className="text-lg sm:text-xl xl:text-[21px] font-black font-mono text-amber-200 mt-2 tracking-tight">
                   {formatRupiah(avgClosingTicket)}
                 </div>
                 <div className="text-[11px] text-slate-400 font-medium mt-1">
-                  Excl. PPN per Unit Closing
+                  Excl. PPN per Unit Closing Sah
                 </div>
               </div>
 
-              {/* Card 3: Status Reservasi */}
+              {/* Card 5: Status Reservasi */}
               <div className="bg-white/5 hover:bg-white/[0.08] backdrop-blur-md border border-white/10 rounded-xl p-4 transition-all duration-200">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
@@ -201,7 +255,7 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                     <AlertCircle className="w-4 h-4" />
                   </span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black font-mono text-white mt-2 tracking-tight flex items-baseline gap-2">
+                <div className="text-lg sm:text-xl xl:text-[21px] font-black font-mono text-white mt-2 tracking-tight flex items-baseline gap-2">
                   <span>{summary.totalReservationUnits} Unit</span>
                   <span className="text-xs text-amber-400 font-bold font-sans">Kuning</span>
                 </div>
@@ -210,24 +264,6 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                 </div>
               </div>
 
-              {/* Card 4: Status Batal */}
-              <div className="bg-white/5 hover:bg-white/[0.08] backdrop-blur-md border border-white/10 rounded-xl p-4 transition-all duration-200">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                    Transaksi Batal
-                  </span>
-                  <span className="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30">
-                    <XCircle className="w-4 h-4" />
-                  </span>
-                </div>
-                <div className="text-xl sm:text-2xl font-black font-mono text-white mt-2 tracking-tight flex items-baseline gap-2">
-                  <span>{summary.totalCancelledUnits} Unit</span>
-                  <span className="text-xs text-rose-400 font-bold font-sans">Merah</span>
-                </div>
-                <div className="text-[11px] text-slate-400 font-medium mt-1">
-                  Status Drop / Canvassing
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -250,7 +286,6 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
               const isFirst = rank === 1;
               const isSecond = rank === 2;
               const isThird = rank === 3;
-
               const medalBg = isFirst 
                 ? 'bg-amber-400 text-slate-950 font-black shadow-xs' 
                 : isSecond 
@@ -358,11 +393,11 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
               <span>Kontribusi Penjualan per Kanal Iklan Digital (Closing Excl PPN)</span>
             </h3>
             <span className="text-xs text-slate-500 font-medium">
-              3 Saluran Iklan Utama
+              {summary.sourceAdsBreakdown.length} Saluran Iklan Utama
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {summary.sourceAdsBreakdown.map(src => {
               const sharePct = summary.totalNetRevenue > 0 ? (src.revenue / summary.totalNetRevenue) * 100 : 0;
               return (
@@ -370,24 +405,21 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full bg-indigo-600" />
-                      <span className="text-xs font-black text-slate-900">{src.name}</span>
+                      <span className="text-xs font-black text-slate-900 truncate" title={src.name}>{src.name}</span>
                     </div>
-                    <span className="text-xs font-black font-mono text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-black font-mono text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md shrink-0">
                       {sharePct.toFixed(1)}% Share
                     </span>
                   </div>
-
                   <div className="text-lg font-black font-mono text-slate-900 mt-1">
                     {formatRupiah(src.revenue)}
                   </div>
-
                   <div className="w-full bg-slate-100 h-2 rounded-full mt-3 overflow-hidden">
                     <div 
                       className="bg-indigo-600 h-full rounded-full transition-all duration-500" 
                       style={{ width: `${sharePct}%` }}
                     />
                   </div>
-
                   <div className="flex items-center justify-between text-xs text-slate-500 mt-2 font-medium">
                     <span>{src.units} Unit Closing Sah</span>
                     <span>Excl PPN</span>
@@ -421,7 +453,7 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                 <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input 
                   type="text"
-                  placeholder="Cari sales, unit, cara bayar..."
+                  placeholder="Cari konsumen, sales, unit..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white w-48 sm:w-56"
@@ -438,7 +470,7 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  Semua (12)
+                  Semua ({DIGITAL_SALES_TRANSACTIONS.length})
                 </button>
                 <button
                   onClick={() => setStatusFilter('closing')}
@@ -448,7 +480,7 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                       : 'text-slate-600 hover:text-emerald-700'
                   }`}
                 >
-                  Closing (9)
+                  Closing ({summary.totalClosingUnits})
                 </button>
                 <button
                   onClick={() => setStatusFilter('reservation')}
@@ -458,7 +490,7 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                       : 'text-slate-600 hover:text-amber-700'
                   }`}
                 >
-                  Reservasi (2)
+                  Reservasi ({summary.totalReservationUnits})
                 </button>
                 <button
                   onClick={() => setStatusFilter('cancelled')}
@@ -468,7 +500,7 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                       : 'text-slate-600 hover:text-rose-700'
                   }`}
                 >
-                  Batal (1)
+                  Batal ({summary.totalCancelledUnits})
                 </button>
               </div>
 
@@ -558,17 +590,26 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
 
                         {/* Harga Pengikatan (Excl PPN) */}
                         <td className="py-3 px-4">
-                          <div className="flex items-center gap-2">
-                            <span className={`font-mono font-black text-xs ${
-                              displayStyle === 'classic' 
-                                ? (isRed ? 'text-white' : 'text-slate-950') 
-                                : (isRed ? 'text-rose-900 line-through opacity-80' : isYellow ? 'text-amber-950' : 'text-slate-950 font-extrabold')
-                            }`}>
-                              {tx.hargaFormatted}
-                            </span>
-                            {displayStyle === 'executive' && isClosing && (
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
-                                Sah
+                          <div className="flex flex-col">
+                            <div className="flex items-center gap-2">
+                              <span className={`font-mono font-black text-xs ${
+                                displayStyle === 'classic' 
+                                   ? (isRed ? 'text-white' : 'text-slate-950') 
+                                   : (isRed ? 'text-rose-900 line-through opacity-80' : isYellow ? 'text-amber-950' : 'text-slate-950 font-extrabold')
+                              }`}>
+                                {tx.hargaFormatted}
+                              </span>
+                              {displayStyle === 'executive' && isClosing && (
+                                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">
+                                  Sah
+                                </span>
+                              )}
+                            </div>
+                            {tx.hargaInclFormatted && (
+                              <span className={`text-[10px] font-medium mt-0.5 ${
+                                displayStyle === 'classic' && isRed ? 'text-rose-100' : 'text-slate-400'
+                              }`}>
+                                Incl. PPN: {tx.hargaInclFormatted}
                               </span>
                             )}
                           </div>
@@ -602,8 +643,8 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
                         {/* Cara Bayar */}
                         <td className="py-3 px-4">
                           <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold ${
-                            displayStyle === 'classic' && isRed
-                              ? 'bg-rose-600 text-white'
+                            displayStyle === 'classic' && isRed 
+                              ? 'bg-rose-600 text-white' 
                               : 'bg-slate-100 text-slate-800 border border-slate-200/80'
                           }`}>
                             {tx.caraBayar}
@@ -624,30 +665,42 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
 
                         {/* Status / Ref Unit */}
                         <td className="py-3 px-4 text-center">
-                          <div className="flex items-center justify-center gap-2">
-                            {isRed ? (
-                              <span className="inline-flex items-center gap-1 text-[10px] uppercase font-black bg-rose-600 text-white px-2.5 py-1 rounded-md shadow-xs">
-                                <XCircle className="w-3 h-3" /> Batal
-                              </span>
-                            ) : isYellow ? (
-                              <span className="inline-flex items-center gap-1 text-[10px] uppercase font-black bg-amber-500 text-slate-950 px-2.5 py-1 rounded-md shadow-xs">
-                                <AlertCircle className="w-3 h-3" /> Reservasi
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 text-[10px] uppercase font-black bg-emerald-600 text-white px-2.5 py-1 rounded-md shadow-xs">
-                                <CheckCircle2 className="w-3 h-3" /> Closing Sah
-                              </span>
-                            )}
-
-                            {tx.unitInfo && (
-                              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
-                                displayStyle === 'classic' && isRed 
-                                  ? 'bg-rose-700 text-white' 
-                                  : 'bg-slate-100 text-slate-700 border border-slate-200'
-                              }`}>
-                                {tx.unitInfo}
-                              </span>
-                            )}
+                          <div className="flex flex-col items-center gap-1">
+                            <div className="flex items-center justify-center gap-2">
+                              {isRed ? (
+                                <span className="inline-flex items-center gap-1 text-[10px] uppercase font-black bg-rose-600 text-white px-2.5 py-1 rounded-md shadow-xs">
+                                  <XCircle className="w-3 h-3" /> Batal
+                                </span>
+                              ) : isYellow ? (
+                                <span className="inline-flex items-center gap-1 text-[10px] uppercase font-black bg-amber-500 text-slate-950 px-2.5 py-1 rounded-md shadow-xs">
+                                  <AlertCircle className="w-3 h-3" /> Reservasi
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-[10px] uppercase font-black bg-emerald-600 text-white px-2.5 py-1 rounded-md shadow-xs">
+                                  <CheckCircle2 className="w-3 h-3" /> Closing Sah
+                                </span>
+                              )}
+                              {tx.unitInfo && (
+                                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                                  displayStyle === 'classic' && isRed 
+                                    ? 'bg-rose-700 text-white' 
+                                    : 'bg-slate-100 text-slate-700 border border-slate-200'
+                                }`}>
+                                  {tx.unitInfo}
+                                </span>
+                              )}
+                            </div>
+                            <div className={`text-[10px] font-medium flex flex-wrap items-center justify-center gap-1.5 ${
+                              displayStyle === 'classic' && isRed ? 'text-rose-100' : 'text-slate-500'
+                            }`}>
+                              <span>Size: <strong className={displayStyle === 'classic' && isRed ? 'text-white' : 'text-slate-700'}>{tx.sizeSg} m²</strong></span>
+                              <span>•</span>
+                              <span>Visit: {tx.dateVisit}</span>
+                              <span>•</span>
+                              <span>UTJ: {tx.dateUtj}</span>
+                              <span>•</span>
+                              <span>Closing: <strong className={displayStyle === 'classic' && isRed ? 'text-white' : 'text-slate-800'}>{tx.dateClosing}</strong></span>
+                            </div>
                           </div>
                         </td>
                       </tr>
@@ -658,27 +711,39 @@ export const DigitalSalesPerformanceSummary: React.FC = () => {
             </div>
 
             {/* Table Footer with Summary Numbers */}
-            <div className="bg-slate-50 p-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="bg-slate-50 p-4 border-t border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-3 text-xs">
               <div className="flex flex-wrap items-center gap-4 text-slate-600 text-xs">
                 <div className="flex items-center gap-1.5 font-semibold">
                   <span className="w-3 h-3 rounded-md bg-emerald-600 shrink-0" />
                   <span>Closing Sah: <strong className="text-slate-900">{summary.totalClosingUnits} Unit ({formatRupiah(summary.totalNetRevenue)})</strong></span>
                 </div>
                 <div className="flex items-center gap-1.5 font-semibold">
-                  <span className="w-3 h-3 rounded-md bg-amber-500 shrink-0" />
-                  <span>Reservasi: <strong className="text-slate-900">{summary.totalReservationUnits} Unit ({formatRupiah(summary.totalReservationRevenue)})</strong></span>
+                  <span className="w-3 h-3 rounded-md bg-rose-600 shrink-0" />
+                  <span>Batal: <strong className="text-slate-900">{summary.totalCancelledUnits} Unit ({formatRupiah(summary.totalCancelledRevenue)})</strong></span>
                 </div>
                 <div className="flex items-center gap-1.5 font-semibold">
-                  <span className="w-3 h-3 rounded-md bg-rose-600 shrink-0" />
-                  <span>Batal: <strong className="text-slate-900">{summary.totalCancelledUnits} Unit ({formatRupiah(summary.grossRevenueExclPPN - summary.totalNetRevenue - summary.totalReservationRevenue)})</strong></span>
+                  <span className="w-3 h-3 rounded-md bg-indigo-600 shrink-0" />
+                  <span>Overall (Closing + Batal): <strong className="text-indigo-950 font-black">{summary.totalOverallUnits} Unit ({formatRupiah(summary.totalOverallRevenue)})</strong></span>
+                </div>
+                <div className="flex items-center gap-1.5 font-semibold">
+                  <span className="w-3 h-3 rounded-md bg-amber-500 shrink-0" />
+                  <span>Reservasi: <strong className="text-slate-900">{summary.totalReservationUnits} Unit</strong></span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 font-black text-slate-900 text-xs sm:text-sm self-end sm:self-auto">
-                <span>Total Net Omset Closing:</span>
-                <span className="font-mono text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                  {formatRupiah(summary.totalNetRevenue)}
-                </span>
+              <div className="flex flex-wrap items-center gap-2.5 font-black text-slate-900 text-xs self-end lg:self-auto">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-500 font-semibold">Net Closing:</span>
+                  <span className="font-mono text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200 font-bold">
+                    {formatRupiah(summary.totalNetRevenue)}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-500 font-semibold">Overall (Gross):</span>
+                  <span className="font-mono text-indigo-700 bg-indigo-50 px-2 py-1 rounded-md border border-indigo-200 font-bold">
+                    {formatRupiah(summary.totalOverallRevenue)}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

@@ -167,6 +167,7 @@ export interface SalesAgent {
   closingRate: number; // percentage
   avgResponseTimeMinutes?: number;
   sopComplianceRate?: number; // percentage (e.g. 94%)
+  isResigned?: boolean; // Flag if sales agent has resigned (non-active)
 }
 
 /**
@@ -216,6 +217,7 @@ export interface Lead {
   
   // 9. agent_first_reply_time
   agentFirstReplyTime?: string;
+  agentFirstReplyTimeMinutes?: number;
   
   // 10. Source Iklan by & Campaign
   adSource: string;

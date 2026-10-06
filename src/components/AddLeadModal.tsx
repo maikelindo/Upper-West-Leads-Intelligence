@@ -269,7 +269,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({
               >
                 {salesAgents.map((ag) => (
                   <option key={ag.id} value={ag.id}>
-                    {ag.name} ({ag.role})
+                    {ag.name} {ag.isResigned ? '(Resign)' : `(${ag.role})`}
                   </option>
                 ))}
               </select>

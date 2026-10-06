@@ -19,6 +19,20 @@ export const DEFAULT_AUGUST_WEEKLY_AD_COSTS: WeekAdCostConfig = {
   'WEEK_5': 0,
 };
 
+// Default values for October 2026 (independent month)
+export const DEFAULT_OCTOBER_WEEKLY_AD_COSTS: WeekAdCostConfig = {
+  'week-1': 0,
+  'WEEK_1': 0,
+  'week-2': 0,
+  'WEEK_2': 0,
+  'week-3': 0,
+  'WEEK_3': 0,
+  'week-4': 0,
+  'WEEK_4': 0,
+  'week-5': 0,
+  'WEEK_5': 0,
+};
+
 // Default values for September 2026 (independent month)
 export const DEFAULT_SEPTEMBER_WEEKLY_AD_COSTS: WeekAdCostConfig = {
   'week-1': 0,
@@ -47,16 +61,22 @@ export const DEFAULT_JULY_WEEKLY_AD_COSTS: WeekAdCostConfig = {
   'WEEK_5': 0,
 };
 
-export const DEFAULT_WEEKLY_AD_COSTS: WeekAdCostConfig = DEFAULT_AUGUST_WEEKLY_AD_COSTS;
+export const DEFAULT_WEEKLY_AD_COSTS: WeekAdCostConfig = DEFAULT_OCTOBER_WEEKLY_AD_COSTS;
 
-export function getDefaultWeeklyCostsForMonth(monthKey: string = '2026-09'): WeekAdCostConfig {
+export function getDefaultWeeklyCostsForMonth(monthKey: string = '2026-10'): WeekAdCostConfig {
+  if (monthKey === '2026-10') {
+    return { ...DEFAULT_OCTOBER_WEEKLY_AD_COSTS };
+  }
+  if (monthKey === '2026-09') {
+    return { ...DEFAULT_SEPTEMBER_WEEKLY_AD_COSTS };
+  }
   if (monthKey === '2026-08') {
     return { ...DEFAULT_AUGUST_WEEKLY_AD_COSTS };
   }
   if (monthKey === '2026-07') {
     return { ...DEFAULT_JULY_WEEKLY_AD_COSTS };
   }
-  return { ...DEFAULT_SEPTEMBER_WEEKLY_AD_COSTS };
+  return { ...DEFAULT_OCTOBER_WEEKLY_AD_COSTS };
 }
 
 export function normalizeWeekKey(key: string): string {
@@ -79,6 +99,7 @@ function getAllMonthlyWeeklyAdCosts(): Record<string, WeekAdCostConfig> {
 
     // Auto-migrate from legacy v2 storage if available
     const initialStore: Record<string, WeekAdCostConfig> = {
+      '2026-10': { ...DEFAULT_OCTOBER_WEEKLY_AD_COSTS },
       '2026-08': { ...DEFAULT_AUGUST_WEEKLY_AD_COSTS },
       '2026-09': { ...DEFAULT_SEPTEMBER_WEEKLY_AD_COSTS },
       '2026-07': { ...DEFAULT_JULY_WEEKLY_AD_COSTS },
@@ -115,8 +136,8 @@ function getAllMonthlyWeeklyAdCosts(): Record<string, WeekAdCostConfig> {
   }
 }
 
-export function getSavedWeeklyAdCosts(monthKey: string = '2026-09'): WeekAdCostConfig {
-  const targetMonth = (monthKey === 'ALL' || !monthKey) ? '2026-09' : monthKey;
+export function getSavedWeeklyAdCosts(monthKey: string = '2026-10'): WeekAdCostConfig {
+  const targetMonth = (monthKey === 'ALL' || !monthKey) ? '2026-10' : monthKey;
   const all = getAllMonthlyWeeklyAdCosts();
   const monthData = all[targetMonth] || getDefaultWeeklyCostsForMonth(targetMonth);
   const result = { ...getDefaultWeeklyCostsForMonth(targetMonth), ...monthData };
@@ -133,8 +154,8 @@ export function getSavedWeeklyAdCosts(monthKey: string = '2026-09'): WeekAdCostC
   return result;
 }
 
-export function saveWeeklyAdCost(weekId: string, cost: number, monthKey: string = '2026-09'): WeekAdCostConfig {
-  const targetMonth = (monthKey === 'ALL' || !monthKey) ? '2026-09' : monthKey;
+export function saveWeeklyAdCost(weekId: string, cost: number, monthKey: string = '2026-10'): WeekAdCostConfig {
+  const targetMonth = (monthKey === 'ALL' || !monthKey) ? '2026-10' : monthKey;
   const all = getAllMonthlyWeeklyAdCosts();
   const currentMonthCosts = getSavedWeeklyAdCosts(targetMonth);
   const cleanCost = Math.max(0, cost);
@@ -169,7 +190,7 @@ export function saveWeeklyAdCost(weekId: string, cost: number, monthKey: string 
   return updatedMonth;
 }
 
-export function getTotalMonthAdCost(monthKey: string = '2026-09'): number {
+export function getTotalMonthAdCost(monthKey: string = '2026-10'): number {
   if (monthKey === 'ALL') {
     const all = getAllMonthlyWeeklyAdCosts();
     return Object.keys(all).reduce((total, m) => {

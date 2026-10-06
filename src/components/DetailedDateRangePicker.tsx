@@ -86,32 +86,32 @@ export const DetailedDateRangePicker: React.FC<DetailedDateRangePickerProps> = (
   className = '',
   buttonClassName = '',
   align = 'left',
-  currentMonthHint = '2026-09'
+  currentMonthHint = '2026-10'
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Internal selection state
-  const [selectedStart, setSelectedStart] = useState<string>(startDate || '2026-09-01');
-  const [selectedEnd, setSelectedEnd] = useState<string>(endDate || '2026-09-30');
+  const [selectedStart, setSelectedStart] = useState<string>(startDate || '2026-10-01');
+  const [selectedEnd, setSelectedEnd] = useState<string>(endDate || '2026-10-31');
   const [hoveredDate, setHoveredDate] = useState<string | null>(null);
   const [isPickingEnd, setIsPickingEnd] = useState<boolean>(false);
   const [internalAllTime, setInternalAllTime] = useState<boolean>(isAllTime);
 
   // Synchronize state with props immediately when props change
   useEffect(() => {
-    setSelectedStart(startDate || '2026-09-01');
-    setSelectedEnd(endDate || '2026-09-30');
+    setSelectedStart(startDate || '2026-10-01');
+    setSelectedEnd(endDate || '2026-10-31');
     setInternalAllTime(isAllTime);
   }, [startDate, endDate, isAllTime]);
 
   // Active view months for Left and Right calendars
   const initialLeft = useMemo(() => {
-    const parsed = parseIso(startDate) || parseIso(currentMonthHint ? `${currentMonthHint}-01` : '2026-09-01');
+    const parsed = parseIso(startDate) || parseIso(currentMonthHint ? `${currentMonthHint}-01` : '2026-10-01');
     if (parsed) {
       return { year: parsed.year, month: parsed.month };
     }
-    return { year: 2026, month: 8 }; // September (0-indexed 8)
+    return { year: 2026, month: 9 }; // October (0-indexed 9)
   }, [startDate, currentMonthHint]);
 
   const [leftYear, setLeftYear] = useState<number>(initialLeft.year);
@@ -120,7 +120,7 @@ export const DetailedDateRangePicker: React.FC<DetailedDateRangePickerProps> = (
   // When opening modal, ensure view month aligns with current start date
   useEffect(() => {
     if (isOpen) {
-      const parsed = parseIso(startDate) || parseIso(currentMonthHint ? `${currentMonthHint}-01` : '2026-09-01');
+      const parsed = parseIso(startDate) || parseIso(currentMonthHint ? `${currentMonthHint}-01` : '2026-10-01');
       if (parsed) {
         setLeftYear(parsed.year);
         setLeftMonth(parsed.month);
@@ -230,35 +230,41 @@ export const DetailedDateRangePicker: React.FC<DetailedDateRangePickerProps> = (
   // Presets - IMMEDIATELY APPLY AND CLOSE for instant responsiveness
   const applyPreset = (presetKey: string) => {
     const nowYear = 2026;
-    let s = '2026-09-01';
-    let e = '2026-09-30';
+    let s = '2026-10-01';
+    let e = '2026-10-31';
     let isAll = false;
     let label = '';
 
-    if (presetKey === 'TODAY') {
-      s = '2026-09-14';
-      e = '2026-09-14';
-      label = 'Hari Ini (14 Sep 2026)';
+    if (presetKey === 'OCT_2026') {
+      s = '2026-10-01';
+      e = '2026-10-31';
+      label = 'Oktober 2026';
       setLeftYear(nowYear);
-      setLeftMonth(8);
+      setLeftMonth(9);
+    } else if (presetKey === 'TODAY') {
+      s = '2026-10-05';
+      e = '2026-10-05';
+      label = 'Hari Ini (05 Okt 2026)';
+      setLeftYear(nowYear);
+      setLeftMonth(9);
     } else if (presetKey === 'YESTERDAY') {
-      s = '2026-09-13';
-      e = '2026-09-13';
-      label = 'Kemarin (13 Sep 2026)';
+      s = '2026-10-04';
+      e = '2026-10-04';
+      label = 'Kemarin (04 Okt 2026)';
       setLeftYear(nowYear);
-      setLeftMonth(8);
+      setLeftMonth(9);
     } else if (presetKey === 'LAST_7_DAYS') {
-      s = '2026-09-08';
-      e = '2026-09-14';
-      label = '7 Hari Terakhir (08 - 14 Sep)';
+      s = '2026-09-29';
+      e = '2026-10-05';
+      label = '7 Hari Terakhir';
       setLeftYear(nowYear);
-      setLeftMonth(8);
+      setLeftMonth(9);
     } else if (presetKey === 'LAST_14_DAYS') {
-      s = '2026-09-01';
-      e = '2026-09-14';
-      label = '14 Hari Terakhir (01 - 14 Sep)';
+      s = '2026-09-22';
+      e = '2026-10-05';
+      label = '14 Hari Terakhir';
       setLeftYear(nowYear);
-      setLeftMonth(8);
+      setLeftMonth(9);
     } else if (presetKey === 'SEP_2026') {
       s = '2026-09-01';
       e = '2026-09-30';
@@ -297,7 +303,7 @@ export const DetailedDateRangePicker: React.FC<DetailedDateRangePickerProps> = (
       setLeftMonth(8);
     } else if (presetKey === 'ALL_TIME') {
       s = '2026-07-01';
-      e = '2026-09-30';
+      e = '2026-10-31';
       isAll = true;
       label = 'Semua Data (All-Time)';
     }
@@ -316,7 +322,7 @@ export const DetailedDateRangePicker: React.FC<DetailedDateRangePickerProps> = (
   // Manual Confirmation Click
   const handleApply = () => {
     if (internalAllTime) {
-      onApply('2026-07-01', '2026-09-30', true, 'Semua Data');
+      onApply('2026-07-01', '2026-10-31', true, 'Semua Data');
     } else {
       let finalStart = selectedStart;
       let finalEnd = selectedEnd;
@@ -529,23 +535,23 @@ export const DetailedDateRangePicker: React.FC<DetailedDateRangePickerProps> = (
                 type="button"
                 onClick={() => applyPreset('TODAY')}
                 className={`text-left px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
-                  !internalAllTime && selectedStart === '2026-09-14' && selectedEnd === '2026-09-14'
+                  !internalAllTime && selectedStart === '2026-10-05' && selectedEnd === '2026-10-05'
                     ? 'bg-amber-100 text-amber-900 font-black'
                     : 'text-slate-700 hover:bg-slate-100'
                 }`}
               >
-                ⚡ Hari Ini (14 Sep)
+                ⚡ Hari Ini (05 Okt)
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('YESTERDAY')}
                 className={`text-left px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
-                  !internalAllTime && selectedStart === '2026-09-13' && selectedEnd === '2026-09-13'
+                  !internalAllTime && selectedStart === '2026-10-04' && selectedEnd === '2026-10-04'
                     ? 'bg-amber-100 text-amber-900 font-black'
                     : 'text-slate-700 hover:bg-slate-100'
                 }`}
               >
-                Kemarin (13 Sep)
+                Kemarin (04 Okt)
               </button>
               <button
                 type="button"
@@ -566,6 +572,18 @@ export const DetailedDateRangePicker: React.FC<DetailedDateRangePickerProps> = (
               <span className="text-[10px] font-black tracking-wider uppercase text-slate-400 mb-1 block w-full">
                 Bulan & Minggu
               </span>
+
+              <button
+                type="button"
+                onClick={() => applyPreset('OCT_2026')}
+                className={`text-left px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                  !internalAllTime && selectedStart === '2026-10-01' && selectedEnd === '2026-10-31'
+                    ? 'bg-amber-100 text-amber-900 font-black'
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                Oktober 2026
+              </button>
 
               <button
                 type="button"

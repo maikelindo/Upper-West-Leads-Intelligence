@@ -449,7 +449,7 @@ export const LeadTable: React.FC<LeadTableProps> = ({
               <option value="ALL">Semua Sales Agent</option>
               {salesAgents.map((ag) => (
                 <option key={ag.id} value={ag.id}>
-                  {ag.name} ({ag.role})
+                  {ag.name} {ag.isResigned ? '(Resign)' : `(${ag.role})`}
                 </option>
               ))}
             </select>
@@ -736,7 +736,7 @@ export const LeadTable: React.FC<LeadTableProps> = ({
                           >
                             {salesAgents.map((agent) => (
                               <option key={agent.id} value={agent.id}>
-                                {agent.name.split(' ')[0]} ({agent.name})
+                                {agent.name.split(' ')[0]} ({agent.name}) {agent.isResigned ? '[Resign]' : ''}
                               </option>
                             ))}
                           </select>

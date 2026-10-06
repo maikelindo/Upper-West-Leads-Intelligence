@@ -42,6 +42,9 @@ const MONTH_MAP: Record<string, number> = {
   jul: 6, juli: 6,
   aug: 7, agustus: 7,
   sep: 8, sept: 8, september: 8,
+  okt: 9, oct: 9, oktober: 9,
+  nov: 10, november: 10,
+  des: 11, dec: 11, desember: 11,
 };
 
 const DAY_ORDER = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];

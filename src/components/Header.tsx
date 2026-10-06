@@ -4,7 +4,8 @@ import {
   Users,
   Crown,
   LogOut,
-  Bell
+  Bell,
+  Lock
 } from 'lucide-react';
 import { SalesAgent } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -14,6 +15,7 @@ interface HeaderProps {
   setSelectedAgentId: (id: string) => void;
   salesAgents: SalesAgent[];
   onOpenAccessManagement?: () => void;
+  onOpenLogin?: () => void;
   onOpenAddLead?: () => void;
   onOpenExcelImport?: () => void;
   onOpenScoringRules?: () => void;
@@ -27,6 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
   setSelectedAgentId,
   salesAgents,
   onOpenAccessManagement,
+  onOpenLogin,
 }) => {
   const { currentUser, isOwner, pendingRequestsCount, logout } = useAuth();
   return (
@@ -82,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <option value="ALL" className="bg-slate-900 text-white">All Sales Representatives</option>
                 {salesAgents.map((agent) => (
                   <option key={agent.id} value={agent.id} className="bg-slate-900 text-white">
-                    {agent.name} ({agent.role.split(' ')[0]})
+                    {agent.name} {agent.isResigned ? '(Resign)' : `(${agent.role.split(' ')[0]})`}
                   </option>
                 ))}
               </select>
@@ -108,8 +111,8 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             )}
 
-            {/* Current Logged In User Pill & Logout */}
-            {currentUser && (
+            {/* Current Logged In User Pill & Logout OR Login Owner Button */}
+            {currentUser ? (
               <div className="flex items-center gap-2 pl-1 border-l border-slate-800">
                 <div className="flex items-center gap-2 bg-slate-900/80 border border-slate-700/60 rounded-full py-0.5 pl-0.5 pr-2.5">
                   <img
@@ -130,11 +133,23 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   onClick={logout}
                   className="p-1.5 rounded-lg text-slate-400 hover:text-rose-300 hover:bg-rose-500/10 transition-all cursor-pointer"
-                  title="Keluar / Ganti Akun Gmail"
+                  title="Keluar / Ganti Akun"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
               </div>
+            ) : (
+              onOpenLogin && (
+                <button
+                  id="btn-header-login-owner"
+                  onClick={onOpenLogin}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-400/40 text-slate-300 hover:text-amber-300 text-xs font-bold transition-all cursor-pointer shadow-xs ml-1"
+                  title="Login Khusus Owner / Super Admin"
+                >
+                  <Lock className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="hidden sm:inline">Login Owner</span>
+                </button>
+              )
             )}
 
           </div>

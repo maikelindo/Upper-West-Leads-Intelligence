@@ -35,7 +35,7 @@ interface DetailVisitedDashboardProps {
 export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
   onSelectLeadName
 }) => {
-  const [selectedMonth, setSelectedMonth] = useState<string>('ALL');
+  const [selectedMonth, setSelectedMonth] = useState<string>('Oct');
   const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
   const [selectedTeam, setSelectedTeam] = useState<string>('ALL');
   const [selectedSales, setSelectedSales] = useState<string>('ALL');
@@ -239,7 +239,7 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
             </div>
           </div>
           <p className="text-xs text-slate-600 max-w-3xl leading-relaxed">
-            Rekap lengkap riwayat prospek yang telah melakukan <strong>Site Visit / Show Unit Upper West BSD City</strong> (Januari – September 2026) beserta evaluasi SLA respon, timeline survei fisik, dan status akhir closing.
+            Rekap lengkap riwayat prospek yang telah melakukan <strong>Site Visit / Show Unit Upper West BSD City</strong> (Januari – Oktober 2026) beserta evaluasi SLA respon, timeline survei fisik, dan status akhir closing.
           </p>
         </div>
 
@@ -414,7 +414,7 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
                     >
                       <div className="flex items-center gap-2">
                         <Calendar className="w-3.5 h-3.5" />
-                        <span>Semua Bulan (Jan - Sep 2026)</span>
+                        <span>Semua Bulan (Jan - Okt 2026)</span>
                       </div>
                       <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
                         selectedMonth === 'ALL' ? 'bg-purple-800 text-white' : 'bg-slate-100 text-slate-700'
@@ -425,8 +425,41 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
 
                     {/* Grouped by Quarters */}
                     <div className="space-y-1.5 pt-1">
+                      {/* Q4 2026 */}
+                      <div className="text-[10px] font-extrabold text-slate-400 uppercase px-2">Q4 2026</div>
+                      {monthStats.filter(m => ['Oct', 'Nov', 'Des'].includes(m.key)).map(m => (
+                        <button
+                          key={m.key}
+                          onClick={() => {
+                            setSelectedMonth(m.key);
+                            setIsMonthDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                            selectedMonth === m.key
+                              ? 'bg-purple-600 text-white font-bold'
+                              : 'hover:bg-slate-100 text-slate-700'
+                          }`}
+                        >
+                          <span className="flex items-center gap-1.5">
+                            {m.label}
+                            {m.closings > 0 && (
+                              <span className={`text-[9px] px-1 rounded font-bold ${
+                                selectedMonth === m.key ? 'bg-emerald-500 text-white' : 'bg-emerald-100 text-emerald-800'
+                              }`}>
+                                {m.closings} deal
+                              </span>
+                            )}
+                          </span>
+                          <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                            selectedMonth === m.key ? 'bg-purple-800 text-white' : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            {m.count}
+                          </span>
+                        </button>
+                      ))}
+
                       {/* Q3 2026 */}
-                      <div className="text-[10px] font-extrabold text-slate-400 uppercase px-2">Q3 2026</div>
+                      <div className="text-[10px] font-extrabold text-slate-400 uppercase px-2 pt-1">Q3 2026</div>
                       {monthStats.filter(m => ['Sept', 'Aug', 'Juli'].includes(m.key)).map(m => (
                         <button
                           key={m.key}
@@ -541,9 +574,9 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
               >
                 Semua ({ALL_VISITED_LEADS.length})
               </button>
-              {['Sept', 'Aug', 'Juli'].map(mKey => {
+              {['Oct', 'Sept', 'Aug', 'Juli'].map(mKey => {
                 const stat = monthStats.find(m => m.key === mKey);
-                const label = mKey === 'Sept' ? 'Sept' : mKey === 'Aug' ? 'Agu' : 'Juli';
+                const label = mKey === 'Oct' ? 'Okt' : mKey === 'Sept' ? 'Sept' : mKey === 'Aug' ? 'Agu' : 'Juli';
                 const count = stat ? stat.count : 0;
                 return (
                   <button
@@ -1013,7 +1046,20 @@ export const DetailVisitedDashboard: React.FC<DetailVisitedDashboardProps> = ({
             </div>
 
             {/* Modal Footer */}
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+            <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              {onSelectLeadName ? (
+                <button
+                  onClick={() => {
+                    const name = previewRecord.leadName;
+                    setPreviewRecord(null);
+                    onSelectLeadName(name);
+                  }}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold cursor-pointer transition-colors shadow-xs"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Buka Profil Lead CRM</span>
+                </button>
+              ) : <div />}
               <button
                 onClick={() => setPreviewRecord(null)}
                 className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold cursor-pointer"

@@ -53,6 +53,7 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
   // Available Months
   const availableMonths = useMemo(() => {
     const monthSet = new Set<string>();
+    monthSet.add('2026-10');
     monthSet.add('2026-09');
     monthSet.add('2026-08');
     monthSet.add('2026-07');
@@ -79,10 +80,10 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
     return Array.from(monthSet).sort().reverse();
   }, [leads]);
 
-  const [selectedMonth, setSelectedMonth] = useState<string>('2026-09');
+  const [selectedMonth, setSelectedMonth] = useState<string>('2026-10');
   const [selectedWeekId, setSelectedWeekId] = useState<string>('ALL');
-  const [customStartDate, setCustomStartDate] = useState<string>('2026-09-01');
-  const [customEndDate, setCustomEndDate] = useState<string>('2026-09-30');
+  const [customStartDate, setCustomStartDate] = useState<string>('2026-10-01');
+  const [customEndDate, setCustomEndDate] = useState<string>('2026-10-31');
 
   // Weeks for selected month
   const activeWeeksList = useMemo(() => {
@@ -101,9 +102,12 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
     } else if (newMonth === '2026-09') {
       setCustomStartDate('2026-09-01');
       setCustomEndDate('2026-09-30');
+    } else if (newMonth === '2026-10') {
+      setCustomStartDate('2026-10-01');
+      setCustomEndDate('2026-10-31');
     } else if (newMonth === 'ALL') {
       setCustomStartDate('2026-07-01');
-      setCustomEndDate('2026-09-30');
+      setCustomEndDate('2026-10-31');
     }
   };
 
@@ -373,7 +377,7 @@ export const MonthlyReportDashboard: React.FC<MonthlyReportDashboardProps> = ({
               startDate={customStartDate}
               endDate={customEndDate}
               isAllTime={selectedMonth === 'ALL' && selectedWeekId === 'ALL'}
-              currentMonthHint={selectedMonth !== 'ALL' ? selectedMonth : '2026-09'}
+              currentMonthHint={selectedMonth !== 'ALL' ? selectedMonth : '2026-10'}
               onApply={handleDateRangeApply}
             />
           </div>

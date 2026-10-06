@@ -1,5 +1,6 @@
 import { Lead, SalesAgent, FollowUpResolveStatus, SopComplianceStatus, LeadCategory, ExcelRowInput } from '../types';
 import { calculateLeadScore, evaluateSopCompliance, extractBehaviorsFromLead, parseCampaignSource } from '../services/leadScoring';
+import { EXCEL_LEADS_OCTOBER } from './leadsOctoberData';
 import { EXCEL_LEADS_SEPTEMBER } from './leadsSeptemberData';
 import { EXCEL_LEADS_AUGUST } from './leadsAugustData';
 import { EXCEL_LEADS_JULY_310 } from './leadsJulyData';
@@ -28,6 +29,7 @@ export const MOCK_SALES_AGENTS: SalesAgent[] = [
     closingRate: 28.0,
     avgResponseTimeMinutes: 5.1,
     sopComplianceRate: 95,
+    isResigned: true,
   },
   {
     id: 'agent-fitriyani',
@@ -88,8 +90,15 @@ export const MOCK_SALES_AGENTS: SalesAgent[] = [
     closingRate: 25.0,
     avgResponseTimeMinutes: 4.5,
     sopComplianceRate: 96,
+    isResigned: true,
   },
 ];
+
+export function isResignedAgent(agentNameOrId?: string): boolean {
+  if (!agentNameOrId) return false;
+  const lower = agentNameOrId.toLowerCase();
+  return lower.includes('sarah') || lower.includes('safira') || lower.includes('regina');
+}
 
 export function getAgentIdByName(name: string): string {
   const n = (name || '').toLowerCase();
@@ -143,8 +152,9 @@ export function parseResponseTimeToMinutes(timeStr: string): number {
   return 0;
 }
 
-// All leads from Excel / PDF dataset (September 273 leads + August 335 leads + July 310 leads = 918 leads)
+// All leads from Excel / PDF dataset (October 33 leads + September 432 leads + August 335 leads + July 310 leads)
 export const EXCEL_LEADS_DATA: ExcelRowInput[] = [
+  ...EXCEL_LEADS_OCTOBER,
   ...EXCEL_LEADS_SEPTEMBER,
   ...EXCEL_LEADS_AUGUST,
   ...EXCEL_LEADS_JULY_310
@@ -152,9 +162,10 @@ export const EXCEL_LEADS_DATA: ExcelRowInput[] = [
 
 export function mapExcelRowToLead(row: ExcelRowInput): Lead {
   const respMins = parseResponseTimeToMinutes(row.firstResponseTime);
+  const agentReplyMins = parseResponseTimeToMinutes(row.agentFirstReplyTime);
   const agentId = getAgentIdByName(row.assigned);
   const dateLower = (row.date || '').toLowerCase();
-  const monthTag = dateLower.includes('sep') ? 'sep' : dateLower.includes('jul') ? 'jul' : 'aug';
+  const monthTag = (dateLower.includes('okt') || dateLower.includes('oct')) ? 'okt' : dateLower.includes('sep') ? 'sep' : dateLower.includes('jul') ? 'jul' : 'aug';
   
   // Normalize Lead Category
   let category: LeadCategory = 'COLD';
@@ -227,6 +238,7 @@ export function mapExcelRowToLead(row: ExcelRowInput): Lead {
     firstResponseTimeMinutes: Math.round(respMins * 10) / 10,
     firstResponseTimeFormatted: row.firstResponseTime,
     agentFirstReplyTime: row.agentFirstReplyTime,
+    agentFirstReplyTimeMinutes: agentReplyMins,
     adSource: campaignMeta.fullName,
     adPlatform: campaignMeta.platform,
     adContent: campaignMeta.content,

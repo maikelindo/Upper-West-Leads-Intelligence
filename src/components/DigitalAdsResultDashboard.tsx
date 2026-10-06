@@ -104,8 +104,8 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
 
     const qualifiedLeadsPct = rawLeads > 0 ? (validLeads / rawLeads) * 100 : 0;
     const cpl = rawLeads > 0 ? Math.round(adBudget / rawLeads) : 0;
-    const percentRate = rawLeads > 0 ? (totalSold / rawLeads) * 100 : 0.90; // matches spreadsheet 0.90%
-    const leadsToVisit = validLeads > 0 ? (visited / validLeads) * 100 : 0; // 5.58% in spreadsheet
+    const percentRate = priceExcPpn > 0 ? (adBudget / priceExcPpn) * 100 : 0.93; // 0.93% in official spreadsheet
+    const leadsToVisit = validLeads > 0 ? (visited / validLeads) * 100 : 0;
 
     return {
       adBudget,
@@ -124,9 +124,9 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
       totalSold,
       priceExcPpn,
       cpl,
-      percentRate: 0.90, // baseline official spreadsheet exact total
-      leadsToVisit: 5.58, // baseline official spreadsheet exact total
-      visitHighlightRate: 8.40 // callout badge 8,40%
+      percentRate, // dynamic matching official spreadsheet (0,93%)
+      leadsToVisit,
+      visitHighlightRate: 8.40 // callout badge
     };
   }, [data]);
 
@@ -369,7 +369,7 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
           <p className="text-base font-black text-slate-900">
             {formatIDRShort(totals.adBudget)}
           </p>
-          <span className="text-[10px] text-slate-500 font-medium">Jan - Agt 2026</span>
+          <span className="text-[10px] text-slate-500 font-medium">Jan - Okt 2026</span>
         </div>
 
         {/* Card 2: Total Raw Leads */}
@@ -397,7 +397,7 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
               {totals.visited}
             </p>
             <span className="text-[10px] font-bold px-1 py-0.2 rounded bg-purple-100 text-purple-800">
-              {totals.leadsToVisit}% visit
+              {totals.leadsToVisit.toFixed(2)}% visit
             </span>
           </div>
           <span className="text-[10px] text-slate-500 font-medium">Show Unit / Site</span>
@@ -413,7 +413,9 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
             <p className="text-base font-black text-amber-900">
               {totals.totalSold} Units
             </p>
-            <span className="text-[10px] text-slate-500 font-semibold">(8 IG, 2 Google)</span>
+            <span className="text-[10px] text-slate-500 font-semibold">
+              (8 IG, 2 Google, 1 TikTok)
+            </span>
           </div>
           <span className="text-[10px] text-emerald-600 font-bold">Closing Deals</span>
         </div>
@@ -524,7 +526,7 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
               <tbody className="divide-y divide-slate-200">
                 {data.map((row) => {
                   const hasData = row.rawLeads > 0 || row.adBudget > 0;
-                  const isCurrentMonth = row.month === 'AGUSTUS';
+                  const isCurrentMonth = row.month === 'OKTOBER';
 
                   return (
                     <tr 
@@ -555,17 +557,17 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
 
                       {/* META */}
                       <td className="py-2 px-3 border-r border-slate-200 text-right text-slate-700">
-                        {row.meta > 0 ? formatIDR(row.meta) : (hasData && row.month === 'AGUSTUS' ? '-' : (hasData ? 'Rp0' : '-'))}
+                        {hasData ? formatIDR(row.meta) : '-'}
                       </td>
 
                       {/* GOOGLE */}
                       <td className="py-2 px-3 border-r border-slate-200 text-right text-slate-700">
-                        {row.google > 0 ? formatIDR(row.google) : (hasData && row.month === 'AGUSTUS' ? '-' : (hasData ? 'Rp0' : '-'))}
+                        {hasData ? formatIDR(row.google) : '-'}
                       </td>
 
                       {/* TIKTOK */}
                       <td className="py-2 px-3 border-r border-slate-200 text-right text-slate-700">
-                        {row.tiktok > 0 ? formatIDR(row.tiktok) : (hasData && row.month === 'AGUSTUS' ? '-' : (hasData ? 'Rp0' : '-'))}
+                        {hasData ? formatIDR(row.tiktok) : '-'}
                       </td>
 
                       {/* RAW LEADS */}
@@ -724,12 +726,9 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
                     {totals.sourceYoutube}
                   </td>
 
-                  {/* TOTAL VISITED (With 8,40% sub-callout badge) */}
-                  <td className="py-2.5 px-2.5 border-r border-amber-500/50 text-center relative">
-                    <span className="font-black text-sm">{totals.visited}</span>
-                    <div className="mt-0.5 text-[9px] font-black bg-amber-600/30 text-slate-950 px-1 py-0.2 rounded border border-amber-700/20">
-                      8,40%
-                    </div>
+                  {/* TOTAL VISITED */}
+                  <td className="py-3 px-2.5 border-r border-amber-500/50 text-center font-black text-sm">
+                    {totals.visited}
                   </td>
 
                   {/* TOTAL SOLD */}
@@ -749,12 +748,12 @@ export const DigitalAdsResultDashboard: React.FC<DigitalAdsResultDashboardProps>
 
                   {/* TOTAL % */}
                   <td className="py-3 px-2 border-r border-amber-500/50 text-center font-black">
-                    0,90%
+                    {formatPercent(totals.percentRate)}
                   </td>
 
                   {/* TOTAL LEADS TO VISIT */}
                   <td className="py-3 px-2 border-r border-amber-500/50 text-center font-black">
-                    5,58%
+                    {formatPercent(totals.leadsToVisit)}
                   </td>
 
                   {/* Empty Aksi footer */}

@@ -68,6 +68,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
   // Available Months
   const availableMonths = useMemo(() => {
     const monthSet = new Set<string>();
+    monthSet.add('2026-10');
     monthSet.add('2026-09');
     monthSet.add('2026-08');
     monthSet.add('2026-07');
@@ -93,7 +94,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
     return Array.from(monthSet).sort().reverse();
   }, [leads]);
 
-  const [selectedMonth, setSelectedMonth] = useState<string>('2026-09');
+  const [selectedMonth, setSelectedMonth] = useState<string>('2026-10');
 
   // Month label helper
   const getMonthLabel = (mKey: string) => {
@@ -114,8 +115,8 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
 
   // Weekly Filter State
   const [selectedWeekId, setSelectedWeekId] = useState<string>('ALL');
-  const [customStartDate, setCustomStartDate] = useState<string>('2026-09-01');
-  const [customEndDate, setCustomEndDate] = useState<string>('2026-09-30');
+  const [customStartDate, setCustomStartDate] = useState<string>('2026-10-01');
+  const [customEndDate, setCustomEndDate] = useState<string>('2026-10-31');
 
   // When month changes, update default custom dates and ensure week ID is valid
   const handleMonthChange = (newMonth: string) => {
@@ -130,9 +131,12 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
     } else if (newMonth === '2026-09') {
       setCustomStartDate('2026-09-01');
       setCustomEndDate('2026-09-30');
+    } else if (newMonth === '2026-10') {
+      setCustomStartDate('2026-10-01');
+      setCustomEndDate('2026-10-31');
     } else if (newMonth === 'ALL') {
       setCustomStartDate('2026-07-01');
-      setCustomEndDate('2026-09-30');
+      setCustomEndDate('2026-10-31');
     }
   };
 
@@ -681,7 +685,7 @@ export const AdsSourceReportDashboard: React.FC<AdsSourceReportDashboardProps> =
               startDate={customStartDate}
               endDate={customEndDate}
               isAllTime={selectedMonth === 'ALL' && selectedWeekId === 'ALL'}
-              currentMonthHint={selectedMonth !== 'ALL' ? selectedMonth : '2026-09'}
+              currentMonthHint={selectedMonth !== 'ALL' ? selectedMonth : '2026-10'}
               onApply={handleDateRangeApply}
             />
           </div>

@@ -40,7 +40,7 @@ import confetti from 'canvas-confetti';
 interface ExcelImportModalProps {
   salesAgents: SalesAgent[];
   onClose: () => void;
-  onImportLeads: (leads: Lead[]) => void;
+  onImportLeads: (leads: Lead[], mode?: 'REPLACE_MONTH' | 'APPEND') => void;
 }
 
 interface ParsedRowPreview {
@@ -205,6 +205,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
   const [fileName, setFileName] = useState('');
   const [selectedFilterCategory, setSelectedFilterCategory] = useState<LeadCategory | 'ALL'>('ALL');
   const [step, setStep] = useState<'UPLOAD' | 'PREVIEW'>('UPLOAD');
+  const [importMode, setImportMode] = useState<'REPLACE_MONTH' | 'APPEND'>('REPLACE_MONTH');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Normalize column header keys for forgiving mapping
@@ -459,7 +460,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
       };
     });
 
-    onImportLeads(newLeads);
+    onImportLeads(newLeads, importMode);
 
     confetti({
       particleCount: 80,
@@ -597,6 +598,43 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
                 >
                   Ganti File Excel
                 </button>
+              </div>
+
+              {/* Mode Sinkronisasi Database Leads (1 Dokumen Tunggal per Bulan) */}
+              <div className="bg-emerald-50/80 border border-emerald-200 rounded-xl p-3.5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-xs">
+                <div>
+                  <h5 className="text-xs font-bold text-emerald-950 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                    Aturan Sinkronisasi Database (1 Dokumen Tunggal)
+                  </h5>
+                  <p className="text-[11px] text-emerald-900/80 mt-0.5">
+                    Mode default akan menghapus data lama bulan terkait dan menggantinya 100% dengan file terbaru ini.
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white p-1 rounded-lg border border-emerald-300 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setImportMode('REPLACE_MONTH')}
+                    className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${
+                      importMode === 'REPLACE_MONTH'
+                        ? 'bg-emerald-700 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    }`}
+                  >
+                    Ganti File Utuh (Hapus Data Lama Bulan Ini)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setImportMode('APPEND')}
+                    className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer ${
+                      importMode === 'APPEND'
+                        ? 'bg-emerald-700 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    }`}
+                  >
+                    Tambah ke Data Lama (Append)
+                  </button>
+                </div>
               </div>
 
               {/* Preview Table */}

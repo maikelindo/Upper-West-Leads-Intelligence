@@ -52,6 +52,7 @@ import confetti from 'canvas-confetti';
 
 function DashboardApp() {
   const [isAccessManagementOpen, setIsAccessManagementOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS);
   const [salesAgents] = useState<SalesAgent[]>(MOCK_SALES_AGENTS);
@@ -63,10 +64,10 @@ function DashboardApp() {
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<LeadCategory | 'ALL'>('ALL');
 
   // Main Dashboard Period & Weekly Filters
-  const [dashboardMonth, setDashboardMonth] = useState<string>('2026-09');
+  const [dashboardMonth, setDashboardMonth] = useState<string>('2026-10');
   const [dashboardWeekId, setDashboardWeekId] = useState<string>('ALL');
-  const [dashboardCustomStart, setDashboardCustomStart] = useState<string>('2026-09-01');
-  const [dashboardCustomEnd, setDashboardCustomEnd] = useState<string>('2026-09-30');
+  const [dashboardCustomStart, setDashboardCustomStart] = useState<string>('2026-10-01');
+  const [dashboardCustomEnd, setDashboardCustomEnd] = useState<string>('2026-10-31');
   
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isAddLeadOpen, setIsAddLeadOpen] = useState(false);
@@ -109,20 +110,58 @@ function DashboardApp() {
   const coldCount = visibleLeads.filter((l) => l.category === 'COLD').length;
   const junkCount = visibleLeads.filter((l) => l.category === 'JUNK').length;
 
-  // Handle imported leads from Excel file
-  const handleImportLeads = (newLeads: Lead[]) => {
-    setLeads((prev) => [...newLeads, ...prev]);
-    confetti({
-      particleCount: 120,
-      spread: 80,
-      origin: { y: 0.6 },
-    });
-    setNotification({
-      id: `notif-${Date.now()}`,
-      title: '✅ Import Excel Berhasil!',
-      message: `Sebanyak ${newLeads.length} prospek (12 Variabel Penilaian) berhasil dimasukkan dan dinilai otomatis.`,
-      type: 'import_success',
-    });
+  // Handle imported leads from Excel file with strict Single-Source Replacement option
+  const handleImportLeads = (newLeads: Lead[], mode: 'REPLACE_MONTH' | 'APPEND' = 'REPLACE_MONTH') => {
+    if (mode === 'REPLACE_MONTH' && newLeads.length > 0) {
+      // Detect target month from the imported batch (checking first 10 rows)
+      const sampleDates = newLeads.slice(0, 10).map((l) => (l.dateContact || '').toLowerCase());
+      let detectedMonth: 'sep' | 'aug' | 'jul' | null = null;
+      if (sampleDates.some((d) => d.includes('sep') || d.includes('-09-') || d.includes('/09/'))) detectedMonth = 'sep';
+      else if (sampleDates.some((d) => d.includes('aug') || d.includes('-08-') || d.includes('/08/'))) detectedMonth = 'aug';
+      else if (sampleDates.some((d) => d.includes('jul') || d.includes('-07-') || d.includes('/07/'))) detectedMonth = 'jul';
+
+      setLeads((prev) => {
+        if (!detectedMonth) {
+          return [...newLeads, ...prev];
+        }
+        // Strict replacement: Purge all existing leads of this detected month completely!
+        const withoutOldMonth = prev.filter((l) => {
+          const d = (l.dateContact || '').toLowerCase();
+          if (detectedMonth === 'sep') return !(d.includes('sep') || d.includes('-09-') || d.includes('/09/'));
+          if (detectedMonth === 'aug') return !(d.includes('aug') || d.includes('-08-') || d.includes('/08/'));
+          if (detectedMonth === 'jul') return !(d.includes('jul') || d.includes('-07-') || d.includes('/07/'));
+          return true;
+        });
+        return [...newLeads, ...withoutOldMonth];
+      });
+
+      const monthName = detectedMonth === 'sep' ? 'September' : detectedMonth === 'aug' ? 'Agustus' : detectedMonth === 'jul' ? 'Juli' : 'Bulan Terpilih';
+
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
+      setNotification({
+        id: `notif-${Date.now()}`,
+        title: '✅ Update Data Leads Berhasil!',
+        message: `Data lama bulan ${monthName} telah dihapus bersih. Server kini menggunakan data 1 file terbaru (${newLeads.length} leads).`,
+        type: 'import_success',
+      });
+    } else {
+      setLeads((prev) => [...newLeads, ...prev]);
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
+      setNotification({
+        id: `notif-${Date.now()}`,
+        title: '✅ Import Excel Berhasil!',
+        message: `Sebanyak ${newLeads.length} prospek (12 Variabel Penilaian) berhasil ditambahkan ke sistem.`,
+        type: 'import_success',
+      });
+    }
     setNavigationMenu('dashboard');
   };
 
@@ -415,6 +454,7 @@ function DashboardApp() {
         setSelectedAgentId={setSelectedAgentId}
         salesAgents={salesAgents}
         onOpenAccessManagement={() => setIsAccessManagementOpen(true)}
+        onOpenLogin={() => setIsLoginModalOpen(true)}
         onOpenAddLead={() => setIsAddLeadOpen(true)}
         onOpenExcelImport={() => setIsExcelImportOpen(true)}
         onOpenScoringRules={() => setIsScoringRulesOpen(true)}
@@ -563,7 +603,25 @@ function DashboardApp() {
           {navigationMenu === 'detail_visited' && (
             <DetailVisitedDashboard
               onSelectLeadName={(name) => {
-                const matchedLead = leads.find(l => l.name.toLowerCase().includes(name.toLowerCase()));
+                const target = name.toLowerCase().trim();
+                const cleanTarget = target.replace(/[^\w\s]/g, '').trim();
+                
+                // Phase 1: Exact match
+                let matchedLead = leads.find((l) => {
+                  const ln = l.name.toLowerCase().trim();
+                  return ln === target || (cleanTarget.length > 2 && cleanTarget === ln.replace(/[^\w\s]/g, '').trim());
+                });
+
+                // Phase 2: Token match (e.g. 'Ernest' in 'Succesfull / Ernest')
+                if (!matchedLead) {
+                  matchedLead = leads.find((l) => {
+                    const ln = l.name.toLowerCase().trim();
+                    const targetTokens = target.split(/[\s/,-]+/).filter((t) => t.length >= 3);
+                    const lnTokens = ln.split(/[\s/,-]+/).filter((t) => t.length >= 3);
+                    return targetTokens.some((t) => lnTokens.includes(t));
+                  });
+                }
+
                 if (matchedLead) setSelectedLead(matchedLead);
               }}
             />
@@ -650,26 +708,22 @@ function DashboardApp() {
         />
       )}
 
+      {/* Modal: Login Khusus Owner */}
+      {isLoginModalOpen && (
+        <AccessGateScreen
+          isModal={true}
+          defaultTab="OWNER"
+          onClose={() => setIsLoginModalOpen(false)}
+          onSuccessApproved={() => setIsLoginModalOpen(false)}
+        />
+      )}
+
     </div>
   );
 }
 
 function AuthGate() {
-  const { isApproved, isLoading } = useAuth();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-300 gap-3 select-none">
-        <div className="w-10 h-10 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
-        <span className="text-xs font-mono tracking-widest text-slate-400 uppercase">Memeriksa Izin Akses Gmail...</span>
-      </div>
-    );
-  }
-
-  if (!isApproved) {
-    return <AccessGateScreen />;
-  }
-
+  // Direct public access: External visitors & team can view the dashboard immediately without login barrier
   return <DashboardApp />;
 }
 

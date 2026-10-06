@@ -11,6 +11,7 @@ export const ALL_VISITED_LEADS: VisitedLeadRecord[] = [
 // Months list in chronological order
 export const VISITED_MONTHS = [
   { key: 'ALL', label: 'Semua Bulan' },
+  { key: 'Oct', label: 'Oktober 2026' },
   { key: 'Sept', label: 'September 2026' },
   { key: 'Aug', label: 'Agustus 2026' },
   { key: 'Juli', label: 'Juli 2026' },
